@@ -1,6 +1,7 @@
 package es.udc.fi.tfg.model;
 
 public class Artist {
+
 	private Long id;
 	private String name;
 	private String description;

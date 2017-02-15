@@ -3,7 +3,7 @@ package es.udc.fi.tfg.model;
 import java.util.Date;
 
 public class Customer {
-
+	
 	private Long id;
 	private String firstName;
 	private String lastName;
