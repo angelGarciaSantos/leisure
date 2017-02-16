@@ -1,11 +1,15 @@
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\config\AppConfig.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\dao\ArtistDAO.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Comment.java
+C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\dao\SessionUtil.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Customer.java
+C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\dao\EmployeeDAO.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Rating.java
+C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\controller\EmployeeController.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\dao\CustomerDAO.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\controller\CustomerRestController.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\User.java
+C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Employee.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Local.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\config\AppInitializer.java
 C:\Desarrollo\leisure\src\main\java\es\udc\fi\tfg\model\Artist.java
