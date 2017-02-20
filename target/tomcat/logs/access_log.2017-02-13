@@ -1,2 +1,0 @@
-0:0:0:0:0:0:0:1 - - [13/Feb/2017:19:22:01 +0100] "GET /leisure/artists/ HTTP/1.1" 200 257 http-bio-8080-exec-1 281
-0:0:0:0:0:0:0:1 - - [13/Feb/2017:19:40:14 +0100] "GET /leisure/artists/ HTTP/1.1" 200 257 http-bio-8080-exec-1 52860
