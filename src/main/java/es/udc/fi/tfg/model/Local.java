@@ -1,11 +1,24 @@
 package es.udc.fi.tfg.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Local {
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@Column
 	private String name;
+	@Column
 	private String description;
+	@Column
 	private int capacity;
+	@Column
 	private double rating;
 	
 	public Local(long id, String name, String description, int capacity, double rating) {

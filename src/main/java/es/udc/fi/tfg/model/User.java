@@ -1,11 +1,23 @@
 package es.udc.fi.tfg.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+    @Column
 	private String name;
+    @Column
 	private String email;
 	//TODO: cambiar por enum.
+    @Column
 	private int type;
 	
 	public User(Long id, String name, String email, int type){

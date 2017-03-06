@@ -15,44 +15,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.fi.tfg.dao.ArtistDAO;
+import es.udc.fi.tfg.dao.EmployeeDAO;
 import es.udc.fi.tfg.model.Artist;
+import es.udc.fi.tfg.model.Employee;
 
 @CrossOrigin
 @RestController
 public class ArtistRestController {
-	
 	@Autowired
 	private ArtistDAO artistDAO;
 
 	
 	@GetMapping("/artists")
 	public List getArtists() {
-		return artistDAO.list();
-	}
-
-	@GetMapping("/artists/{id}")
-	public ResponseEntity getArtist(@PathVariable("id") Long id) {
-
-		Artist artist = artistDAO.get(id);
-		if (artist == null) {
-			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity(artist, HttpStatus.OK);
-	}
-
+		return artistDAO.getArtists();
+	}	
+	
 	@PostMapping(value = "/artists")
 	public ResponseEntity createArtist(@RequestBody Artist artist) {
 
-		artistDAO.create(artist);
+		artistDAO.addArtist(artist);
 
 		return new ResponseEntity(artist, HttpStatus.OK);
 	}
-
+	
 	@DeleteMapping("/artists/{id}")
-	public ResponseEntity deleteArtist(@PathVariable Long id) {
+	public ResponseEntity deleteArtist(@PathVariable int id) {
 
-		if (null == artistDAO.delete(id)) {
+		if (0 == artistDAO.deleteArtist(id)) {
 			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
 		}
 
@@ -61,14 +51,68 @@ public class ArtistRestController {
 	}
 
 	@PutMapping("/artists/{id}")
-	public ResponseEntity updateArtist(@PathVariable Long id, @RequestBody Artist artist) {
+	public ResponseEntity updateArtist(@PathVariable int id, @RequestBody Artist artist) {
 
-		artist = artistDAO.update(id, artist);
-
-		if (null == artist) {
+		int rows = artistDAO.updateArtist(id, artist);
+		if (0 == rows) {
 			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity(artist, HttpStatus.OK);
+		return new ResponseEntity(rows, HttpStatus.OK);
 	}
+	
+	
+	
+//Lo de abajo es el antiguo controlador de prueba (usando el dao de prueba).	
+	
+//	@Autowired
+//	private ArtistDAO artistDAO;
+//
+//	
+//	@GetMapping("/artists")
+//	public List getArtists() {
+//		return artistDAO.list();
+//	}
+//
+//	@GetMapping("/artists/{id}")
+//	public ResponseEntity getArtist(@PathVariable("id") Long id) {
+//
+//		Artist artist = artistDAO.get(id);
+//		if (artist == null) {
+//			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
+//		}
+//
+//		return new ResponseEntity(artist, HttpStatus.OK);
+//	}
+//
+//	@PostMapping(value = "/artists")
+//	public ResponseEntity createArtist(@RequestBody Artist artist) {
+//
+//		artistDAO.create(artist);
+//
+//		return new ResponseEntity(artist, HttpStatus.OK);
+//	}
+//
+//	@DeleteMapping("/artists/{id}")
+//	public ResponseEntity deleteArtist(@PathVariable Long id) {
+//
+//		if (null == artistDAO.delete(id)) {
+//			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
+//		}
+//
+//		return new ResponseEntity(id, HttpStatus.OK);
+//
+//	}
+//
+//	@PutMapping("/artists/{id}")
+//	public ResponseEntity updateArtist(@PathVariable Long id, @RequestBody Artist artist) {
+//
+//		artist = artistDAO.update(id, artist);
+//
+//		if (null == artist) {
+//			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
+//		}
+//
+//		return new ResponseEntity(artist, HttpStatus.OK);
+//	}
 }
