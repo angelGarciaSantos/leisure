@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Event {
@@ -27,9 +29,11 @@ public class Event {
 	private String name;
     @Column
     private String description;
-    @Column
+    @Column(name = "beginDate", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
-    @Column
+    @Column(name = "endDate", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 	
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")

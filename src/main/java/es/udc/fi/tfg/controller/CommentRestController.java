@@ -1,0 +1,63 @@
+package es.udc.fi.tfg.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import es.udc.fi.tfg.dao.ArtistDAO;
+import es.udc.fi.tfg.dao.CommentDAO;
+import es.udc.fi.tfg.model.Artist;
+import es.udc.fi.tfg.model.Comment;
+
+@CrossOrigin
+@RestController
+public class CommentRestController {
+	@Autowired
+	private CommentDAO commentDAO;
+
+	
+	@GetMapping("/comments")
+	public List getArtists() {
+		return commentDAO.getComments();
+	}	
+	
+	@PostMapping(value = "/comments")
+	public ResponseEntity createComment(@RequestBody Comment comment) {
+
+		commentDAO.addComment(comment);
+
+		return new ResponseEntity(comment, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/comments/{id}")
+	public ResponseEntity deleteComment(@PathVariable int id) {
+
+		if (0 == commentDAO.deleteComment(id)) {
+			return new ResponseEntity("No Comment found for ID " + id, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity(id, HttpStatus.OK);
+
+	}
+
+	@PutMapping("/comments/{id}")
+	public ResponseEntity updateComment(@PathVariable int id, @RequestBody Comment comment) {
+
+		int rows = commentDAO.updateComment(id, comment);
+		if (0 == rows) {
+			return new ResponseEntity("No Comment found for ID " + id, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity(rows, HttpStatus.OK);
+	}
+}
