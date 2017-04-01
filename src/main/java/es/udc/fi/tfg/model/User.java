@@ -5,19 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "User")
 public class User {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private Long id;
-    @Column
 	private String name;
-    @Column
 	private String email;
 	//TODO: cambiar por enum.
-    @Column
 	private int type;
 	
 	public User(Long id, String name, String email, int type){
@@ -30,6 +27,9 @@ public class User {
 	public User(){
 	}
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +38,7 @@ public class User {
 		this.id = id;
 	}
 
+	@Column
 	public String getName() {
 		return name;
 	}
@@ -46,6 +47,7 @@ public class User {
 		this.name = name;
 	}
 
+	@Column
 	public String getEmail() {
 		return email;
 	}
@@ -54,6 +56,7 @@ public class User {
 		this.email = email;
 	}
 
+	@Column
 	public int getType() {
 		return type;
 	}

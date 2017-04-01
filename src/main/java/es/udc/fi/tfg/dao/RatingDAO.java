@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
 
 @Component
@@ -36,6 +37,24 @@ public class RatingDAO {
         return ratings;
     }
 	
+    public Rating getRating(int id){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Rating where id = :id");
+        query.setInteger("id",id);
+        Rating rating = (Rating) query.uniqueResult();
+        session.close();
+        return rating;
+    }
+    
+    public List<Rating> getRatingsFromEvent(int eventId){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Rating where event_id = :eventId");
+        query.setInteger("eventId",eventId);
+        List<Rating> ratings =  query.list();
+        session.close();
+        return ratings;
+    }
+    
     public int deleteRating(int id) {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();

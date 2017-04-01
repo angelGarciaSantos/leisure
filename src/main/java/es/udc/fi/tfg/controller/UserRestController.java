@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.UserDAO;
 import es.udc.fi.tfg.model.Artist;
+import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
 
 @CrossOrigin
@@ -29,6 +30,11 @@ public class UserRestController {
 	@GetMapping("/users")
 	public List getUsers() {
 		return userDAO.getUsers();
+	}	
+	
+	@GetMapping("/users/{id}")
+	public User getUser(@PathVariable int id) {
+		return userDAO.getUser(id);
 	}	
 	
 	@PostMapping(value = "/users")

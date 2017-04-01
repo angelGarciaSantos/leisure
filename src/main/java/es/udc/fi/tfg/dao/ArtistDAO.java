@@ -39,6 +39,15 @@ public class ArtistDAO {
         session.close();
         return artists;
     }
+    
+    public Artist getArtist(int id){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Artist where id = :id");
+        query.setInteger("id",id);
+        Artist artist = (Artist) query.uniqueResult();
+        session.close();
+        return artist;
+    }
 	
     public int deleteArtist(int id) {
         Session session = SessionUtil.getSession();

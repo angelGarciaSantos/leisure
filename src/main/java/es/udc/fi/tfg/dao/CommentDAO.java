@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Local;
 
 @Component
 public class CommentDAO {
@@ -31,6 +32,24 @@ public class CommentDAO {
     public List<Comment> getComments(){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment");
+        List<Comment> comments =  query.list();
+        session.close();
+        return comments;
+    }
+    
+    public Comment getComment(int id){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Comment where id = :id");
+        query.setInteger("id",id);
+        Comment comment = (Comment) query.uniqueResult();
+        session.close();
+        return comment;
+    }
+    
+    public List<Comment> getCommentsFromEvent(int eventId){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Comment where event_id = :eventId");
+        query.setInteger("eventId",eventId);
         List<Comment> comments =  query.list();
         session.close();
         return comments;

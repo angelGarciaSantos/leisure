@@ -39,6 +39,15 @@ public class LocalDAO {
         session.close();
         return locals;
     }
+    
+    public Local getLocal(int id){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Local where id = :id");
+        query.setInteger("id",id);
+        Local local = (Local) query.uniqueResult();
+        session.close();
+        return local;
+    }
 	
     public int deleteLocal(int id) {
         Session session = SessionUtil.getSession();

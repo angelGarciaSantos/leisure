@@ -31,6 +31,11 @@ public class LocalRestController {
 		return localDAO.getLocals();
 	}	
 	
+	@GetMapping("/locals/{id}")
+	public Local getLocal(@PathVariable int id) {
+		return localDAO.getLocal(id);
+	}	
+	
 	@PostMapping(value = "/locals")
 	public ResponseEntity createLocal(@RequestBody Local local) {
 

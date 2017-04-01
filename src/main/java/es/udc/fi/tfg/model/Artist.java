@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Artist {
 
@@ -28,6 +30,7 @@ public class Artist {
     @Column
     private double rating;
     
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
 			@JoinColumn(name = "artist_id", nullable = false, updatable = false) },

@@ -31,6 +31,11 @@ public class EventRestController {
 		return eventDAO.getEvents();
 	}	
 	
+	@GetMapping("/events/{id}")
+	public Event getEvent(@PathVariable int id) {
+		return eventDAO.getEvent(id);
+	}	
+	
 	@PostMapping(value = "/events")
 	public ResponseEntity createEvent(@RequestBody Event event) {
 

@@ -12,15 +12,12 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Rating {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	private Long id;
-    @Column
+    
 	private double rating;
-    @ManyToOne(cascade = CascadeType.ALL)
-    User user;
-    @ManyToOne(cascade = CascadeType.ALL)
-    Event event;
+    private User user;
+    private Event event;
 	
 	public Rating (Long id, double rating){
 		this.id = id;
@@ -37,6 +34,9 @@ public class Rating {
 	public Rating(){	
 	}
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	public Long getId() {
 		return id;
 	}
@@ -45,6 +45,7 @@ public class Rating {
 		this.id = id;
 	}
 
+	@Column
 	public double getRating() {
 		return rating;
 	}
@@ -53,6 +54,7 @@ public class Rating {
 		this.rating = rating;
 	}
 
+    @ManyToOne(cascade = CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
@@ -61,6 +63,7 @@ public class Rating {
 		this.user = user;
 	}
 
+    @ManyToOne(cascade = CascadeType.ALL)
 	public Event getEvent() {
 		return event;
 	}

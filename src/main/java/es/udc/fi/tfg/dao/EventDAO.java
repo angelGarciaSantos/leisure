@@ -1,5 +1,10 @@
 package es.udc.fi.tfg.dao;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -40,6 +45,15 @@ public class EventDAO {
         session.close();
         return events;
     }
+    
+    public Event getEvent(int id){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Event where id = :id");
+        query.setInteger("id",id);
+        Event event = (Event) query.uniqueResult();
+        session.close();
+        return event;
+    }
 	
     public int deleteEvent(int id) {
         Session session = SessionUtil.getSession();
@@ -57,9 +71,31 @@ public class EventDAO {
     public int updateEvent(int id, Event event){
          if(id <=0)  
                return 0;  
+         
+//         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+//
+//      // Get the date today using Calendar object.
+//      Date today = Calendar.getInstance().getTime();        
+//      // Using DateFormat format method we can create a string 
+//      // representation of a date with the defined format.
+//      String date1 = df.format(event.getBeginDate());
+//      String date2 = df.format(event.getEndDate());
+//
+//      Date d1 = new Date();
+//      Date d2 = new Date();
+      
+//      	try {
+//			d1 = df.parse(date1);
+//			d2 = df.parse(date2);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+      	
+         
          Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
-            String hql = "update Artist set name =:name, description=:description, beginDate =:beginDate, endDate =:endDate where id = :id";
+            String hql = "update Event set name =:name, description=:description, begin_date =:beginDate, end_date =:endDate where id = :id";
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("name",event.getName());

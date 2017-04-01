@@ -16,30 +16,30 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import es.udc.fi.tfg.config.CustomJsonDateDeserializer;
+import es.udc.fi.tfg.config.JsonDateSerializer;
+
 @Entity
+@Table(name = "Event")
 public class Event {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="event_id")
+
 	private Long id;
-    @Column
 	private String name;
-    @Column
     private String description;
-    @Column(name = "beginDate", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
-    @Column(name = "endDate", columnDefinition="DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-	
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")
+   
     private Set<Artist> artists = new HashSet<Artist>(0);
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    
     private Local local;
     
 	public Event(long id, String name, String description, Date beginDate, Date endDate) {
@@ -63,6 +63,9 @@ public class Event {
 	public Event(){
 	}
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
 	public Long getId() {
 		return id;
 	}
@@ -71,6 +74,7 @@ public class Event {
 		this.id = id;
 	}
 
+	@Column
 	public String getName() {
 		return name;
 	}
@@ -79,6 +83,7 @@ public class Event {
 		this.name = name;
 	}
 
+	@Column
 	public String getDescription() {
 		return description;
 	}
@@ -87,22 +92,31 @@ public class Event {
 		this.description = description;
 	}
 
+    @Column(name = "begin_date", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getBeginDate() {
 		return beginDate;
 	}
 
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
 
+    @Column(name = "end_date", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getEndDate() {
 		return endDate;
 	}
 
+	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")
 	public Set<Artist> getArtists() {
 		return artists;
 	}
@@ -110,4 +124,13 @@ public class Event {
 	public void setArtists(Set<Artist> artists) {
 		this.artists = artists;
 	}
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	public Local getLocal() {
+		return local;
+	}
+
+	public void setLocal(Local local) {
+		this.local = local;
+	}	
 }

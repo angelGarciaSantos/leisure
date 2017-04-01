@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.dao.RatingDAO;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
 
 @CrossOrigin
@@ -27,8 +28,18 @@ public class RatingRestController {
 
 	
 	@GetMapping("/ratings")
-	public List getArtists() {
+	public List getRatings() {
 		return ratingDAO.getRatings();
+	}	
+	
+	@GetMapping("/ratings/{id}")
+	public Rating getRating(@PathVariable int id) {
+		return ratingDAO.getRating(id);
+	}	
+	
+	@GetMapping("/ratings/event/{id}")
+	public List getRatingsFromEvent(@PathVariable int id) {
+		return ratingDAO.getRatingsFromEvent(id);
 	}	
 	
 	@PostMapping(value = "/ratings")

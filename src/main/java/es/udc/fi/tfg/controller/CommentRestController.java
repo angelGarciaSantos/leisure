@@ -18,6 +18,7 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Local;
 
 @CrossOrigin
 @RestController
@@ -27,8 +28,18 @@ public class CommentRestController {
 
 	
 	@GetMapping("/comments")
-	public List getArtists() {
+	public List getComments() {
 		return commentDAO.getComments();
+	}	
+	
+	@GetMapping("/comments/{id}")
+	public Comment getComment(@PathVariable int id) {
+		return commentDAO.getComment(id);
+	}	
+	
+	@GetMapping("/comments/event/{id}")
+	public List getCommentsFromEvent(@PathVariable int id) {
+		return commentDAO.getCommentsFromEvent(id);
 	}	
 	
 	@PostMapping(value = "/comments")

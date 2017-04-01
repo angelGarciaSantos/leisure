@@ -9,17 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Comment")
 public class Comment {	
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	private Long id;
-    @Column
+    
 	private String text;
-    @ManyToOne(cascade = CascadeType.ALL)
+
 	private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
+    
 	private Event event;
 	
 	public Comment (Long id, String text){
@@ -36,7 +37,10 @@ public class Comment {
 	
 	public Comment() {
 	}
-
+	
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	public Long getId() {
 		return id;
 	}
@@ -45,6 +49,7 @@ public class Comment {
 		this.id = id;
 	}
 
+	@Column
 	public String getText() {
 		return text;
 	}
@@ -52,7 +57,8 @@ public class Comment {
 	public void setText(String text) {
 		this.text = text;
 	}
-
+    
+	@ManyToOne(cascade = CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
@@ -61,6 +67,7 @@ public class Comment {
 		this.user = user;
 	}
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Event getEvent() {
 		return event;
 	}

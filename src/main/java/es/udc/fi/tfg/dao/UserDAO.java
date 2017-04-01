@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
+import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
 
 @Component
@@ -37,6 +38,15 @@ public class UserDAO {
 	        List<User> users =  query.list();
 	        session.close();
 	        return users;
+	    }
+	    
+	    public User getUser(int id){
+	        Session session = SessionUtil.getSession();    
+	        Query query = session.createQuery("from User where id = :id");
+	        query.setInteger("id",id);
+	        User user = (User) query.uniqueResult();
+	        session.close();
+	        return user;
 	    }
 		
 	    public int deleteUser(int id) {

@@ -31,6 +31,11 @@ public class ArtistRestController {
 		return artistDAO.getArtists();
 	}	
 	
+	@GetMapping("/artists/{id}")
+	public Artist getArtist(@PathVariable int id) {
+		return artistDAO.getArtist(id);
+	}	
+	
 	@PostMapping(value = "/artists")
 	public ResponseEntity createArtist(@RequestBody Artist artist) {
 
