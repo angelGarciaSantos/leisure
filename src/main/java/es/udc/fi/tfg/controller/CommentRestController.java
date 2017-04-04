@@ -42,10 +42,10 @@ public class CommentRestController {
 		return commentDAO.getCommentsFromEvent(id);
 	}	
 	
-	@PostMapping(value = "/comments")
-	public ResponseEntity createComment(@RequestBody Comment comment) {
+	@PostMapping(value = "/comments/{eventId}/{userId}")
+	public ResponseEntity createComment(@RequestBody Comment comment, @PathVariable int eventId, @PathVariable int userId) {
 
-		commentDAO.addComment(comment);
+		commentDAO.addComment(comment, eventId, userId);
 
 		return new ResponseEntity(comment, HttpStatus.OK);
 	}

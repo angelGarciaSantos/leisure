@@ -42,14 +42,14 @@ public class RatingRestController {
 		return ratingDAO.getRatingsFromEvent(id);
 	}	
 	
-	@PostMapping(value = "/ratings")
-	public ResponseEntity createRating(@RequestBody Rating rating) {
+	@PostMapping(value = "/ratings/{eventId}/{userId}")
+	public ResponseEntity createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) {
 
-		ratingDAO.addRating(rating);
+		ratingDAO.addRating(rating, eventId, userId);
 
 		return new ResponseEntity(rating, HttpStatus.OK);
 	}
-	
+		
 	@DeleteMapping("/ratings/{id}")
 	public ResponseEntity deleteRating(@PathVariable int id) {
 

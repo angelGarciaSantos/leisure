@@ -5,26 +5,39 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Local;
+import es.udc.fi.tfg.model.User;
 
 @Component
 public class CommentDAO {
-	public void addComment(Comment bean){
+	
+	@Autowired
+	private EventDAO eventDAO;
+	
+	@Autowired
+	private UserDAO userDAO;
+	
+	public void addComment(Comment bean, int eventId, int userId){
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addComment(session,bean);        
+        addComment(session,bean, eventId, userId);        
         tx.commit();
         session.close();
         
     }
     
-    private void addComment(Session session, Comment bean){
-        Comment comment = new Comment();
-        
+    private void addComment(Session session, Comment bean, int eventId, int userId ){
+        Comment comment = new Comment();        
+        Event event = eventDAO.getEvent(eventId);
+        User user = userDAO.getUser(userId);        
+        comment.setUser(user);
+        comment.setEvent(event);       
         comment.setText(bean.getText());        
         session.save(comment);
     }

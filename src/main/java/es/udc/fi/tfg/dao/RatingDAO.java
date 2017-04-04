@@ -5,26 +5,38 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
+import es.udc.fi.tfg.model.User;
 
 @Component
 public class RatingDAO {
-	public void addRating(Rating bean){
+	@Autowired
+	private EventDAO eventDAO;
+	
+	@Autowired
+	private UserDAO userDAO;
+	
+	public void addRating(Rating bean, int eventId, int userId){
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addRating(session,bean);        
+        addRating(session,bean, eventId, userId);        
         tx.commit();
         session.close();
         
     }
     
-    private void addRating(Session session, Rating bean){
-        Rating rating = new Rating();
-        
+    private void addRating(Session session, Rating bean, int eventId, int userId ){
+        Rating rating = new Rating();        
+        Event event = eventDAO.getEvent(eventId);
+        User user = userDAO.getUser(userId);        
+        rating.setUser(user);
+        rating.setEvent(event);       
         rating.setRating(bean.getRating());        
         session.save(rating);
     }
