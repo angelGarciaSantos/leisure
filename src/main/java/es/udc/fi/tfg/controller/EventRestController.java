@@ -18,6 +18,8 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.EventDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
+import es.udc.fi.tfg.service.ArtistService;
+import es.udc.fi.tfg.service.EventService;
 
 @CrossOrigin
 @RestController
@@ -25,65 +27,105 @@ public class EventRestController {
 	@Autowired
 	private EventDAO eventDAO;
 
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private ArtistService artistService;
 	
 	@GetMapping("/events")
-	public List getEvents() {
-		return eventDAO.getEvents();
+	public ResponseEntity<List<Event>> getEvents() {
+		return new ResponseEntity<List<Event>>(eventService.getEvents(), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/events/{id}")
-	public Event getEvent(@PathVariable int id) {
-		return eventDAO.getEvent(id);
+	public ResponseEntity<Event> getEvent(@PathVariable int id) {
+
+		Event event = eventService.getEvent(id);
+		if (event == null){
+			return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Event>(event, HttpStatus.OK);
+		}
 	}	
 	
 	@PostMapping(value = "/events")
-	public ResponseEntity createEvent(@RequestBody Event event) {
-
-		eventDAO.addEvent(event);
-
-		return new ResponseEntity(event, HttpStatus.OK);
+	public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+		eventService.createEvent(event);
+		return new ResponseEntity<Event>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/events/{id}")
-	public ResponseEntity deleteEvent(@PathVariable int id) {
-
-		if (0 == eventDAO.deleteEvent(id)) {
-			return new ResponseEntity("No Event found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> deleteEvent(@PathVariable int id) {
+		int rows = eventService.deleteEvent(id);
+		if (rows < 1) {
+			return new ResponseEntity<String>("No ha podido eliminarse el Evento"+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity(id, HttpStatus.OK);
-
+		else{
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	}
 
 	@PutMapping("/events/{id}")
-	public ResponseEntity updateEvent(@PathVariable int id, @RequestBody Event event) {
-
-		int rows = eventDAO.updateEvent(id, event);
-		if (0 == rows) {
-			return new ResponseEntity("No Event found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> updateEvent(@PathVariable int id, @RequestBody Event event) {
+		if (event.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+		else {
+			int rows = eventService.updateEvent(id, event);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse el Event"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 	
 	@PostMapping(value = "/events/artists/{eventId}/{artistId}")
-	public ResponseEntity addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) {
-
-		int rows = eventDAO.addArtistToEvent(eventId, artistId);
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+	public ResponseEntity<String> addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) {
+		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
+			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
+				eventId + " Artista: " + artistId, HttpStatus.BAD_REQUEST);
+		}
+		else {
+			int rows = eventService.addArtistToEvent(eventId, artistId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido añadirse el artista " + artistId
+					+ " al evento " + eventId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 	
 	@DeleteMapping("/events/artists/{eventId}/{artistId}")
-	public ResponseEntity deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) {
-
-		int rows = eventDAO.deleteArtistFromEvent(eventId, artistId);
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+	public ResponseEntity<String> deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) {
+		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
+			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
+				eventId + " Artista: " + artistId, HttpStatus.BAD_REQUEST);
+		}
+		else {
+			int rows = eventService.deleteArtistFromEvent(eventId, artistId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el artista " + artistId
+					+ " del evento " + eventId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 	
 	@GetMapping("/events/artists/{eventId}")
-	public List getArtistsFromEvent(@PathVariable int eventId) {
-		return eventDAO.getArtistsFromEvent(eventId);
+	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId) {
+		if (eventService.getEvent(eventId) == null ) {
+			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.BAD_REQUEST);
+		}
+		else {	
+			return new ResponseEntity<List<Integer>>(eventService.getArtistFromEvent(eventId),HttpStatus.OK);		
+		}
 	}	
 }

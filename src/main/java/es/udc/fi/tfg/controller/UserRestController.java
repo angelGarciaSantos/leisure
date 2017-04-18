@@ -19,51 +19,66 @@ import es.udc.fi.tfg.dao.UserDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
+import es.udc.fi.tfg.service.ArtistService;
+import es.udc.fi.tfg.service.UserService;
 
 @CrossOrigin
 @RestController
 public class UserRestController {
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private UserService userService;
 
 	
 	@GetMapping("/users")
-	public List getUsers() {
-		return userDAO.getUsers();
+	public ResponseEntity<List<User>> getUsers() {
+		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable int id) {
-		return userDAO.getUser(id);
+	public ResponseEntity<User> getUser(@PathVariable int id) {
+		User user = userService.getUser(id);
+		if (user == null){
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
 	}	
 	
+	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/users")
-	public ResponseEntity createUser(@RequestBody User user) {
-
-		userDAO.addUser(user);
-
-		return new ResponseEntity(user, HttpStatus.OK);
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		userService.createUser(user);
+		return new ResponseEntity<User>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/users/{id}")
-	public ResponseEntity deleteUser(@PathVariable int id) {
-
-		if (0 == userDAO.deleteUser(id)) {
-			return new ResponseEntity("No User found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> deleteUser(@PathVariable int id) {
+		int rows = userService.deleteUser(id);
+		if (rows < 1) {
+			return new ResponseEntity<String>("No ha podido eliminarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity(id, HttpStatus.OK);
-
+		else{
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	}
 
 	@PutMapping("/users/{id}")
-	public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) {
-
-		int rows = userDAO.updateUser(id, user);
-		if (0 == rows) {
-			return new ResponseEntity("No User found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
+		if (user.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+		else {
+			int rows = userService.updateUser(id, user);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 }

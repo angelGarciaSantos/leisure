@@ -18,52 +18,62 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.EmployeeDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Employee;
+import es.udc.fi.tfg.service.ArtistService;
 
 @CrossOrigin
 @RestController
 public class ArtistRestController {
 	@Autowired
-	private ArtistDAO artistDAO;
+	private ArtistService artistService;
 
-	
 	@GetMapping("/artists")
-	public List getArtists() {
-		return artistDAO.getArtists();
+	public ResponseEntity<List<Artist>> getArtists() {
+		return new ResponseEntity<List<Artist>>(artistService.getArtists(), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/artists/{id}")
-	public Artist getArtist(@PathVariable int id) {
-		return artistDAO.getArtist(id);
+	public ResponseEntity<Artist> getArtist(@PathVariable int id) {
+		Artist artist = artistService.getArtist(id);
+		if (artist == null){
+			return new ResponseEntity<Artist>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+		}
 	}	
 	
+	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/artists")
-	public ResponseEntity createArtist(@RequestBody Artist artist) {
-
-		artistDAO.addArtist(artist);
-
-		return new ResponseEntity(artist, HttpStatus.OK);
+	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) {
+		artistService.createArtist(artist);
+		return new ResponseEntity<Artist>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/artists/{id}")
-	public ResponseEntity deleteArtist(@PathVariable int id) {
-
-		if (0 == artistDAO.deleteArtist(id)) {
-			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> deleteArtist(@PathVariable int id) {
+		int rows = artistService.deleteArtist(id);
+		if (rows < 1) {
+			return new ResponseEntity<String>("No ha podido eliminarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity(id, HttpStatus.OK);
-
+		else{
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	}
 
 	@PutMapping("/artists/{id}")
-	public ResponseEntity updateArtist(@PathVariable int id, @RequestBody Artist artist) {
-
-		int rows = artistDAO.updateArtist(id, artist);
-		if (0 == rows) {
-			return new ResponseEntity("No Artist found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> updateArtist(@PathVariable int id, @RequestBody Artist artist) {
+		if (artist.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+		else {
+			int rows = artistService.updateArtist(id, artist);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 	
 	

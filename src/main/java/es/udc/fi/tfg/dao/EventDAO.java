@@ -116,9 +116,9 @@ public class EventDAO {
         "INSERT INTO event_artist(event_id, artist_id) VALUES (?,?)");
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
-        insertQuery.executeUpdate();
+        int rows = insertQuery.executeUpdate();
         session.getTransaction().commit();    
-        return 1;
+        return rows;
     }
     
     public int deleteArtistFromEvent(int eventId, int artistId) {
@@ -128,12 +128,12 @@ public class EventDAO {
         "delete from Event_Artist where (event_id, artist_id) = (?,?)");
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
-        insertQuery.executeUpdate();
+        int rows = insertQuery.executeUpdate();
         session.getTransaction().commit();    
-        return 1;
+        return rows;
     }
     
-    public List getArtistsFromEvent(int eventId) {
+    public List<Integer> getArtistsFromEvent(int eventId) {
 		Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from event_artist where event_id = ?");
 		sqlQuery.setParameter(0, eventId);

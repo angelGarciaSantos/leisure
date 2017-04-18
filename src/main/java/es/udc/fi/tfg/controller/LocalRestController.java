@@ -18,51 +18,61 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.LocalDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
+import es.udc.fi.tfg.service.ArtistService;
+import es.udc.fi.tfg.service.LocalService;
 
 @CrossOrigin
 @RestController
 public class LocalRestController {
 	@Autowired
-	private LocalDAO localDAO;
-
+	private LocalService localService;
 	
 	@GetMapping("/locals")
-	public List getLocals() {
-		return localDAO.getLocals();
+	public ResponseEntity<List<Local>> getLocals() {
+		return new ResponseEntity<List<Local>>(localService.getLocals(), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/locals/{id}")
-	public Local getLocal(@PathVariable int id) {
-		return localDAO.getLocal(id);
+	public ResponseEntity<Local> getLocal(@PathVariable int id) {
+		Local local = localService.getLocal(id);
+		if (local == null){
+			return new ResponseEntity<Local>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Local>(local, HttpStatus.OK);
+		}
 	}	
 	
 	@PostMapping(value = "/locals")
-	public ResponseEntity createLocal(@RequestBody Local local) {
-
-		localDAO.addLocal(local);
-
-		return new ResponseEntity(local, HttpStatus.OK);
+	public ResponseEntity<Local> createLocal(@RequestBody Local local) {
+		localService.createLocal(local);
+		return new ResponseEntity<Local>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/locals/{id}")
-	public ResponseEntity deleteLocal(@PathVariable int id) {
-
-		if (0 == localDAO.deleteLocal(id)) {
-			return new ResponseEntity("No Local found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> deleteLocal(@PathVariable int id) {
+		int rows = localService.deleteLocal(id);
+		if (rows < 1) {
+			return new ResponseEntity<String>("No ha podido eliminarse el Local "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity(id, HttpStatus.OK);
-
+		else{
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	}
 
 	@PutMapping("/locals/{id}")
-	public ResponseEntity updateLocal(@PathVariable int id, @RequestBody Local local) {
-
-		int rows = localDAO.updateLocal(id, local);
-		if (0 == rows) {
-			return new ResponseEntity("No Local found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> updateLocal(@PathVariable int id, @RequestBody Local local) {
+		if (local.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+		else {
+			int rows = localService.updateLocal(id, local);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse el Local "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 }

@@ -19,6 +19,9 @@ import es.udc.fi.tfg.dao.RatingDAO;
 import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
+import es.udc.fi.tfg.service.CommentService;
+import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.RatingService;
 
 @CrossOrigin
 @RestController
@@ -26,49 +29,70 @@ public class RatingRestController {
 	@Autowired
 	private RatingDAO ratingDAO;
 
+	@Autowired
+	private RatingService ratingService;
+	
+	@Autowired
+	private EventService eventService;
 	
 	@GetMapping("/ratings")
-	public List getRatings() {
-		return ratingDAO.getRatings();
+	public ResponseEntity<List<Rating>> getRatings() {
+		return new ResponseEntity<List<Rating>> (ratingService.getRatings(), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/ratings/{id}")
-	public Rating getRating(@PathVariable int id) {
-		return ratingDAO.getRating(id);
+	public ResponseEntity<Rating> getRating(@PathVariable int id) {
+		Rating rating = ratingService.getRating(id);
+		if (rating == null){
+			return new ResponseEntity<Rating>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Rating>(rating, HttpStatus.OK);
+		}	
 	}	
 	
-	@GetMapping("/ratings/event/{id}")
-	public List getRatingsFromEvent(@PathVariable int id) {
-		return ratingDAO.getRatingsFromEvent(id);
+	@GetMapping("/ratings/event/{eventId}")
+	public ResponseEntity<List<Rating>> getRatingsFromEvent(@PathVariable int eventId) {
+		if (eventService.getEvent(eventId) == null){
+			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId), HttpStatus.OK);
+		}
 	}	
 	
+	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/ratings/{eventId}/{userId}")
-	public ResponseEntity createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) {
-
-		ratingDAO.addRating(rating, eventId, userId);
-
-		return new ResponseEntity(rating, HttpStatus.OK);
+	public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) {
+		
+		ratingService.createRating(rating, eventId, userId);
+		return new ResponseEntity<Rating>(HttpStatus.CREATED);
 	}
 		
 	@DeleteMapping("/ratings/{id}")
-	public ResponseEntity deleteRating(@PathVariable int id) {
-
-		if (0 == ratingDAO.deleteRating(id)) {
-			return new ResponseEntity("No Rating found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> deleteRating(@PathVariable int id) {
+		int rows = ratingService.deleteRating(id);
+		if (rows < 1) {
+			return new ResponseEntity<String>("No ha podido eliminarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		return new ResponseEntity(id, HttpStatus.OK);
-
+		else{
+			return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	}
 
 	@PutMapping("/ratings/{id}")
-	public ResponseEntity updateRating(@PathVariable int id, @RequestBody Rating rating) {
-
-		int rows = ratingDAO.updateRating(id, rating);
-		if (0 == rows) {
-			return new ResponseEntity("No Rating found for ID " + id, HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> updateRating(@PathVariable int id, @RequestBody Rating rating) {
+		if (rating.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity(rows, HttpStatus.OK);
+		else{
+			int rows = ratingService.updateRating(id, rating);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
 	}
 }
