@@ -22,7 +22,7 @@ public class Artist {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="artist_id")
-	private Long id;
+	private int id;
     @Column
     private String name;
     @Column
@@ -39,14 +39,14 @@ public class Artist {
     private Set<Event> events = new HashSet<Event>(0);
     
 	
-	public Artist(long id, String name, String description, double d) {
+	public Artist(int id, String name, String description, double d) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.rating = d;
 	}
 	
-	public Artist(long id, String name, String description, double d, Set<Event> events) {
+	public Artist(int id, String name, String description, double d, Set<Event> events) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -57,11 +57,11 @@ public class Artist {
 	public Artist(){
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -96,4 +96,25 @@ public class Artist {
 	public void setEvents(Set<Event> events) {
 		this.events = events;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Artist artist = (Artist) o;
+
+        if (id != artist.id) return false;
+        if (name != null ? !name.equals(artist.name) : artist.name != null) return false;
+        if (description != null ? !description.equals(artist.description) : artist.description != null) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

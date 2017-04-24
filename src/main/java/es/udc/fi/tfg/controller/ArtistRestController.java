@@ -45,18 +45,28 @@ public class ArtistRestController {
 	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/artists")
 	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) {
-		artistService.createArtist(artist);
-		return new ResponseEntity<Artist>(HttpStatus.CREATED);
+		if (artistService.existsArtist(artist)){
+			return new ResponseEntity<Artist>(HttpStatus.CONFLICT);	
+		}
+		else {
+			artistService.createArtist(artist);
+			return new ResponseEntity<Artist>(HttpStatus.CREATED);
+		}
 	}
 	
 	@DeleteMapping("/artists/{id}")
 	public ResponseEntity<String> deleteArtist(@PathVariable int id) {
-		int rows = artistService.deleteArtist(id);
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+		if (artistService.getArtist(id) == null) {
+			return new ResponseEntity<String>("No existe el artista "+id, HttpStatus.NOT_FOUND);
 		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			int rows = artistService.deleteArtist(id);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
 		}
 	}
 
@@ -66,12 +76,17 @@ public class ArtistRestController {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
 		else {
-			int rows = artistService.updateArtist(id, artist);
-			if (rows < 1) {
-				return new ResponseEntity<String>("No ha podido actualizarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			if (artistService.getArtist(artist.getId()) == null) {
+				return new ResponseEntity<String>("No existe el artista "+id, HttpStatus.NOT_FOUND);
 			}
-			else{
-				return new ResponseEntity<String>(HttpStatus.OK);
+			else {
+				int rows = artistService.updateArtist(id, artist);
+				if (rows < 1) {
+					return new ResponseEntity<String>("No ha podido actualizarse el Artista"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+				else{
+					return new ResponseEntity<String>(HttpStatus.OK);
+				}
 			}
 		}
 	}
