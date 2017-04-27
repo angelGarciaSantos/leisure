@@ -141,6 +141,12 @@ public class EventDAO {
 		return sqlQuery.list();
     }
     
-    
+    public List<Integer> getEventsFromArtist(int artistId) {
+		Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select event_id from event_artist where artist_id = ?");
+		sqlQuery.setParameter(0, artistId);
+
+		return sqlQuery.list();
+    }
 	
 }

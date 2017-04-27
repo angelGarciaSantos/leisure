@@ -48,6 +48,10 @@ public class EventService {
 		return eventDAO.getArtistsFromEvent(eventId);
 	}
 	
+	public List<Integer> getEventsFromArtist(int artistId) {
+		return eventDAO.getEventsFromArtist(artistId);
+	}
+	
 	
 	
 }

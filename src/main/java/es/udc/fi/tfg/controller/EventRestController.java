@@ -24,8 +24,6 @@ import es.udc.fi.tfg.service.EventService;
 @CrossOrigin
 @RestController
 public class EventRestController {
-	@Autowired
-	private EventDAO eventDAO;
 
 	@Autowired
 	private EventService eventService;
@@ -119,6 +117,7 @@ public class EventRestController {
 		}
 	}
 	
+	//TODO: este metodo igual habria que llevarlo al artists, y ser artists/event/{eventid}
 	@GetMapping("/events/artists/{eventId}")
 	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId) {
 		if (eventService.getEvent(eventId) == null ) {
@@ -126,6 +125,16 @@ public class EventRestController {
 		}
 		else {	
 			return new ResponseEntity<List<Integer>>(eventService.getArtistFromEvent(eventId),HttpStatus.OK);		
+		}
+	}	
+	
+	@GetMapping("/event/artist/{artistId}")
+	public ResponseEntity getEventsFromArtist(@PathVariable int artistId) {
+		if (artistService.getArtist(artistId) == null ) {
+			return new ResponseEntity<String>("El artista " + artistId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Integer>>(eventService.getEventsFromArtist(artistId),HttpStatus.OK);		
 		}
 	}	
 }

@@ -19,6 +19,7 @@ import es.udc.fi.tfg.dao.RatingDAO;
 import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
+import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.RatingService;
@@ -26,14 +27,15 @@ import es.udc.fi.tfg.service.RatingService;
 @CrossOrigin
 @RestController
 public class RatingRestController {
-	@Autowired
-	private RatingDAO ratingDAO;
 
 	@Autowired
 	private RatingService ratingService;
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private ArtistService artistService;
 	
 	@GetMapping("/ratings")
 	public ResponseEntity<List<Rating>> getRatings() {
@@ -58,6 +60,26 @@ public class RatingRestController {
 		}
 		else {	
 			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId), HttpStatus.OK);
+		}
+	}	
+	
+	@GetMapping("/rating/event/{eventId}")
+	public ResponseEntity<List<Double>> getRatingFromEvent(@PathVariable int eventId) {
+		if (eventService.getEvent(eventId) == null){
+			return new ResponseEntity<List<Double>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Double>> (ratingService.getRatingFromEvent(eventId), HttpStatus.OK);
+		}
+	}	
+	
+	@GetMapping("/rating/artist/{artistId}")
+	public ResponseEntity<List<Double>> getRatingFromArtist(@PathVariable int artistId) {
+		if (artistService.getArtist(artistId) == null){
+			return new ResponseEntity<List<Double>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Double>> (ratingService.getRatingFromArtist(artistId), HttpStatus.OK);
 		}
 	}	
 	

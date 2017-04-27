@@ -46,6 +46,12 @@ public class Artist {
 		this.rating = d;
 	}
 	
+	public Artist(String name, String description, double d) {
+		this.name = name;
+		this.description = description;
+		this.rating = d;
+	}
+	
 	public Artist(int id, String name, String description, double d, Set<Event> events) {
 		this.id = id;
 		this.name = name;
