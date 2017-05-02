@@ -19,12 +19,20 @@ import es.udc.fi.tfg.dao.EmployeeDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Employee;
 import es.udc.fi.tfg.service.ArtistService;
+import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.UserService;
 
 @CrossOrigin
 @RestController
 public class ArtistRestController {
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private EventService eventService;
 
 	@GetMapping("/artists")
 	public ResponseEntity<List<Artist>> getArtists() {
@@ -39,6 +47,16 @@ public class ArtistRestController {
 		}
 		else {
 			return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+		}
+	}	
+	
+	@GetMapping("/artists/event/{eventId}")
+	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId) {
+		if (eventService.getEvent(eventId) == null ) {
+			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromEvent(eventId),HttpStatus.OK);		
 		}
 	}	
 	
@@ -91,7 +109,41 @@ public class ArtistRestController {
 		}
 	}
 	
+	@PostMapping(value = "/artist/user/{artistId}/{userId}")
+	public ResponseEntity<String> followArtist(@PathVariable int artistId, @PathVariable int userId) {
+		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El artista o usuario indicados no existen. Artista: "+
+				artistId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = artistService.followArtist(artistId, userId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido seguirse al artista " + artistId
+					+ " con el usuario " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
 	
+	@DeleteMapping(value = "/artist/user/{artistId}/{userId}")
+	public ResponseEntity<String> unfollowArtist(@PathVariable int artistId, @PathVariable int userId) {
+		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El artista o usuario indicados no existen. Artista: "+
+				artistId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = artistService.unfollowArtist(artistId, userId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido dejar de seguirse al artista " + artistId
+					+ " con el usuario " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
 	
 //Lo de abajo es el antiguo controlador de prueba (usando el dao de prueba).	
 	

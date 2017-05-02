@@ -31,6 +31,9 @@ VALUES (2,2);
 INSERT INTO User (id, name, email, type)
 VALUES (1,"Angel", "angel@angel.com", 1);
 
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,1);
+
 INSERT INTO Comment (id, text, event_id, user_id)
 VALUES (1,"Ha sido un conciertazo", 1, 1);
 

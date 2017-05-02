@@ -7,6 +7,7 @@
 
 DROP TABLE Rating;
 DROP TABLE Comment;
+DROP TABLE User_Artist;
 DROP TABLE User;
 DROP TABLE Event_Artist;
 DROP TABLE Artist;
@@ -56,6 +57,15 @@ CREATE TABLE User (
 	email varchar(255) NOT NULL,
 	type int (11) NOT NULL,
 	CONSTRAINT user_PK PRIMARY KEY (id)
+);
+
+CREATE TABLE User_Artist
+(
+    user_id INT NOT NULL,  
+    artist_id INT NOT NULL,  
+    PRIMARY KEY (user_id, artist_id),  
+    FOREIGN KEY (user_id) REFERENCES User(id) ON UPDATE CASCADE,  
+    FOREIGN KEY (artist_id) REFERENCES Artist(artist_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Comment (

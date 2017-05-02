@@ -81,11 +81,11 @@ public class EventRestController {
 		}
 	}
 	
-	@PostMapping(value = "/events/artists/{eventId}/{artistId}")
+	@PostMapping(value = "/events/artist/{eventId}/{artistId}")
 	public ResponseEntity<String> addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
-				eventId + " Artista: " + artistId, HttpStatus.BAD_REQUEST);
+				eventId + " Artista: " + artistId, HttpStatus.NOT_FOUND);
 		}
 		else {
 			int rows = eventService.addArtistToEvent(eventId, artistId);
@@ -99,11 +99,11 @@ public class EventRestController {
 		}
 	}
 	
-	@DeleteMapping("/events/artists/{eventId}/{artistId}")
+	@DeleteMapping("/events/artist/{eventId}/{artistId}")
 	public ResponseEntity<String> deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
-				eventId + " Artista: " + artistId, HttpStatus.BAD_REQUEST);
+				eventId + " Artista: " + artistId, HttpStatus.NOT_FOUND);
 		}
 		else {
 			int rows = eventService.deleteArtistFromEvent(eventId, artistId);
@@ -116,17 +116,6 @@ public class EventRestController {
 			}
 		}
 	}
-	
-	//TODO: este metodo igual habria que llevarlo al artists, y ser artists/event/{eventid}
-	@GetMapping("/events/artists/{eventId}")
-	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId) {
-		if (eventService.getEvent(eventId) == null ) {
-			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.BAD_REQUEST);
-		}
-		else {	
-			return new ResponseEntity<List<Integer>>(eventService.getArtistFromEvent(eventId),HttpStatus.OK);		
-		}
-	}	
 	
 	@GetMapping("/event/artist/{artistId}")
 	public ResponseEntity getEventsFromArtist(@PathVariable int artistId) {

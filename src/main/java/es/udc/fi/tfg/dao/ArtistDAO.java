@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,14 @@ public class ArtistDAO {
         session.close();
         return artist;
     }
+    
+    public List<Integer> getArtistsFromEvent(int eventId) {
+		Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from event_artist where event_id = ?");
+		sqlQuery.setParameter(0, eventId);
+		
+		return sqlQuery.list();
+    }
 	
     public int deleteArtist(int id) {
         Session session = SessionUtil.getSession();
@@ -79,7 +88,30 @@ public class ArtistDAO {
             session.close();
             return rowCount;
     }
+    
+    public int followArtist (int artistId, int userId) {
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "INSERT INTO user_artist(user_id, artist_id) VALUES (?,?)");
+        insertQuery.setParameter(0, userId);
+        insertQuery.setParameter(1, artistId);
+        int rows = insertQuery.executeUpdate();
+        session.getTransaction().commit();    
+        return rows;    		
+    }
 	
+    public int unfollowArtist (int artistId, int userId) {
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "delete from User_Artist where (user_id, artist_id) = (?,?)");
+        insertQuery.setParameter(0, userId);
+        insertQuery.setParameter(1, artistId);
+        int rows = insertQuery.executeUpdate();
+        session.getTransaction().commit();    
+        return rows;
+    }
 	
 	
 	

@@ -23,6 +23,16 @@ public class ArtistService {
 		return artistDAO.getArtist(id);
 	}
 	
+	public List<Artist> getArtistsFromEvent(int eventId) {
+		List<Integer> ids = artistDAO.getArtistsFromEvent(eventId);
+        List<Artist> artists = new ArrayList<Artist>();
+		for(Integer id : ids) {
+			artists.add(this.getArtist(id));
+        }
+			
+		return artists;
+	}
+	
 	public void createArtist(Artist artist){
 		artistDAO.addArtist(artist);
 	}
@@ -47,6 +57,11 @@ public class ArtistService {
 		return exists;
 	}
 	
+	public int followArtist (int artistId, int userId){
+		return artistDAO.followArtist(artistId, userId);
+	}
 	
-	
+	public int unfollowArtist (int artistId, int userId){
+		return artistDAO.unfollowArtist(artistId, userId);
+	}
 }
