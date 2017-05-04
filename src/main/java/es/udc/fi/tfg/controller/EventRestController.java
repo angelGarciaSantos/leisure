@@ -20,6 +20,7 @@ import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.LocalService;
 
 @CrossOrigin
 @RestController
@@ -30,6 +31,9 @@ public class EventRestController {
 	
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private LocalService localService;
 	
 	@GetMapping("/events")
 	public ResponseEntity<List<Event>> getEvents() {
@@ -109,6 +113,24 @@ public class EventRestController {
 			int rows = eventService.deleteArtistFromEvent(eventId, artistId);
 			if (rows < 1) {
 				return new ResponseEntity<String>("No ha podido eliminarse el artista " + artistId
+					+ " del evento " + eventId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
+	
+	@PutMapping("/events/local/{eventId}/{localId}")
+	public ResponseEntity<String> modifyLocalFromEvent(@PathVariable int eventId, @PathVariable int localId) {
+		if ((eventService.getEvent(eventId) == null ) || localService.getLocal(localId) == null) {
+			return new ResponseEntity<String>("El evento o local indicados no existen. Evento: "+
+				eventId + " Local: " + localId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = eventService.modifyLocalFromEvent(eventId, localId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido cambiarse el local " + localId
 					+ " del evento " + eventId, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			else{

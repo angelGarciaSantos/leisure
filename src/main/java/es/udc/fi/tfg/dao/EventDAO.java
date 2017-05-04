@@ -133,6 +133,20 @@ public class EventDAO {
         return rows;
     }
     
+    public int modifyLocalFromEvent(int eventId, int localId){
+        Session session = SessionUtil.getSession();
+           Transaction tx = session.beginTransaction();
+           String hql = "update Event set local_id =:localId where id = :eventId";
+           Query query = session.createQuery(hql);
+           query.setInteger("eventId",eventId);
+           query.setInteger("localId",localId);
+           int rowCount = query.executeUpdate();
+           System.out.println("Rows affected: " + rowCount);
+           tx.commit();
+           session.close();
+           return rowCount;
+   }
+    
     public List<Integer> getEventsFromArtist(int artistId) {
 		Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select event_id from event_artist where artist_id = ?");

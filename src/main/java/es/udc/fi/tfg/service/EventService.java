@@ -44,6 +44,10 @@ public class EventService {
 		return eventDAO.deleteArtistFromEvent(eventId, artistId);
 	}
 	
+	public int modifyLocalFromEvent (int eventId, int localId){
+		return eventDAO.modifyLocalFromEvent(eventId, localId);
+	}
+	
 	public List<Integer> getEventsFromArtist(int artistId) {
 		return eventDAO.getEventsFromArtist(artistId);
 	}
