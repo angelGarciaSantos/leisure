@@ -117,7 +117,8 @@ public class EventDAO {
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
         int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();    
+        session.getTransaction().commit();
+        session.close();
         return rows;
     }
     
@@ -129,7 +130,8 @@ public class EventDAO {
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
         int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();    
+        session.getTransaction().commit();
+        session.close();
         return rows;
     }
     

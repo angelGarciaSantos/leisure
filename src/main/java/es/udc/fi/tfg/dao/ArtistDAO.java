@@ -51,10 +51,10 @@ public class ArtistDAO {
     }
     
     public List<Integer> getArtistsFromEvent(int eventId) {
-		Session session = SessionUtil.getSession();
+    	Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from event_artist where event_id = ?");
 		sqlQuery.setParameter(0, eventId);
-		
+		//session.close();
 		return sqlQuery.list();
     }
 	
@@ -67,7 +67,7 @@ public class ArtistDAO {
         int rowCount = query.executeUpdate();
         System.out.println("Rows affected: " + rowCount);
         tx.commit();
-        session.close();
+        //session.close();
         return rowCount;
     }
     
@@ -85,7 +85,7 @@ public class ArtistDAO {
             int rowCount = query.executeUpdate();
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
-            session.close();
+            //session.close();
             return rowCount;
     }
     
@@ -97,7 +97,8 @@ public class ArtistDAO {
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, artistId);
         int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();    
+        session.getTransaction().commit();  
+        //session.close();
         return rows;    		
     }
 	
@@ -109,7 +110,8 @@ public class ArtistDAO {
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, artistId);
         int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();    
+        session.getTransaction().commit();
+        //session.close();
         return rows;
     }
 	
