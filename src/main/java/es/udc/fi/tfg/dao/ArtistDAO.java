@@ -41,6 +41,15 @@ public class ArtistDAO {
         return artists;
     }
     
+    public List<Artist> getArtistsKeywords(String keywords){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Artist where lower(name) LIKE lower(:keywords)");
+        query.setString("keywords", "%"+keywords+"%");
+        List<Artist> artists =  query.list();
+        session.close();
+        return artists;
+    }
+    
     public Artist getArtist(int id){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Artist where id = :id");

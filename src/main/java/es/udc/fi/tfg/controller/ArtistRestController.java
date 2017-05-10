@@ -39,6 +39,11 @@ public class ArtistRestController {
 		return new ResponseEntity<List<Artist>>(artistService.getArtists(), HttpStatus.OK);
 	}	
 	
+	@GetMapping("/artists/keywords/{keywords}")
+	public ResponseEntity<List<Artist>> getArtistsKeywords(@PathVariable String keywords) {
+		return new ResponseEntity<List<Artist>>(artistService.getArtistsKeywords(keywords), HttpStatus.OK);
+	}	
+	
 	@GetMapping("/artists/{id}")
 	public ResponseEntity<Artist> getArtist(@PathVariable int id) {
 		Artist artist = artistService.getArtist(id);

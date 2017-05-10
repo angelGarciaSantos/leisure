@@ -19,6 +19,10 @@ public class ArtistService {
 		return artistDAO.getArtists();
 	}
 	
+	public List<Artist> getArtistsKeywords(String keywords) {
+		return artistDAO.getArtistsKeywords(keywords);
+	}
+	
 	public Artist getArtist(int id){
 		return artistDAO.getArtist(id);
 	}
