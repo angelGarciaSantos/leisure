@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +123,17 @@ public class ArtistDAO {
         session.getTransaction().commit();
         //session.close();
         return rows;
+    }
+    
+    public int isFollowingArtist(int artistId, int userId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select count(*) from user_artist where user_id = ? and artist_id = ?");
+		sqlQuery.setParameter(0, userId);
+		sqlQuery.setParameter(1, artistId);
+		//session.close();
+		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
+		
+		return count;
     }
 	
 	

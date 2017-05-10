@@ -68,4 +68,13 @@ public class ArtistService {
 	public int unfollowArtist (int artistId, int userId){
 		return artistDAO.unfollowArtist(artistId, userId);
 	}
+	
+	public boolean isFollowingArtist(int artistId, int userId) {
+		if (artistDAO.isFollowingArtist(artistId, userId) == 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

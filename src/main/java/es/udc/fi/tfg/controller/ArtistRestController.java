@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +148,20 @@ public class ArtistRestController {
 			else{
 				return new ResponseEntity<String>(HttpStatus.OK);
 			}
+		}
+	}
+	
+	@GetMapping(value = "/artist/user/{artistId}/{userId}")
+	public ResponseEntity isFollowingArtist(@PathVariable int artistId, @PathVariable int userId) {
+		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El artista o usuario indicados no existen. Artista: "+
+				artistId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			List<Boolean> list = new ArrayList<Boolean>();
+			list.add(artistService.isFollowingArtist(artistId, userId));
+					
+			return new ResponseEntity<List<Boolean>>( list,HttpStatus.OK);
 		}
 	}
 	
