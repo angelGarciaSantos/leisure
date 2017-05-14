@@ -52,9 +52,9 @@ public class EventRestController {
 		}
 	}	
 	
-	@PostMapping(value = "/events")
-	public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-		eventService.createEvent(event);
+	@PostMapping(value = "/events/{localId}")
+	public ResponseEntity<Event> createEvent(@RequestBody Event event, @PathVariable int localId) {
+		eventService.createEvent(event, localId);
 		return new ResponseEntity<Event>(HttpStatus.CREATED);
 	}
 	

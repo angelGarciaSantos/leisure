@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 @Component
 public class JsonDateSerializer extends JsonSerializer<Date> {
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Override
 	public void serialize(Date date, JsonGenerator gen, SerializerProvider provider)
 	throws IOException, JsonProcessingException {

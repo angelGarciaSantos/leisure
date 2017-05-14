@@ -48,14 +48,15 @@ public class CommentRestController {
 		}		
 	}	
 	
+	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
 	@GetMapping("/comments/event/{eventId}")
 	public ResponseEntity<List<Comment>> getCommentsFromEvent(@PathVariable int eventId) {	
-		if (eventService.getEvent(eventId) == null){
-			return new ResponseEntity<List<Comment>>(HttpStatus.NOT_FOUND);
-		}
-		else {	
+//		if (eventService.getEvent(eventId) == null){
+//			return new ResponseEntity<List<Comment>>(HttpStatus.NOT_FOUND);
+//		}
+//		else {	
 			return new ResponseEntity<List<Comment>> (commentService.getCommentsFromEvent(eventId), HttpStatus.OK);
-		}
+//		}
 	}	
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO

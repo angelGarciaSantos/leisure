@@ -53,14 +53,15 @@ public class RatingRestController {
 		}	
 	}	
 	
+	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
 	@GetMapping("/ratings/event/{eventId}")
 	public ResponseEntity<List<Rating>> getRatingsFromEvent(@PathVariable int eventId) {
-		if (eventService.getEvent(eventId) == null){
-			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
-		}
-		else {	
+//		if (eventService.getEvent(eventId) == null){
+//			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
+//		}
+//		else {	
 			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId), HttpStatus.OK);
-		}
+//		}
 	}	
 	
 	@GetMapping("/rating/event/{eventId}")

@@ -13,14 +13,16 @@ import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.model.User;
+import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.UserService;
 
 @Component
 public class RatingDAO {
 	@Autowired
-	private EventDAO eventDAO;
+	private EventService eventService;
 	
 	@Autowired
-	private UserDAO userDAO;
+	private UserService userService;
 	
 	public void addRating(Rating bean, int eventId, int userId){
         Session session = SessionUtil.getSession();        
@@ -33,8 +35,8 @@ public class RatingDAO {
     
     private void addRating(Session session, Rating bean, int eventId, int userId ){
         Rating rating = new Rating();        
-        Event event = eventDAO.getEvent(eventId);
-        User user = userDAO.getUser(userId);        
+        Event event = eventService.getEvent(eventId);
+        User user = userService.getUser(userId);        
         rating.setUser(user);
         rating.setEvent(event);       
         rating.setRating(bean.getRating());        

@@ -24,8 +24,8 @@ public class EventService {
 		return eventDAO.getEvent(id);
 	}
 	
-	public void createEvent(Event event){
-		eventDAO.addEvent(event);
+	public void createEvent(Event event, int localId){
+		eventDAO.addEvent(event, localId);
 	}
 	
 	public int deleteEvent(int id){

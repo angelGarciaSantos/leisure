@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -92,26 +93,26 @@ public class Event {
 		this.description = description;
 	}
 
-    @Column(name = "begin_date", columnDefinition="DATETIME")
+    @Column(name = "begin_date", nullable = false, updatable=true)
     @Temporal(TemporalType.TIMESTAMP)
 	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getBeginDate() {
 		return beginDate;
 	}
 
-	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
+	//@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
 
-    @Column(name = "end_date", columnDefinition="DATETIME")
+	@Column(name = "end_date", nullable = false, updatable=true)
     @Temporal(TemporalType.TIMESTAMP)
 	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getEndDate() {
 		return endDate;
 	}
 
-	@JsonDeserialize(using = CustomJsonDateDeserializer.class)
+	//@JsonDeserialize(using = CustomJsonDateDeserializer.class)
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
