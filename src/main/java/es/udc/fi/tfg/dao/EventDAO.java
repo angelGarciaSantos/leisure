@@ -79,7 +79,6 @@ public class EventDAO {
         return rowCount;
     }
     
-    @SuppressWarnings("deprecation")
 	public int updateEvent(int id, Event event){
          if(id <=0)  {
                return 0; 
