@@ -25,12 +25,13 @@ public class ArtistDAO {
     }
     
     private void addArtist(Session session, Artist bean){
-        Artist artist = new Artist();
-        
-        artist.setName(bean.getName());
-        artist.setDescription(bean.getDescription());
-        artist.setRating(bean.getRating());
-        
+        Artist artist;
+    	if (bean.getImage()==null){
+        	artist = new Artist(bean.getName(), bean.getDescription());
+        }
+        else{
+        	artist = new Artist(bean.getName(), bean.getDescription(), bean.getImage());
+        }    
         session.save(artist);
     }
     
@@ -86,12 +87,12 @@ public class ArtistDAO {
                return 0;  
          Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
-            String hql = "update Artist set name =:name, description=:description, rating =:rating where id = :id";
+            String hql = "update Artist set name =:name, description=:description, image =:image where id = :id";
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("name",art.getName());
             query.setString("description",art.getDescription());
-            query.setDouble("rating", art.getRating());
+            query.setString("image", art.getImage());
             int rowCount = query.executeUpdate();
             System.out.println("Rows affected: " + rowCount);
             tx.commit();

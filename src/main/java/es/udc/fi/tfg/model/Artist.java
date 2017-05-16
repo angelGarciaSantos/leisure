@@ -28,7 +28,7 @@ public class Artist {
     @Column
     private String description;
     @Column
-    private double rating;
+    private String image;
     
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -39,24 +39,30 @@ public class Artist {
     private Set<Event> events = new HashSet<Event>(0);
     
 	
-	public Artist(int id, String name, String description, double d) {
+	public Artist(int id, String name, String description, String image) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.rating = d;
+		this.image = image;
 	}
 	
-	public Artist(String name, String description, double d) {
+	public Artist(String name, String description, String image) {
 		this.name = name;
 		this.description = description;
-		this.rating = d;
+		this.image = image;
 	}
 	
-	public Artist(int id, String name, String description, double d, Set<Event> events) {
+	public Artist(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.image = "https://pbs.twimg.com/profile_images/628298219630534656/g3OhoQ5k_400x400.jpg";
+	}
+	
+	public Artist(int id, String name, String description, String image, Set<Event> events) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.rating = d;
+		this.image = image;
 		this.events = events;
 	}
 	
@@ -87,12 +93,12 @@ public class Artist {
 		this.description = description;
 	}
 
-	public double getRating() {
-		return rating;
+	public String getImage() {
+		return image;
 	}
 
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Set<Event> getEvents() {

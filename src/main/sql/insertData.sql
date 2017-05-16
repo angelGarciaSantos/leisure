@@ -13,11 +13,11 @@ VALUES (1,"Concierto de Metallica", "Concierto de un grupo de trash metal...", n
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (2,"Concierto", "Concierto varios grupos...", now(), now(), 2);
 
-INSERT INTO Artist (artist_id, name, description, rating)
-VALUES (1,"Metallica", "Grupo de Trash Metal", 8);
+INSERT INTO Artist (artist_id, name, description, image)
+VALUES (1,"Metallica", "Grupo de Trash Metal", "https://pbs.twimg.com/profile_images/628298219630534656/g3OhoQ5k_400x400.jpg");
 
-INSERT INTO Artist (artist_id, name, description, rating)
-VALUES (2,"The Black Keys", "Grupo de Blues Rock", 9);
+INSERT INTO Artist (artist_id, name, description, image)
+VALUES (2,"The Black Keys", "Grupo de Blues Rock", "http://i.imgur.com/1asNWI9.png");
 
 INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (1,1);

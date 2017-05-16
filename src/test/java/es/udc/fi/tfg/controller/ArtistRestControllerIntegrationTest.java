@@ -67,7 +67,7 @@ public class ArtistRestControllerIntegrationTest {
 
     //@Test
     public void test_create_new_artist_success(){
-        Artist newArtist = new Artist("new name_" + Math.random(), "Description", 8);
+        Artist newArtist = new Artist("new name_" + Math.random(), "Description", "image");
         URI location = template.postForLocation(BASE_URI, newArtist, Artist.class);
         assertThat(location, notNullValue());
         //TODO: detecta un id incorrecto.

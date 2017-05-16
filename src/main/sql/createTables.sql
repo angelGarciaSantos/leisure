@@ -38,7 +38,7 @@ CREATE TABLE Artist (
 	artist_id int (11) NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
 	description varchar(255) NOT NULL,
-	rating float(53) NOT NULL,
+	image varchar(1000) NOT NULL,
 	CONSTRAINT artist_PK PRIMARY KEY (artist_id)
 );
 

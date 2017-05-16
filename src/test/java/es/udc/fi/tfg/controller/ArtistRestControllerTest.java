@@ -66,8 +66,8 @@ public class ArtistRestControllerTest {
     @Test
     public void test_get_all_success() throws Exception {
         List<Artist> artists = Arrays.asList(
-                new Artist(1, "Metallica", "Trash Metal", 8),
-                new Artist(2, "Black Keys","Blues Rock", 9));
+                new Artist(1, "Metallica", "Trash Metal", "image"),
+                new Artist(2, "Black Keys","Blues Rock", "image"));
 
         when(artistService.getArtists()).thenReturn(artists);
 
@@ -78,11 +78,11 @@ public class ArtistRestControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("Metallica")))
                 .andExpect(jsonPath("$[0].description", is("Trash Metal")))
-                .andExpect(jsonPath("$[0].rating", is(8.0)))
+                .andExpect(jsonPath("$[0].image", is("image")))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Black Keys")))
                 .andExpect(jsonPath("$[1].description", is("Blues Rock")))
-                .andExpect(jsonPath("$[1].rating", is(9.0)));
+                .andExpect(jsonPath("$[1].image", is("image")));
 
         verify(artistService, times(1)).getArtists();
         verifyNoMoreInteractions(artistService);
@@ -92,7 +92,7 @@ public class ArtistRestControllerTest {
 
     @Test
     public void test_get_by_id_success() throws Exception {
-        Artist artist = new Artist(1, "Metallica", "Trash Metal", 8);
+        Artist artist = new Artist(1, "Metallica", "Trash Metal", "image");
 
         when(artistService.getArtist(1)).thenReturn(artist);
 
@@ -102,7 +102,7 @@ public class ArtistRestControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Metallica")))
                 .andExpect(jsonPath("$.description", is("Trash Metal")))
-                .andExpect(jsonPath("$.rating", is(8.0)));
+                .andExpect(jsonPath("$.image", is("image")));
 
         verify(artistService, times(1)).getArtist(1);
         verifyNoMoreInteractions(artistService);
@@ -126,7 +126,7 @@ public class ArtistRestControllerTest {
     	Artist artist = new Artist();
     	artist.setName("Metallica");
     	artist.setDescription("Trash Metal");
-    	artist.setRating(8.0);
+    	artist.setImage("image");
 
         when(artistService.existsArtist(artist)).thenReturn(false);
         doNothing().when(artistService).createArtist(artist);
@@ -146,7 +146,7 @@ public class ArtistRestControllerTest {
 
     @Test
     public void test_create_artist_fail_409_conflict() throws Exception {
-    	Artist artist = new Artist(1, "Name exists", "Bla bla", 7);
+    	Artist artist = new Artist(1, "Name exists", "Bla bla", "image");
 
         when(artistService.existsArtist(artist)).thenReturn(true);
 
@@ -164,7 +164,7 @@ public class ArtistRestControllerTest {
 
     @Test
     public void test_update_artist_success() throws Exception {
-    	Artist artist = new Artist(1, "Metallica", "Trash Metal", 8);
+    	Artist artist = new Artist(1, "Metallica", "Trash Metal", "image");
     	
         when(artistService.getArtist(artist.getId())).thenReturn(artist);
         doReturn(1).when(artistService).updateArtist(1, artist);
@@ -182,7 +182,7 @@ public class ArtistRestControllerTest {
 
     @Test
     public void test_update_artist_fail_404_not_found() throws Exception {
-        Artist artist = new Artist(999, "artist not found", "no no no", 5);
+        Artist artist = new Artist(999, "artist not found", "no no no", "image");
         when(artistService.getArtist(artist.getId())).thenReturn(null);
 
         mockMvc.perform(
@@ -206,7 +206,7 @@ public class ArtistRestControllerTest {
     
     @Test
     public void test_delete_artist_success() throws Exception {
-    	Artist artist = new Artist(1, "Metallica", "Trash Metal", 8);
+    	Artist artist = new Artist(1, "Metallica", "Trash Metal", "image");
 
         when(artistService.getArtist(artist.getId())).thenReturn(artist);
         doReturn(1).when(artistService).deleteArtist(artist.getId());
@@ -222,7 +222,7 @@ public class ArtistRestControllerTest {
 
     @Test
     public void test_delete_artist_fail_404_not_found() throws Exception {
-    	Artist artist = new Artist(999, "artist not found", "no no no", 5);
+    	Artist artist = new Artist(999, "artist not found", "no no no", "image");
 
         when(artistService.getArtist(artist.getId())).thenReturn(null);
 
