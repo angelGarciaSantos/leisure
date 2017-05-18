@@ -40,6 +40,11 @@ public class EventRestController {
 		return new ResponseEntity<List<Event>>(eventService.getEvents(), HttpStatus.OK);
 	}	
 	
+	@GetMapping("/events/keywords/{keywords}")
+	public ResponseEntity<List<Event>> getEventsKeywords(@PathVariable String keywords) {
+		return new ResponseEntity<List<Event>>(eventService.getEventsKeywords(keywords), HttpStatus.OK);
+	}	
+	
 	@GetMapping("/events/{id}")
 	public ResponseEntity<Event> getEvent(@PathVariable int id) {
 

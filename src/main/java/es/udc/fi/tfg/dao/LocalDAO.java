@@ -40,6 +40,15 @@ public class LocalDAO {
         return locals;
     }
     
+    public List<Local> getLocalsKeywords(String keywords){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Local where lower(name) LIKE lower(:keywords)");
+        query.setString("keywords", "%"+keywords+"%");
+        List<Local> locals =  query.list();
+        session.close();
+        return locals;
+    }
+    
     public Local getLocal(int id){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Local where id = :id");

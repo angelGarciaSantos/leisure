@@ -19,6 +19,10 @@ public class LocalService {
 		return localDAO.getLocals();
 	}
 	
+	public List<Local> getLocalsKeywords(String keywords) {
+		return localDAO.getLocalsKeywords(keywords);
+	}
+	
 	public Local getLocal(int id){
 		return localDAO.getLocal(id);
 	}

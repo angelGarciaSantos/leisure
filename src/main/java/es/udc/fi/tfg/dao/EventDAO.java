@@ -57,6 +57,15 @@ public class EventDAO {
         return events;
     }
     
+    public List<Event> getEventsKeywords(String keywords){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Event where lower(name) LIKE lower(:keywords)");
+        query.setString("keywords", "%"+keywords+"%");
+        List<Event> events =  query.list();
+        session.close();
+        return events;
+    }
+    
     public Event getEvent(int id){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Event where id = :id");

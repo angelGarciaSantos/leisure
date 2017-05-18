@@ -40,6 +40,15 @@ public class UserDAO {
 	        return users;
 	    }
 	    
+	    public List<User> getUsersKeywords(String keywords){
+	        Session session = SessionUtil.getSession();    
+	        Query query = session.createQuery("from User where lower(name) LIKE lower(:keywords)");
+	        query.setString("keywords", "%"+keywords+"%");
+	        List<User> users =  query.list();
+	        session.close();
+	        return users;
+	    }
+	    
 	    public User getUser(int id){
 	        Session session = SessionUtil.getSession();    
 	        Query query = session.createQuery("from User where id = :id");

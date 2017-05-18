@@ -32,6 +32,11 @@ public class LocalRestController {
 		return new ResponseEntity<List<Local>>(localService.getLocals(), HttpStatus.OK);
 	}	
 	
+	@GetMapping("/locals/keywords/{keywords}")
+	public ResponseEntity<List<Local>> getLocalsKeywords(@PathVariable String keywords) {
+		return new ResponseEntity<List<Local>>(localService.getLocalsKeywords(keywords), HttpStatus.OK);
+	}	
+	
 	@GetMapping("/locals/{id}")
 	public ResponseEntity<Local> getLocal(@PathVariable int id) {
 		Local local = localService.getLocal(id);

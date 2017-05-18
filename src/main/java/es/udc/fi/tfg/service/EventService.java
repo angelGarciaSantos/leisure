@@ -20,6 +20,10 @@ public class EventService {
 		return eventDAO.getEvents();
 	}
 	
+	public List<Event> getEventsKeywords(String keywords) {
+		return eventDAO.getEventsKeywords(keywords);
+	}
+	
 	public Event getEvent(int id){
 		return eventDAO.getEvent(id);
 	}

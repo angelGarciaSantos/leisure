@@ -37,6 +37,11 @@ public class UserRestController {
 		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
 	}	
 	
+	@GetMapping("/users/keywords/{keywords}")
+	public ResponseEntity<List<User>> getUsersKeywords(@PathVariable String keywords) {
+		return new ResponseEntity<List<User>>(userService.getUsersKeywords(keywords), HttpStatus.OK);
+	}	
+	
 	@GetMapping("/users/{id}")
 	public ResponseEntity<User> getUser(@PathVariable int id) {
 		User user = userService.getUser(id);
