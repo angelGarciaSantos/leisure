@@ -33,6 +33,7 @@ public class EventDAO {
         Transaction tx = session.beginTransaction();
         addEvent(session,bean, localId);
         tx.commit();
+        session.flush();
         session.close();  
     }
     
@@ -50,9 +51,14 @@ public class EventDAO {
     @SuppressWarnings("unchecked")
 	public List<Event> getEvents(){
         Session session = SessionUtil.getSession();    
+        //session.flush();
         Query query = session.createQuery("from Event");
         //session.setCacheMode(CacheMode.IGNORE);
         List<Event> events =  query.list();
+        for (Event e : events){
+        	session.refresh(e);
+        }
+        
         session.close();
         return events;
     }

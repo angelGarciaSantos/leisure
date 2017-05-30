@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -117,7 +118,13 @@ public class Event {
 		this.endDate = endDate;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")
+    //@JsonIgnore
+	@Column
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
+			@JoinColumn(name = "event_id", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "artist_id",
+					nullable = false, updatable = false) })
 	public Set<Artist> getArtists() {
 		return artists;
 	}

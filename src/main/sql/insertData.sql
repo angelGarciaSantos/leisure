@@ -19,6 +19,33 @@ VALUES (1,"Metallica", "Grupo de Trash Metal", "https://pbs.twimg.com/profile_im
 INSERT INTO Artist (artist_id, name, description, image)
 VALUES (2,"The Black Keys", "Grupo de Blues Rock", "http://i.imgur.com/1asNWI9.png");
 
+INSERT INTO Tag (tag_id, name)
+VALUES (1,"Rock");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (2,"Blues");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (3,"Jazz");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (4,"Humor");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (5,"Magia");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (6,"Metal");
+
+INSERT INTO Tag_Artist (tag_id, artist_id)
+VALUES (6,1);
+
+INSERT INTO Tag_Artist (tag_id, artist_id)
+VALUES (1,2);
+
+INSERT INTO Tag_Artist (tag_id, artist_id)
+VALUES (2,2);
+
 INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (1,1);
 

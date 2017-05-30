@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,15 +30,25 @@ public class Artist {
     private String description;
     @Column
     private String image;
+//    @Column
+//    @ElementCollection(targetClass=Event.class)
+//    private Set<Event> events = new HashSet<Event>(0);
     
-    @JsonIgnore
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinTable(name = "user_artist", catalog = "leisuredb", joinColumns = {
+//			@JoinColumn(name = "artist_id", nullable = false, updatable = false) },
+//			inverseJoinColumns = { @JoinColumn(name = "user_id",
+//					nullable = false, updatable = false) })
+//    private Set<User> users = new HashSet<User>();
+    
+    //@JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
+	@JoinTable(name = "tag_artist", catalog = "leisuredb", joinColumns = {
 			@JoinColumn(name = "artist_id", nullable = false, updatable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "event_id",
+			inverseJoinColumns = { @JoinColumn(name = "tag_id",
 					nullable = false, updatable = false) })
-    private Set<Event> events = new HashSet<Event>(0);
-    
+    private Set<Tag> tags = new HashSet<Tag>();
 	
 	public Artist(int id, String name, String description, String image) {
 		this.id = id;
@@ -56,14 +67,6 @@ public class Artist {
 		this.name = name;
 		this.description = description;
 		this.image = "https://pbs.twimg.com/profile_images/628298219630534656/g3OhoQ5k_400x400.jpg";
-	}
-	
-	public Artist(int id, String name, String description, String image, Set<Event> events) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.image = image;
-		this.events = events;
 	}
 	
 	public Artist(){
@@ -100,15 +103,33 @@ public class Artist {
 	public void setImage(String image) {
 		this.image = image;
 	}
-
-	public Set<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
 	
+	
+//	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="artists")
+//	public Set<Event> getEvents() {
+//		return events;
+//	}
+//
+//	public void setEvents(Set<Event> events) {
+//		this.events = events;
+//	}
+
+//	public Set<User> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<User> users) {
+//		this.users = users;
+//	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;

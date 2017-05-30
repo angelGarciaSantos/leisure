@@ -10,6 +10,8 @@ DROP TABLE Comment;
 DROP TABLE User_Artist;
 DROP TABLE User;
 DROP TABLE Event_Artist;
+DROP TABLE Tag_Artist;
+DROP TABLE Tag;
 DROP TABLE Artist;
 DROP TABLE Event;
 DROP TABLE Local;
@@ -40,6 +42,21 @@ CREATE TABLE Artist (
 	description varchar(255) NOT NULL,
 	image varchar(1000) NOT NULL,
 	CONSTRAINT artist_PK PRIMARY KEY (artist_id)
+);
+
+CREATE TABLE Tag (
+	tag_id int (11) NOT NULL AUTO_INCREMENT,
+	name varchar(255) NOT NULL,
+	CONSTRAINT tag_PK PRIMARY KEY (tag_id)
+);
+
+CREATE TABLE Tag_Artist
+(
+    tag_id INT NOT NULL,  
+    artist_id INT NOT NULL,  
+    PRIMARY KEY (tag_id, artist_id), 
+    FOREIGN KEY (tag_id) REFERENCES Tag(tag_id) ON UPDATE CASCADE,  
+    FOREIGN KEY (artist_id) REFERENCES Artist(artist_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Event_Artist

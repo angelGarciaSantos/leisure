@@ -33,15 +33,21 @@ public class RatingService {
 	
 	public List<Double> getRatingFromEvent(int eventId){
 		List<Rating> ratings = ratingDAO.getRatingsFromEvent(eventId);	
-		int total = ratings.size();
-		double sum = 0;
-		for (Rating rating : ratings) {
-		    sum += rating.getRating();
-		}
-		
-		double result = sum / total;
 		List<Double> a = new ArrayList<Double>();
-		a.add(result);
+		int total = ratings.size();
+		if (total == 0){
+			a.add((double) -1);
+		}
+		else {
+			double sum = 0;
+			for (Rating rating : ratings) {
+			    sum += rating.getRating();
+			}
+			
+			double result = sum / total;
+			
+			a.add(result);
+		}	
 		
 		return a;
 	}
@@ -50,14 +56,35 @@ public class RatingService {
 		List<Integer> eventIds = eventService.getEventsFromArtist(artistId);
 		
 		int total = eventIds.size();
-		double sumArtist = 0;
-		for (Integer eventId : eventIds) {
-			sumArtist += this.getRatingFromEvent(eventId).get(0);
+		List<Double> a = new ArrayList<Double>();
+		if(total == 0) {
+			a.add((double) -1);
+		}
+		else {
+			double sumArtist = 0;
+			double actual = 0;
+			for (Integer eventId : eventIds) {
+				actual = this.getRatingFromEvent(eventId).get(0);
+				if (actual == -1) {
+					total--;
+				}	
+				else {
+					sumArtist += actual;
+				}
+				
+			}
+			double result;
+			if (total > 0) {
+				result = sumArtist / total;	
+			}
+			else {
+				result = -1;
+			}
+				
+			
+			a.add(result);
 		}
 		
-		double result = sumArtist / total;
-		List<Double> a = new ArrayList<Double>();
-		a.add(result);
 		return a;
 	}
 	
