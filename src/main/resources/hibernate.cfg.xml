@@ -16,6 +16,7 @@
 <!--   <property name="hibernate.hbm2ddl.auto">create</property> -->
   <mapping class="es.udc.fi.tfg.model.Employee"/>
   <mapping class="es.udc.fi.tfg.model.Artist"/>
+  <mapping class="es.udc.fi.tfg.model.Tag"/>
   <mapping class="es.udc.fi.tfg.model.Local"/>
   <mapping class="es.udc.fi.tfg.model.Event"/>
   <mapping class="es.udc.fi.tfg.model.User"/>
