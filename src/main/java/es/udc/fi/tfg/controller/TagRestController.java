@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.TagService;
 
 @CrossOrigin
@@ -22,6 +24,9 @@ import es.udc.fi.tfg.service.TagService;
 public class TagRestController {
 	@Autowired
 	private TagService tagService;
+	
+	@Autowired
+	private ArtistService artistService;
 	
 	@GetMapping("/tags")
 	public ResponseEntity<List<Tag>> getTags() {
@@ -32,6 +37,16 @@ public class TagRestController {
 	public ResponseEntity<List<Tag>> getTagsKeywords(@PathVariable String keywords) {
 		return new ResponseEntity<List<Tag>>(tagService.getTagsKeywords(keywords), HttpStatus.OK);
 	}	
+	
+	@GetMapping("/tags/artist/{artistId}")
+	public ResponseEntity getTagsFromArtist(@PathVariable int artistId) {
+		if (artistService.getArtist(artistId) == null ) {
+			return new ResponseEntity<String>("El artista " + artistId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<List<Tag>>(tagService.getTagsFromArtist(artistId),HttpStatus.OK);		
+		}
+	}
 	
 	@GetMapping("/tags/{id}")
 	public ResponseEntity<Tag> getTag(@PathVariable int id) {

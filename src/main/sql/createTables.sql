@@ -8,6 +8,7 @@
 DROP TABLE Rating;
 DROP TABLE Comment;
 DROP TABLE User_Artist;
+DROP TABLE Interest;
 DROP TABLE User;
 DROP TABLE Event_Artist;
 DROP TABLE Tag_Artist;
@@ -76,6 +77,16 @@ CREATE TABLE User (
 	CONSTRAINT user_PK PRIMARY KEY (id)
 );
 
+CREATE TABLE Interest (
+	id int (11) NOT NULL AUTO_INCREMENT,
+	points int(11) NOT NULL,
+	tag_id int (11) NOT NULL,
+	user_id int (11) NOT NULL,
+	CONSTRAINT interest_PK PRIMARY KEY (id),
+	CONSTRAINT interestTagIdFK FOREIGN KEY(tag_id) REFERENCES Tag (tag_id),
+	CONSTRAINT interestUserIdFK FOREIGN KEY(user_id) REFERENCES User (id)	
+);
+
 CREATE TABLE User_Artist
 (
     user_id INT NOT NULL,  
@@ -91,7 +102,7 @@ CREATE TABLE Comment (
 	event_id int (11) NOT NULL,
 	user_id int (11) NOT NULL,
 	CONSTRAINT comment_PK PRIMARY KEY (id),
-	CONSTRAINT commentEventIdFK FOREIGN KEY(event_id) REFERENCES Event (id),
+	CONSTRAINT commentEventIdFK FOREIGN KEY(event_id) REFERENCES Event (id) ON DELETE CASCADE,
 	CONSTRAINT commentUserIdFK FOREIGN KEY(user_id) REFERENCES User (id)	
 );
 
@@ -101,7 +112,7 @@ CREATE TABLE Rating (
 	event_id int (11) NOT NULL,
 	user_id int (11) NOT NULL,
 	CONSTRAINT rating_PK PRIMARY KEY (id),
-	CONSTRAINT ratingEventIdFK FOREIGN KEY(event_id) REFERENCES Event (id),
+	CONSTRAINT ratingEventIdFK FOREIGN KEY(event_id) REFERENCES Event (id) ON DELETE CASCADE,
 	CONSTRAINT ratingUserIdFK FOREIGN KEY(user_id) REFERENCES User (id)	
 );
 

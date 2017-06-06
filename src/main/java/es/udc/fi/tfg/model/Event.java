@@ -33,7 +33,7 @@ import es.udc.fi.tfg.config.JsonDateSerializer;
 @Table(name = "Event")
 public class Event {
 
-	private Long id;
+	private int id;
 	private String name;
     private String description;
     private Date beginDate;
@@ -44,7 +44,7 @@ public class Event {
     
     private Local local;
     
-	public Event(long id, String name, String description, Date beginDate, Date endDate) {
+	public Event(int id, String name, String description, Date beginDate, Date endDate) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -52,7 +52,7 @@ public class Event {
 		this.endDate = endDate;
 	}
 	
-	public Event(long id, String name, String description, Date beginDate, Date endDate,Set<Artist> artists, Local local) {
+	public Event(int id, String name, String description, Date beginDate, Date endDate,Set<Artist> artists, Local local) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -68,11 +68,11 @@ public class Event {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -120,7 +120,7 @@ public class Event {
 
     //@JsonIgnore
 	@Column
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
 			@JoinColumn(name = "event_id", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "artist_id",

@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.service.UserService;
 
 @CrossOrigin
 @RestController
 public class EventRestController {
-
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private EventService eventService;
 	
@@ -153,4 +157,22 @@ public class EventRestController {
 			return new ResponseEntity<List<Integer>>(eventService.getEventsFromArtist(artistId),HttpStatus.OK);		
 		}
 	}	
+	
+	@GetMapping(value = "/events/user/{userId}")
+	public ResponseEntity getRecommendedEvents(@PathVariable int userId) {
+		if (userService.getUser(userId) == null) {
+			//logger.error("El usuario indicado no existe. Usuario: " + userId);
+			return new ResponseEntity<String>("El usuario indicado no existe. Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			//List<Boolean> list = new ArrayList<Boolean>();
+			//list.add(artistService.isFollowingArtist(artistId, userId));
+			//logger.warn("El artista: " + artistId + " sigue al usuario: "
+			//		+ userId + ": " + list.get(0));	
+			List<Event> list = new ArrayList<Event>();
+			list = eventService.getRecommendedEvents(userId);
+			return new ResponseEntity<List<Event>>( list,HttpStatus.OK);
+		}
+	}
+	
 }

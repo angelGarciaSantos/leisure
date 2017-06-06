@@ -3,6 +3,8 @@ package es.udc.fi.tfg.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,8 @@ public class ArtistRestController {
 	private EventService eventService;
 
 	@GetMapping("/artists")
-	public ResponseEntity<List<Artist>> getArtists() {
+	public ResponseEntity<List<Artist>> getArtists(HttpSession session) {
+		session.setAttribute("prueba", "cosa");
 		logger.warn("Obteniendo todos los artistas.");
 		return new ResponseEntity<List<Artist>>(artistService.getArtists(), HttpStatus.OK);
 	}	
@@ -197,6 +200,25 @@ public class ArtistRestController {
 			return new ResponseEntity<List<Boolean>>( list,HttpStatus.OK);
 		}
 	}
+	
+	@GetMapping(value = "/artists/user/{userId}")
+	public ResponseEntity getRecommendedArtists(@PathVariable int userId) {
+		if (userService.getUser(userId) == null) {
+			logger.error("El usuario indicado no existe. Usuario: " + userId);
+			return new ResponseEntity<String>("El usuario indicado no existe. Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			//List<Boolean> list = new ArrayList<Boolean>();
+			//list.add(artistService.isFollowingArtist(artistId, userId));
+			//logger.warn("El artista: " + artistId + " sigue al usuario: "
+			//		+ userId + ": " + list.get(0));	
+			List<Artist> list = new ArrayList<Artist>();
+			list = artistService.getRecommendedArtist(userId);
+			return new ResponseEntity<List<Artist>>( list,HttpStatus.OK);
+		}
+	}
+	
+	
 	
 //Lo de abajo es el antiguo controlador de prueba (usando el dao de prueba).	
 	

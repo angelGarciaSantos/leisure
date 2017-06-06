@@ -22,5 +22,6 @@
   <mapping class="es.udc.fi.tfg.model.User"/>
   <mapping class="es.udc.fi.tfg.model.Rating"/>
   <mapping class="es.udc.fi.tfg.model.Comment"/>
+  <mapping class="es.udc.fi.tfg.model.Interest"/>
  </session-factory>
 </hibernate-configuration>

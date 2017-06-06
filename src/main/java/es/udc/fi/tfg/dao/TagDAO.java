@@ -3,6 +3,7 @@ package es.udc.fi.tfg.dao;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,14 @@ public class TagDAO {
         Tag tag = (Tag) query.uniqueResult();
         session.close();
         return tag;
+    }
+    
+    public List<Integer> getTagsFromArtist(int artistId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select tag_id from tag_artist where artist_id = ?");
+		sqlQuery.setParameter(0, artistId);
+		//session.close();
+		return sqlQuery.list();
     }
 	
     public int deleteTag(int id) {
