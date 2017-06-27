@@ -22,6 +22,7 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.EmployeeDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Employee;
+import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.UserService;
@@ -39,10 +40,9 @@ public class ArtistRestController {
 	
 	@Autowired
 	private EventService eventService;
-
+	
 	@GetMapping("/artists")
-	public ResponseEntity<List<Artist>> getArtists(HttpSession session) {
-		session.setAttribute("prueba", "cosa");
+	public ResponseEntity<List<Artist>> getArtists() {
 		logger.warn("Obteniendo todos los artistas.");
 		return new ResponseEntity<List<Artist>>(artistService.getArtists(), HttpStatus.OK);
 	}	
@@ -79,7 +79,7 @@ public class ArtistRestController {
 	}
 
 	//TODO: mensaje error si no se creó correctamente
-	@PostMapping(value = "/artists")
+	@PostMapping(value = "/private/artists")
 	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) {
 		if (artistService.existsArtist(artist)){
 			logger.error("El artista con nombre " + artist.getName() + " ya existe.");
@@ -92,7 +92,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@DeleteMapping("/artists/{id}")
+	@DeleteMapping("/private/artists/{id}")
 	public ResponseEntity<String> deleteArtist(@PathVariable int id) {
 		if (artistService.getArtist(id) == null) {
 			logger.error("No existe el Artista: " + id);
@@ -111,7 +111,7 @@ public class ArtistRestController {
 		}
 	}
 
-	@PutMapping("/artists/{id}")
+	@PutMapping("/private/artists/{id}")
 	public ResponseEntity<String> updateArtist(@PathVariable int id, @RequestBody Artist artist) {
 		if (artist.getId()!=id) {
 			logger.error("Los ids no coinciden" + id);
@@ -136,7 +136,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@PostMapping(value = "/artist/user/{artistId}/{userId}")
+	@PostMapping(value = "/private/artist/user/{artistId}/{userId}")
 	public ResponseEntity<String> followArtist(@PathVariable int artistId, @PathVariable int userId) {
 		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
 			logger.error("El artista o usuario indicados no existen. Artista: "+
@@ -160,7 +160,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@DeleteMapping(value = "/artist/user/{artistId}/{userId}")
+	@DeleteMapping(value = "/private/artist/user/{artistId}/{userId}")
 	public ResponseEntity<String> unfollowArtist(@PathVariable int artistId, @PathVariable int userId) {
 		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
 			logger.error("El artista o usuario indicados no existen. Artista: "+
@@ -184,7 +184,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@GetMapping(value = "/artist/user/{artistId}/{userId}")
+	@GetMapping(value = "/private/artist/user/{artistId}/{userId}")
 	public ResponseEntity isFollowingArtist(@PathVariable int artistId, @PathVariable int userId) {
 		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
 			logger.error("El artista o usuario indicados no existen. Artista: "+
@@ -201,7 +201,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@GetMapping(value = "/artists/user/{userId}")
+	@GetMapping(value = "/private/artists/user/{userId}")
 	public ResponseEntity getRecommendedArtists(@PathVariable int userId) {
 		if (userService.getUser(userId) == null) {
 			logger.error("El usuario indicado no existe. Usuario: " + userId);

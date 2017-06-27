@@ -92,7 +92,16 @@ public class EventService {
 			recommendedEvents.add(this.getEvent(eventsPoints[i][0]));   
 		}
 		
-		return recommendedEvents;
+		//TODO: aqui decidimos la cantidad de eventos recomendados a devolver:
+		List<Event> topRecommendedEvents;
+		if (recommendedEvents.size() > 4) {
+			topRecommendedEvents = recommendedEvents.subList(0, 5);
+		}
+		else {
+			topRecommendedEvents = recommendedEvents;
+		}
+		
+		return topRecommendedEvents;
 	}
 	
 	public void createEvent(Event event, int localId){

@@ -2,6 +2,8 @@ package es.udc.fi.tfg.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,6 +25,7 @@ public class CommentDAO {
 	@Autowired
 	private UserDAO userDAO;
 	
+	@Transactional
 	public void addComment(Comment bean, int eventId, int userId){
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
@@ -32,16 +35,18 @@ public class CommentDAO {
         
     }
     
+	@Transactional
     private void addComment(Session session, Comment bean, int eventId, int userId ){
-        Comment comment = new Comment();        
-        Event event = eventDAO.getEvent(eventId);
-        User user = userDAO.getUser(userId);        
+        Comment comment = new Comment();            
+        Event event = (Event) session.load(Event.class, eventId);
+        User user = (User) session.load(User.class, userId);       
         comment.setUser(user);
         comment.setEvent(event);       
         comment.setText(bean.getText());        
         session.save(comment);
     }
     
+	@Transactional
     public List<Comment> getComments(){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment");
@@ -50,6 +55,7 @@ public class CommentDAO {
         return comments;
     }
     
+	@Transactional
     public Comment getComment(int id){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment where id = :id");
@@ -59,6 +65,7 @@ public class CommentDAO {
         return comment;
     }
     
+	@Transactional
     public List<Comment> getCommentsFromEvent(int eventId){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment where event_id = :eventId");

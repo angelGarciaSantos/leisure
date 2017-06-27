@@ -19,37 +19,51 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 public class User {
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
+	private int id;
 	
-	private Long id;
+	@Column
 	private String name;
+	
+	@Column
 	private String email;
+	
+	@Column
+	private String password;
+	
 	//TODO: cambiar por enum.
+	@Column
 	private int type;
 	
-    private Set<Artist> artists = new HashSet<Artist>(0);
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_artist", catalog = "leisuredb", joinColumns = {
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "artist_id",
+					nullable = false, updatable = false) })
+    private Set<Artist> artists = new HashSet<Artist>();
 	
-	public User(Long id, String name, String email, int type){
+	public User(int id, String name, String email, String password, int type){
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.password = password;
 		this.type = type;
 	}
 	
 	public User(){
 	}
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id")
-	public Long getId() {
+    
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	@Column
 	public String getName() {
 		return name;
 	}
@@ -58,7 +72,6 @@ public class User {
 		this.name = name;
 	}
 
-	@Column
 	public String getEmail() {
 		return email;
 	}
@@ -66,8 +79,15 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
-	@Column
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public int getType() {
 		return type;
 	}
@@ -76,12 +96,6 @@ public class User {
 		this.type = type;
 	}
 
-	@Column
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_artist", catalog = "leisuredb", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "artist_id",
-					nullable = false, updatable = false) })
 	public Set<Artist> getArtists() {
 		return artists;
 	}

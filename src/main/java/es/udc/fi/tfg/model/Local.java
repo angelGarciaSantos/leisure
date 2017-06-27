@@ -11,7 +11,7 @@ public class Local {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	@Column
 	private String name;
 	@Column
@@ -21,7 +21,7 @@ public class Local {
 	@Column
 	private double rating;
 	
-	public Local(long id, String name, String description, int capacity, double rating) {
+	public Local(int id, String name, String description, int capacity, double rating) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -32,11 +32,11 @@ public class Local {
 	public Local(){
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

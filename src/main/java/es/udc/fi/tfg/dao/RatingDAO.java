@@ -34,9 +34,9 @@ public class RatingDAO {
     }
     
     private void addRating(Session session, Rating bean, int eventId, int userId ){
-        Rating rating = new Rating();        
-        Event event = eventService.getEvent(eventId);
-        User user = userService.getUser(userId);        
+        Rating rating = new Rating(); 
+        Event event = (Event) session.load(Event.class, eventId);
+        User user = (User) session.load(User.class, userId);        
         rating.setUser(user);
         rating.setEvent(event);       
         rating.setRating(bean.getRating());        

@@ -27,6 +27,7 @@ public class UserDAO {
 	        
 	        user.setName(bean.getName());
 	        user.setEmail(bean.getEmail());
+	        user.setPassword(bean.getPassword());
 	        user.setType(bean.getType());
 	        
 	        session.save(user);
@@ -47,6 +48,15 @@ public class UserDAO {
 	        List<User> users =  query.list();
 	        session.close();
 	        return users;
+	    }
+	    
+	    public User getUserEmail(String email){
+	        Session session = SessionUtil.getSession();    
+	        Query query = session.createQuery("from User where email = :email");
+	        query.setString("email", email);
+	        User user =  (User) query.uniqueResult();
+	        session.close();
+	        return user;
 	    }
 	    
 	    public User getUser(int id){
@@ -71,6 +81,7 @@ public class UserDAO {
 	        return rowCount;
 	    }
 	    
+	    //TODO: actualizar password?
 	    public int updateUser(int id, User user){
 	         if(id <=0)  
 	               return 0;  

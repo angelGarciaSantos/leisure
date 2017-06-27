@@ -9,22 +9,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Rating")
 public class Rating {
 
-	private Long id;
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
     
+	@Column
 	private double rating;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
     private User user;
+	
+    @ManyToOne(cascade = CascadeType.ALL)
     private Event event;
 	
-	public Rating (Long id, double rating){
+	public Rating (int id, double rating){
 		this.id = id;
 		this.rating = rating;	
 	}
 	
-	public Rating (Long id, double rating, User user, Event event){
+	public Rating (int id, double rating, User user, Event event){
 		this.id = id;
 		this.rating = rating;
 		this.user = user;
@@ -34,18 +44,16 @@ public class Rating {
 	public Rating(){	
 	}
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id")
-	public Long getId() {
+    
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	@Column
+	
 	public double getRating() {
 		return rating;
 	}
@@ -54,7 +62,6 @@ public class Rating {
 		this.rating = rating;
 	}
 
-    @ManyToOne(cascade = CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
@@ -63,7 +70,6 @@ public class Rating {
 		this.user = user;
 	}
 
-    @ManyToOne(cascade = CascadeType.ALL)
 	public Event getEvent() {
 		return event;
 	}

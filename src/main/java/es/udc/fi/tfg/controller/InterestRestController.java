@@ -25,6 +25,8 @@ import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.InterestService;
 import es.udc.fi.tfg.service.RatingService;
+import es.udc.fi.tfg.service.TagService;
+import es.udc.fi.tfg.service.UserService;
 
 @CrossOrigin
 @RestController
@@ -34,17 +36,23 @@ public class InterestRestController {
 	private InterestService interestService;
 	
 	@Autowired
+	private TagService tagService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private EventService eventService;
 	
 	@Autowired
 	private ArtistService artistService;
 	
-	@GetMapping("/interests")
+	@GetMapping("/private/interests")
 	public ResponseEntity<List<Interest>> getInterests() {
 		return new ResponseEntity<List<Interest>> (interestService.getInterests(), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/interests/{id}")
+	@GetMapping("/private/interests/{id}")
 	public ResponseEntity<Interest> getInterest(@PathVariable int id) {
 		Interest interest = interestService.getInterest(id);
 		if (interest == null){
@@ -55,8 +63,19 @@ public class InterestRestController {
 		}	
 	}	
 	
+	@GetMapping("/private/interests/tag/user/{tagId}/{userId}")
+	public ResponseEntity existsInterest(@PathVariable int tagId, @PathVariable int userId) {
+		if ((tagService.getTag(tagId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El Tag o Usuario indicados no existen. Tag: "+
+				tagId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Integer>(interestService.existsInterest(tagId, userId), HttpStatus.OK);
+		}	
+	}	
+	
 	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
-	@GetMapping("/interests/user/{userId}")
+	@GetMapping("/private/interests/user/{userId}")
 	public ResponseEntity<List<Interest>> getInterestsFromUser(@PathVariable int userId) {
 //		if (eventService.getEvent(eventId) == null){
 //			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
@@ -66,16 +85,23 @@ public class InterestRestController {
 //		}
 	}	
 	
+	//TODO: ver como comprobar que se crea correctamente desde el DAO
+		@PostMapping(value = "/private/interests/event/{eventId}/{userId}")
+		public ResponseEntity<Rating> createInterestByEvent(@RequestBody Interest interest, @PathVariable int eventId, @PathVariable int userId) {
+			
+			interestService.createInterestByEvent(interest, eventId, userId);
+			return new ResponseEntity<Rating>(HttpStatus.CREATED);
+		}
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
-	@PostMapping(value = "/interests/{tagId}/{userId}")
+	@PostMapping(value = "/private/interests/{tagId}/{userId}")
 	public ResponseEntity<Rating> createInterest(@RequestBody Interest interest, @PathVariable int tagId, @PathVariable int userId) {
 		
 		interestService.createInterest(interest, tagId, userId);
 		return new ResponseEntity<Rating>(HttpStatus.CREATED);
 	}
 		
-	@DeleteMapping("/interests/{id}")
+	@DeleteMapping("/private/interests/{id}")
 	public ResponseEntity<String> deleteInterest(@PathVariable int id) {
 		int rows = interestService.deleteInterest(id);
 		if (rows < 1) {
@@ -86,7 +112,7 @@ public class InterestRestController {
 		}
 	}
 
-	@PutMapping("/interests/{id}")
+	@PutMapping("/private/interests/{id}")
 	public ResponseEntity<String> updateInterest(@PathVariable int id, @RequestBody Interest interest) {
 		if (interest.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);

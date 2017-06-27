@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Tag;
 import es.udc.fi.tfg.service.ArtistService;
+import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.TagService;
 
 @CrossOrigin
@@ -27,6 +28,9 @@ public class TagRestController {
 	
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private EventService eventService;
 	
 	@GetMapping("/tags")
 	public ResponseEntity<List<Tag>> getTags() {
@@ -48,6 +52,16 @@ public class TagRestController {
 		}
 	}
 	
+	@GetMapping("/tags/event/{eventId}")
+	public ResponseEntity getTagsFromEvent(@PathVariable int eventId) {
+		if (eventService.getEvent(eventId) == null ) {
+			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<List<Tag>>(tagService.getTagsFromEvent(eventId),HttpStatus.OK);		
+		}
+	}
+	
 	@GetMapping("/tags/{id}")
 	public ResponseEntity<Tag> getTag(@PathVariable int id) {
 		Tag tag = tagService.getTag(id);
@@ -59,13 +73,13 @@ public class TagRestController {
 		}
 	}	
 	
-	@PostMapping(value = "/tags")
+	@PostMapping(value = "/private/tags")
 	public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
 		tagService.createTag(tag);
 		return new ResponseEntity<Tag>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/tags/{id}")
+	@DeleteMapping("/private/tags/{id}")
 	public ResponseEntity<String> deleteTag(@PathVariable int id) {
 		int rows = tagService.deleteTag(id);
 		if (rows < 1) {
@@ -76,7 +90,7 @@ public class TagRestController {
 		}
 	}
 
-	@PutMapping("/tags/{id}")
+	@PutMapping("/private/tags/{id}")
 	public ResponseEntity<String> updateTag(@PathVariable int id, @RequestBody Tag tag) {
 		if (tag.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);

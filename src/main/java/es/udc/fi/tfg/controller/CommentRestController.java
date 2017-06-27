@@ -60,14 +60,14 @@ public class CommentRestController {
 	}	
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
-	@PostMapping(value = "/comments/{eventId}/{userId}")
+	@PostMapping(value = "/private/comments/{eventId}/{userId}")
 	public ResponseEntity<Comment> createComment(@RequestBody Comment comment, @PathVariable int eventId, @PathVariable int userId) {
 		
 		commentService.createComment(comment, eventId, userId);
 		return new ResponseEntity<Comment>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/comments/{id}")
+	@DeleteMapping("/private/comments/{id}")
 	public ResponseEntity<String> deleteComment(@PathVariable int id) {
 		int rows = commentService.deleteComment(id);
 		if (rows < 1) {
@@ -78,7 +78,7 @@ public class CommentRestController {
 		}
 	}
 
-	@PutMapping("/comments/{id}")
+	@PutMapping("/private/comments/{id}")
 	public ResponseEntity<String> updateComment(@PathVariable int id, @RequestBody Comment comment) {
 		if (comment.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);

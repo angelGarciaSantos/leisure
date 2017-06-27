@@ -37,8 +37,8 @@ public class InterestDAO {
     
     private void addInterest(Session session, Interest bean, int tagId, int userId ){
         Interest interest = new Interest();        
-        Tag tag = tagService.getTag(tagId);
-        User user = userService.getUser(userId);        
+        Tag tag = (Tag) session.load(Tag.class, tagId);
+        User user = (User) session.load(User.class, userId);        
         interest.setUser(user);
         interest.setTag(tag);       
         interest.setPoints(bean.getPoints());        
@@ -69,6 +69,22 @@ public class InterestDAO {
         List<Interest> interests =  query.list();
         session.close();
         return interests;
+    }
+    
+    public int existsInterest(int tagId, int userId){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Interest where tag_id = :tagId AND user_id = :userId");
+        query.setInteger("tagId", tagId);
+        query.setInteger("userId", userId);
+        List<Interest> interests =  query.list();
+        session.close();
+        
+        if(interests.size() > 0) {
+        	return interests.get(0).getId();
+        }
+        else {
+        	return -1;
+        }
     }
     
     public int deleteInterest(int id) {

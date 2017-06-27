@@ -15,20 +15,26 @@ import javax.persistence.Table;
 @Table(name = "Comment")
 public class Comment {	
 
-	private Long id;
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private int id;
     
+	@Column
 	private String text;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
     
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Event event;
 	
-	public Comment (Long id, String text){
+	public Comment (int id, String text){
 		this.id = id;
 		this.text = text;
 	}
 	
-	public Comment (Long id, String text, User user, Event event){
+	public Comment (int id, String text, User user, Event event){
 		this.id = id;
 		this.text = text;
 		this.user = user;
@@ -38,18 +44,14 @@ public class Comment {
 	public Comment() {
 	}
 	
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id")
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	@Column
 	public String getText() {
 		return text;
 	}
@@ -58,7 +60,6 @@ public class Comment {
 		this.text = text;
 	}
     
-	@ManyToOne(cascade = CascadeType.ALL)
 	public User getUser() {
 		return user;
 	}
@@ -67,7 +68,6 @@ public class Comment {
 		this.user = user;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
 	public Event getEvent() {
 		return event;
 	}

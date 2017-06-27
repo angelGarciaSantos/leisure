@@ -73,6 +73,7 @@ CREATE TABLE User (
 	id int (11) NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
+	password varchar(255) NOT NULL,
 	type int (11) NOT NULL,
 	CONSTRAINT user_PK PRIMARY KEY (id)
 );

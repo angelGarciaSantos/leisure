@@ -24,6 +24,10 @@ public class UserService {
 		return userDAO.getUsersKeywords(keywords);
 	}
 	
+	public User getUserEmail(String email) {
+		return userDAO.getUserEmail(email);
+	}
+	
 	public User getUser(int id){
 		return userDAO.getUser(id);
 	}

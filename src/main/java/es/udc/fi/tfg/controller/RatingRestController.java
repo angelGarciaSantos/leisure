@@ -85,14 +85,14 @@ public class RatingRestController {
 	}	
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
-	@PostMapping(value = "/ratings/{eventId}/{userId}")
+	@PostMapping(value = "/private/ratings/{eventId}/{userId}")
 	public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) {
 		
 		ratingService.createRating(rating, eventId, userId);
 		return new ResponseEntity<Rating>(HttpStatus.CREATED);
 	}
 		
-	@DeleteMapping("/ratings/{id}")
+	@DeleteMapping("/private/ratings/{id}")
 	public ResponseEntity<String> deleteRating(@PathVariable int id) {
 		int rows = ratingService.deleteRating(id);
 		if (rows < 1) {
@@ -103,7 +103,7 @@ public class RatingRestController {
 		}
 	}
 
-	@PutMapping("/ratings/{id}")
+	@PutMapping("/private/ratings/{id}")
 	public ResponseEntity<String> updateRating(@PathVariable int id, @RequestBody Rating rating) {
 		if (rating.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);

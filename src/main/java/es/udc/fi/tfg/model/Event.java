@@ -33,15 +33,35 @@ import es.udc.fi.tfg.config.JsonDateSerializer;
 @Table(name = "Event")
 public class Event {
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
 	private int id;
+	
+	@Column
 	private String name;
+	
+	@Column
     private String description;
+	
+	@Column(name = "begin_date", nullable = false, updatable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
     private Date beginDate;
+	
+	@Column(name = "end_date", nullable = false, updatable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
     private Date endDate;
    
-    private Set<Artist> artists = new HashSet<Artist>(0);
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
+			@JoinColumn(name = "event_id", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "artist_id",
+					nullable = false, updatable = false) })
+    private Set<Artist> artists = new HashSet<Artist>();
     
-    
+    @ManyToOne(cascade = CascadeType.ALL)
     private Local local;
     
 	public Event(int id, String name, String description, Date beginDate, Date endDate) {
@@ -52,22 +72,18 @@ public class Event {
 		this.endDate = endDate;
 	}
 	
-	public Event(int id, String name, String description, Date beginDate, Date endDate,Set<Artist> artists, Local local) {
+	public Event(int id, String name, String description, Date beginDate, Date endDate, Local local) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.beginDate = beginDate;
 		this.endDate = endDate;
-		this.artists = artists;
 		this.local = local;
 	}
 	
 	public Event(){
 	}
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id")
 	public int getId() {
 		return id;
 	}
@@ -76,7 +92,6 @@ public class Event {
 		this.id = id;
 	}
 
-	@Column
 	public String getName() {
 		return name;
 	}
@@ -85,7 +100,6 @@ public class Event {
 		this.name = name;
 	}
 
-	@Column
 	public String getDescription() {
 		return description;
 	}
@@ -94,9 +108,6 @@ public class Event {
 		this.description = description;
 	}
 
-    @Column(name = "begin_date", nullable = false, updatable=true)
-    @Temporal(TemporalType.TIMESTAMP)
-	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getBeginDate() {
 		return beginDate;
 	}
@@ -106,9 +117,6 @@ public class Event {
 		this.beginDate = beginDate;
 	}
 
-	@Column(name = "end_date", nullable = false, updatable=true)
-    @Temporal(TemporalType.TIMESTAMP)
-	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -119,12 +127,12 @@ public class Event {
 	}
 
     //@JsonIgnore
-	@Column
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
-			@JoinColumn(name = "event_id", nullable = false, updatable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "artist_id",
-					nullable = false, updatable = false) })
+//	@Column
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//	@JoinTable(name = "event_artist", catalog = "leisuredb", joinColumns = {
+//			@JoinColumn(name = "event_id", nullable = false, updatable = false) },
+//			inverseJoinColumns = { @JoinColumn(name = "artist_id",
+//					nullable = false, updatable = false) })
 	public Set<Artist> getArtists() {
 		return artists;
 	}
@@ -133,7 +141,7 @@ public class Event {
 		this.artists = artists;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	
 	public Local getLocal() {
 		return local;
 	}

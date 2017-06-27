@@ -109,10 +109,21 @@ public class ArtistService {
 		List<Artist> recommendedArtists = new ArrayList<Artist>();
 
 		for (int j=0;j<artistsPoints.length;j++){
-			recommendedArtists.add(this.getArtist(artistsPoints[j][0]));   
+			if(!(this.isFollowingArtist(artistsPoints[j][0], userId))) {
+				recommendedArtists.add(this.getArtist(artistsPoints[j][0]));   
+			}
 		}
 		
-		return recommendedArtists;
+		//TODO: aqui elegimos la cantidad de artistas recomendados a devolver:
+		List<Artist> topRecommendedArtists;
+		if(recommendedArtists.size() > 4) {
+			topRecommendedArtists = recommendedArtists.subList(0, 5);
+		}
+		else {
+			topRecommendedArtists = recommendedArtists;
+		}
+		
+		return topRecommendedArtists;
 	}
 	
 	public List<Artist> getArtistsFromEvent(int eventId) {
