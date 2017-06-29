@@ -13,6 +13,7 @@ import es.udc.fi.tfg.dao.TagDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Service
 public class TagService {
@@ -71,7 +72,7 @@ public class TagService {
 		tagDAO.addTag(tag);
 	}
 	
-	public int deleteTag(int id){
+	public int deleteTag(int id) throws EntityNotRemovableException{
 		return tagDAO.deleteTag(id);
 	}
 	

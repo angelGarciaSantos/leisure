@@ -9,6 +9,7 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.LocalDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Service
 public class LocalService {
@@ -31,7 +32,7 @@ public class LocalService {
 		localDAO.addLocal(local);
 	}
 	
-	public int deleteLocal(int id){
+	public int deleteLocal(int id) throws EntityNotRemovableException{
 		return localDAO.deleteLocal(id);
 	}
 	

@@ -26,6 +26,7 @@ import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @CrossOrigin
 @RestController
@@ -99,7 +100,17 @@ public class ArtistRestController {
 			return new ResponseEntity<String>("No existe el artista "+id, HttpStatus.NOT_FOUND);
 		}
 		else {
-			int rows = artistService.deleteArtist(id);
+			int rows;
+			try{
+				rows = artistService.deleteArtist(id);
+			}
+			catch(EntityNotRemovableException e){
+				return new ResponseEntity<String>(HttpStatus.LOCKED);
+			}
+			catch(Exception e){
+				return new ResponseEntity<String>("No ha podido eliminarse el Artista: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
 			if (rows < 1) {
 				logger.error("No ha podido eliminarse el Artista: " + id);
 				return new ResponseEntity<String>("No ha podido eliminarse el Artista: " + id, HttpStatus.INTERNAL_SERVER_ERROR);

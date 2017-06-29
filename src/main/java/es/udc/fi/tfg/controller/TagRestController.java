@@ -19,6 +19,7 @@ import es.udc.fi.tfg.model.Tag;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.TagService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @CrossOrigin
 @RestController
@@ -81,7 +82,16 @@ public class TagRestController {
 	
 	@DeleteMapping("/private/tags/{id}")
 	public ResponseEntity<String> deleteTag(@PathVariable int id) {
-		int rows = tagService.deleteTag(id);
+		int rows;
+		try{
+			rows = tagService.deleteTag(id);
+		}
+		catch(EntityNotRemovableException e){
+			return new ResponseEntity<String>(HttpStatus.LOCKED);
+		}
+		catch(Exception e){
+			return new ResponseEntity<String>("No ha podido eliminarse el Tag: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse el Tag "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -2,13 +2,17 @@ package es.udc.fi.tfg.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Component
 public class TagDAO {
@@ -63,16 +67,25 @@ public class TagDAO {
 		return sqlQuery.list();
     }
 	
-    public int deleteTag(int id) {
+    @Transactional
+    public int deleteTag(int id) throws EntityNotRemovableException {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         String hql = "delete from Tag where id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
-        System.out.println("Rows affected: " + rowCount);
+        int rowCount = 0;
+        try{
+            rowCount = query.executeUpdate();
+        }
+        catch(ConstraintViolationException e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Tag.");
+        }    
         tx.commit();
-        session.close();
+        System.out.println("Rows affected: " + rowCount);
+
         return rowCount;
     }
     

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import es.udc.fi.tfg.dao.EventDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Service
 public class EventService {
@@ -108,7 +109,7 @@ public class EventService {
 		eventDAO.addEvent(event, localId);
 	}
 	
-	public int deleteEvent(int id){
+	public int deleteEvent(int id) throws EntityNotRemovableException{
 		return eventDAO.deleteEvent(id);
 	}
 	

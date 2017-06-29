@@ -4,14 +4,18 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Employee;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Component
 public class ArtistDAO {
@@ -69,16 +73,25 @@ public class ArtistDAO {
 		return sqlQuery.list();
     }
 	
-    public int deleteArtist(int id) {
+    @Transactional
+    public int deleteArtist(int id) throws Exception {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
-        String hql = "delete from Artist where id = :id";
+        String hql = "delete from Artist where artist_id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
+        int rowCount = 0;
+        try{
+            rowCount = query.executeUpdate();
+        }
+        catch(ConstraintViolationException e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Artista.");
+        }       
+        tx.commit(); 
         System.out.println("Rows affected: " + rowCount);
-        tx.commit();
-        //session.close();
+
         return rowCount;
     }
     

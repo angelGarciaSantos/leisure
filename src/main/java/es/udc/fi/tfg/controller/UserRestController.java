@@ -32,6 +32,7 @@ import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @CrossOrigin
 @RestController
@@ -145,7 +146,16 @@ public class UserRestController {
 	
 	@DeleteMapping("/private/users/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable int id) {
-		int rows = userService.deleteUser(id);
+		int rows;
+		try{
+			rows = userService.deleteUser(id);
+		}	
+		catch(EntityNotRemovableException e){
+			return new ResponseEntity<String>(HttpStatus.LOCKED);
+		}
+		catch(Exception e){
+			return new ResponseEntity<String>("No ha podido eliminarse el Usuario: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

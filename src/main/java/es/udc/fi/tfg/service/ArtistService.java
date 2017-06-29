@@ -140,7 +140,7 @@ public class ArtistService {
 		artistDAO.addArtist(artist);
 	}
 	
-	public int deleteArtist(int id){
+	public int deleteArtist(int id) throws Exception{
 		return artistDAO.deleteArtist(id);
 	}
 	

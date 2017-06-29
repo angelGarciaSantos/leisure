@@ -7,11 +7,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +25,7 @@ import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Component
 public class EventDAO {
@@ -75,17 +79,26 @@ public class EventDAO {
         session.close();
         return event;
     }
-	
-    public int deleteEvent(int id) {
+    
+    @Transactional
+    public int deleteEvent(int id) throws EntityNotRemovableException {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         String hql = "delete from Event where id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
-        System.out.println("Rows affected: " + rowCount);
+        int rowCount = 0;
+        try{
+        rowCount = query.executeUpdate();
+        }
+        catch(ConstraintViolationException e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Artista.");
+        }  
         tx.commit();
-        session.close();
+        System.out.println("Rows affected: " + rowCount);
+
         return rowCount;
     }
     

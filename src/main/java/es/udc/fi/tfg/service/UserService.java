@@ -10,6 +10,7 @@ import es.udc.fi.tfg.dao.UserDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @Service
 public class UserService {
@@ -36,7 +37,7 @@ public class UserService {
 		userDAO.addUser(user);
 	}
 	
-	public int deleteUser(int id){
+	public int deleteUser(int id) throws EntityNotRemovableException{
 		return userDAO.deleteUser(id);
 	}
 	

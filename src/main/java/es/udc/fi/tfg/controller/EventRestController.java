@@ -23,6 +23,7 @@ import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @CrossOrigin
 @RestController
@@ -69,7 +70,16 @@ public class EventRestController {
 	
 	@DeleteMapping("/private/events/{id}")
 	public ResponseEntity<String> deleteEvent(@PathVariable int id) {
-		int rows = eventService.deleteEvent(id);
+		int rows;
+		try{
+			rows = eventService.deleteEvent(id);
+		}
+		catch(EntityNotRemovableException e){
+			return new ResponseEntity<String>(HttpStatus.LOCKED);
+		}
+		catch(Exception e){
+			return new ResponseEntity<String>("No ha podido eliminarse el Evento: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse el Evento"+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

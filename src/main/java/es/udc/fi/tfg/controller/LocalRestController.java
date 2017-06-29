@@ -20,6 +20,7 @@ import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
 
 @CrossOrigin
 @RestController
@@ -56,7 +57,16 @@ public class LocalRestController {
 	
 	@DeleteMapping("/private/locals/{id}")
 	public ResponseEntity<String> deleteLocal(@PathVariable int id) {
-		int rows = localService.deleteLocal(id);
+		int rows;
+		try {
+			rows = localService.deleteLocal(id);
+		}
+		catch(EntityNotRemovableException e){
+			return new ResponseEntity<String>(HttpStatus.LOCKED);
+		}
+		catch(Exception e){
+			return new ResponseEntity<String>("No ha podido eliminarse el Local: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse el Local "+id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
