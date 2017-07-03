@@ -22,6 +22,7 @@ import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.service.TagService;
 import es.udc.fi.tfg.service.UserService;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 
@@ -36,6 +37,9 @@ public class EventRestController {
 	
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private TagService tagService;
 	
 	@Autowired
 	private LocalService localService;
@@ -168,6 +172,46 @@ public class EventRestController {
 		}
 	}	
 	
+	@GetMapping("/events/artist/{artistId}")
+	public ResponseEntity getNextEventsFromArtist(@PathVariable int artistId) {
+		if (artistService.getArtist(artistId) == null ) {
+			return new ResponseEntity<String>("El artista " + artistId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Event>>(eventService.getNextEventsFromArtist(artistId),HttpStatus.OK);		
+		}
+	}	
+	
+	@GetMapping("/events/local/{localId}")
+	public ResponseEntity getNextEventsFromLocal(@PathVariable int localId) {
+		if (localService.getLocal(localId) == null ) {
+			return new ResponseEntity<String>("El local " + localId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Event>>(eventService.getNextEventsFromLocal(localId),HttpStatus.OK);		
+		}
+	}	
+	
+	@GetMapping("/events/tag/{tagId}")
+	public ResponseEntity getNextEventsFromTag(@PathVariable int tagId) {
+		if (tagService.getTag(tagId) == null ) {
+			return new ResponseEntity<String>("El tag " + tagId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Event>>(eventService.getNextEventsFromTag(tagId),HttpStatus.OK);		
+		}
+	}	
+	
+	@GetMapping("/events/user/{userId}")
+	public ResponseEntity getEventsFromUser(@PathVariable int userId) {
+		if (userService.getUser(userId) == null ) {
+			return new ResponseEntity<String>("El usuario " + userId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<List<Event>>(eventService.getEventsFromUser(userId),HttpStatus.OK);		
+		}
+	}
+	
 	@GetMapping(value = "/private/events/user/{userId}")
 	public ResponseEntity getRecommendedEvents(@PathVariable int userId) {
 		if (userService.getUser(userId) == null) {
@@ -182,6 +226,55 @@ public class EventRestController {
 			List<Event> list = new ArrayList<Event>();
 			list = eventService.getRecommendedEvents(userId);
 			return new ResponseEntity<List<Event>>( list,HttpStatus.OK);
+		}
+	}
+	
+	@PostMapping(value = "/private/event/user/{eventId}/{userId}")
+	public ResponseEntity<String> followEvent(@PathVariable int eventId, @PathVariable int userId) {
+		if ((eventService.getEvent(eventId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El evento o usuario indicados no existen. Evento: "+
+				eventId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = eventService.followEvent(eventId, userId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido seguirse el evento " + eventId
+					+ " con el usuario " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
+	
+	@DeleteMapping(value = "/private/event/user/{eventId}/{userId}")
+	public ResponseEntity<String> unfollowEvent(@PathVariable int eventId, @PathVariable int userId) {
+		if ((eventService.getEvent(eventId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El evento o usuario indicados no existen. Evento: "+
+				eventId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = eventService.unfollowEvent(eventId, userId);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido dejar de seguirse el evento: " + eventId
+					+ " con el usuario: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
+	
+	@GetMapping(value = "/private/event/user/{eventId}/{userId}")
+	public ResponseEntity isFollowingEvent(@PathVariable int eventId, @PathVariable int userId) {
+		if ((eventService.getEvent(eventId) == null ) || userService.getUser(userId) == null) {
+			return new ResponseEntity<String>("El evento o usuario indicados no existen. Evento: "+
+				eventId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			List<Boolean> list = new ArrayList<Boolean>();
+			list.add(eventService.isFollowingEvent(eventId, userId));		
+			return new ResponseEntity<List<Boolean>>( list,HttpStatus.OK);
 		}
 	}
 	

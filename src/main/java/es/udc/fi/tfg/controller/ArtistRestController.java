@@ -78,6 +78,18 @@ public class ArtistRestController {
 			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromEvent(eventId),HttpStatus.OK);		
 		}
 	}
+	
+	@GetMapping("/artists/user/{userId}")
+	public ResponseEntity getArtistsFromUser(@PathVariable int userId) {
+		if (userService.getUser(userId) == null ) {
+			logger.error("El usuario " + userId + " no existe.");
+			return new ResponseEntity<String>("El usuario " + userId + " no existe.", HttpStatus.NOT_FOUND);
+		}
+		else {
+			logger.warn("Obteniendo los artistas seguidos por el usuario :" + userId);
+			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromUser(userId),HttpStatus.OK);		
+		}
+	}
 
 	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/private/artists")

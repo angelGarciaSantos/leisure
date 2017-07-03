@@ -88,15 +88,24 @@ public class RatingService {
 		return a;
 	}
 	
+	public boolean existsRating(int eventId, int userId){
+		return ratingDAO.existsRating(eventId, userId);
+	}
+	
 	public void createRating(Rating rating, int eventId, int userId){
-		ratingDAO.addRating(rating, eventId, userId);
+		if(!this.existsRating(eventId, userId)){
+			ratingDAO.addRating(rating, eventId, userId);
+		}
+		else {
+			ratingDAO.updateRating(rating, eventId, userId);
+		}		
 	}
 	
 	public int deleteRating(int id){
 		return ratingDAO.deleteRating(id);
 	}
 	
-	public int updateRating(int id, Rating rating){
-		return ratingDAO.updateRating(id, rating);
+	public int updateRating(Rating rating, int eventId, int userId){
+		return ratingDAO.updateRating(rating, eventId, userId);
 	}
 }

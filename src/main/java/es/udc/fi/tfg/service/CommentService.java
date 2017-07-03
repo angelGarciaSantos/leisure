@@ -1,5 +1,7 @@
 package es.udc.fi.tfg.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Event;
 
 @Service
 public class CommentService {
@@ -23,7 +26,17 @@ public class CommentService {
 	}
 	
 	public List<Comment> getCommentsFromEvent(int eventId){
-		return commentDAO.getCommentsFromEvent(eventId);
+		List<Comment> comments = commentDAO.getCommentsFromEvent(eventId);
+		
+		Collections.sort(comments, new Comparator<Comment>() {
+			  public int compare(Comment o1, Comment o2) {
+			      if (o1.getDate() == null || o2.getDate() == null)
+			        return 0;
+			      return o2.getDate().compareTo(o1.getDate());
+			  }
+			});
+		
+		return comments;
 	}
 	
 	public void createComment(Comment comment, int eventId, int userId){

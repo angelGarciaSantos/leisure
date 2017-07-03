@@ -60,6 +60,19 @@ public class RatingDAO {
         return rating;
     }
     
+    public boolean existsRating (int eventId, int userId) {
+    	 Session session = SessionUtil.getSession();    
+         Query query = session.createQuery("from Rating where event_id = :eventId and user_id = :userId");
+         query.setInteger("eventId",eventId);
+         query.setInteger("userId",userId);
+         Rating rating =  (Rating) query.uniqueResult();
+         session.close();
+         if (rating == null)
+        	 return false;
+         else
+        	 return true;
+    }
+    
     public List<Rating> getRatingsFromEvent(int eventId){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Rating where event_id = :eventId");
@@ -82,15 +95,14 @@ public class RatingDAO {
         return rowCount;
     }
     
-    public int updateRating(int id, Rating rating){
-         if(id <=0)  
-               return 0;  
+    public int updateRating(Rating rating, int eventId, int userId){
          Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
-            String hql = "update Rating set rating =:rating where id = :id";
+            String hql = "update Rating set rating =:rating where event_id = :eventId and user_id = :userId";
             Query query = session.createQuery(hql);
-            query.setInteger("id",id);
             query.setDouble("rating",rating.getRating());
+            query.setInteger("eventId",eventId);
+            query.setInteger("userId",userId);      
             int rowCount = query.executeUpdate();
             System.out.println("Rows affected: " + rowCount);
             tx.commit();

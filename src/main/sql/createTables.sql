@@ -8,6 +8,7 @@
 DROP TABLE Rating;
 DROP TABLE Comment;
 DROP TABLE User_Artist;
+DROP TABLE User_Event;
 DROP TABLE Interest;
 DROP TABLE User;
 DROP TABLE Event_Artist;
@@ -88,6 +89,15 @@ CREATE TABLE Interest (
 	CONSTRAINT interestUserIdFK FOREIGN KEY(user_id) REFERENCES User (id)	
 );
 
+CREATE TABLE User_Event
+(
+    user_id INT NOT NULL,  
+    event_id INT NOT NULL,  
+    PRIMARY KEY (user_id, event_id),  
+    FOREIGN KEY (user_id) REFERENCES User(id) ON UPDATE CASCADE,  
+    FOREIGN KEY (event_id) REFERENCES Event(id) ON UPDATE CASCADE
+);
+
 CREATE TABLE User_Artist
 (
     user_id INT NOT NULL,  
@@ -100,6 +110,7 @@ CREATE TABLE User_Artist
 CREATE TABLE Comment (
 	id int (11) NOT NULL AUTO_INCREMENT,
 	text varchar(255) NOT NULL,
+	date TIMESTAMP NOT NULL,
 	event_id int (11) NOT NULL,
 	user_id int (11) NOT NULL,
 	CONSTRAINT comment_PK PRIMARY KEY (id),

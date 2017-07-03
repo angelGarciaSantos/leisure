@@ -102,20 +102,4 @@ public class RatingRestController {
 			return new ResponseEntity<String>(HttpStatus.OK);
 		}
 	}
-
-	@PutMapping("/private/ratings/{id}")
-	public ResponseEntity<String> updateRating(@PathVariable int id, @RequestBody Rating rating) {
-		if (rating.getId()!=id) {
-			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);
-		}
-		else{
-			int rows = ratingService.updateRating(id, rating);
-			if (rows < 1) {
-				return new ResponseEntity<String>("No ha podido actualizarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			else{
-				return new ResponseEntity<String>(HttpStatus.OK);
-			}
-		}
-	}
 }

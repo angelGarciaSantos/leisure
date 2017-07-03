@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -42,7 +43,9 @@ public class CommentDAO {
         User user = (User) session.load(User.class, userId);       
         comment.setUser(user);
         comment.setEvent(event);       
-        comment.setText(bean.getText());        
+        comment.setText(bean.getText());     
+        Date date = new Date();
+        comment.setDate(date);
         session.save(comment);
     }
     

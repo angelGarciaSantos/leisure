@@ -72,7 +72,23 @@ public class ArtistDAO {
 		//session.close();
 		return sqlQuery.list();
     }
+    
+    public List<Integer> getArtistsFromUser(int userId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from user_artist where user_id = ?");
+		sqlQuery.setParameter(0, userId);
+		//session.close();
+		return sqlQuery.list();
+    }
 	
+    public List<Integer> getArtistsFromTag(int tagId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from tag_artist where tag_id = ?");
+		sqlQuery.setParameter(0, tagId);
+		//session.close();
+		return sqlQuery.list();
+    }
+    
     @Transactional
     public int deleteArtist(int id) throws Exception {
         Session session = SessionUtil.getSession();

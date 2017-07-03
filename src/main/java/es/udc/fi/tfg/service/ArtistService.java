@@ -136,6 +136,22 @@ public class ArtistService {
 		return artists;
 	}
 	
+	public List<Artist> getArtistsFromUser(int userId) {
+		List<Integer> ids = artistDAO.getArtistsFromUser(userId);
+        List<Artist> artists = new ArrayList<Artist>();
+		for(Integer id : ids) {
+			artists.add(this.getArtist(id));
+        }
+			
+		return artists;
+	}
+	
+	public List<Integer> getArtistsFromTag(int tagId) {
+		List<Integer> ids = artistDAO.getArtistsFromTag(tagId);
+	
+		return ids;
+	}
+	
 	public void createArtist(Artist artist){
 		artistDAO.addArtist(artist);
 	}

@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.dao;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -173,6 +174,62 @@ public class EventDAO {
 		sqlQuery.setParameter(0, artistId);
 
 		return sqlQuery.list();
+    }
+    
+    public List<Event> getEventsFromLocal(int localId){
+        Session session = SessionUtil.getSession();    
+        Query query = session.createQuery("from Event where local_id = :localId");
+        query.setInteger("localId", localId);
+        //session.setCacheMode(CacheMode.IGNORE);
+        List<Event> events =  query.list();
+        
+        session.close();
+        return events;
+    }
+    
+    public List<Integer> getEventsFromUser(int userId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select event_id from user_event where user_id = ?");
+		sqlQuery.setParameter(0, userId);
+		//session.close();
+		return sqlQuery.list();
+    }
+    
+    public int followEvent (int eventId, int userId) {
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "INSERT INTO user_event(user_id, event_id) VALUES (?,?)");
+        insertQuery.setParameter(0, userId);
+        insertQuery.setParameter(1, eventId);
+        int rows = insertQuery.executeUpdate();
+        session.getTransaction().commit();  
+        //session.close();
+        return rows;    		
+    }
+	
+    public int unfollowEvent (int eventId, int userId) {
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "delete from User_Event where (user_id, event_id) = (?,?)");
+        insertQuery.setParameter(0, userId);
+        insertQuery.setParameter(1, eventId);
+        int rows = insertQuery.executeUpdate();
+        session.getTransaction().commit();
+        //session.close();
+        return rows;
+    }
+    
+    public int isFollowingEvent(int eventId, int userId) {
+    	Session session = SessionUtil.getSession();
+		SQLQuery sqlQuery = session.createSQLQuery("select count(*) from user_event where user_id = ? and event_id = ?");
+		sqlQuery.setParameter(0, userId);
+		sqlQuery.setParameter(1, eventId);
+		//session.close();
+		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
+		
+		return count;
     }
 	
 }

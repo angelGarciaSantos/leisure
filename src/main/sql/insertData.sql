@@ -76,8 +76,11 @@ VALUES (4, 1, 6, 1);
 INSERT INTO User_Artist (user_id, artist_id)
 VALUES (1,1);
 
-INSERT INTO Comment (id, text, event_id, user_id)
-VALUES (1,"Ha sido un conciertazo", 1, 1);
+INSERT INTO User_Event (user_id, event_id)
+VALUES (1,1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (1,"Ha sido un conciertazo", now(), 1, 1);
 
 INSERT INTO Rating (id, rating, event_id, user_id)
 VALUES (1, 9, 1, 1);

@@ -2,7 +2,9 @@ package es.udc.fi.tfg.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,5 +133,128 @@ public class EventService {
 	
 	public List<Integer> getEventsFromArtist(int artistId) {
 		return eventDAO.getEventsFromArtist(artistId);
+	}
+	
+	public List<Event> getNextEventsFromArtist(int artistId) {
+		List<Integer> ids = this.getEventsFromArtist(artistId);
+		List<Event> events = new ArrayList<Event>();
+		List<Event> resultEvents = new ArrayList<Event>();
+
+		for(int id : ids) {
+			events.add(this.getEvent(id));  
+		}
+		
+		Date date = new Date();
+		for(Event event : events) {			
+			if (event.getBeginDate().after(date)){
+				//events.remove(event);
+				resultEvents.add(event);
+			}
+		}
+		
+		Collections.sort(resultEvents, new Comparator<Event>() {
+			  public int compare(Event o1, Event o2) {
+			      if (o1.getBeginDate() == null || o2.getBeginDate() == null)
+			        return 0;
+			      return o1.getBeginDate().compareTo(o2.getBeginDate());
+			  }
+			});
+		
+		return resultEvents;
+	}
+	
+	public List<Event> getNextEventsFromLocal(int localId) {
+
+		List<Event> events = eventDAO.getEventsFromLocal(localId);
+		List<Event> resultEvents = new ArrayList<Event>();
+		
+		Date date = new Date();
+		for(Event event : events) {			
+			if (event.getBeginDate().after(date)){
+				//events.remove(event);
+				resultEvents.add(event);
+			}
+		}
+		
+		Collections.sort(resultEvents, new Comparator<Event>() {
+			  public int compare(Event o1, Event o2) {
+			      if (o1.getBeginDate() == null || o2.getBeginDate() == null)
+			        return 0;
+			      return o1.getBeginDate().compareTo(o2.getBeginDate());
+			  }
+			});
+		
+		return resultEvents;
+	}
+	
+	public List<Event> getNextEventsFromTag(int tagId) {
+		
+		List<Integer> artistIds = artistService.getArtistsFromTag(tagId);
+		List<Integer> eventIds;
+		List<Integer> totalEventIds = new ArrayList<Integer>();
+		List<Event> events = new ArrayList<Event>();
+		List<Event> resultEvents = new ArrayList<Event>();
+
+
+		for(int artistId : artistIds) {
+			//this.getEventsFromArtist(artistId);
+			//para cada evento del artista, ver si ya esta en eventIds. SI no, meterlo.
+			eventIds = getEventsFromArtist(artistId);
+			for (int eventId : eventIds) {
+				if (!totalEventIds.contains(eventId)){
+					totalEventIds.add(eventId);
+				}
+			}
+			eventIds.clear();
+		}
+
+		for(int id : totalEventIds) {
+			events.add(this.getEvent(id));  
+		}
+		
+		Date date = new Date();
+		for(Event event : events) {			
+			if (event.getBeginDate().after(date)){
+				//events.remove(event);
+				resultEvents.add(event);
+			}
+		}
+		
+		Collections.sort(resultEvents, new Comparator<Event>() {
+			  public int compare(Event o1, Event o2) {
+			      if (o1.getBeginDate() == null || o2.getBeginDate() == null)
+			        return 0;
+			      return o1.getBeginDate().compareTo(o2.getBeginDate());
+			  }
+			});
+		
+		return resultEvents;
+	}
+	
+	public List<Event> getEventsFromUser(int userId) {
+		List<Integer> ids = eventDAO.getEventsFromUser(userId);
+        List<Event> events = new ArrayList<Event>();
+		for(Integer id : ids) {
+			events.add(this.getEvent(id));
+        }
+			
+		return events;
+	}
+	
+	public int followEvent (int eventId, int userId){
+		return eventDAO.followEvent(eventId, userId);
+	}
+	
+	public int unfollowEvent (int eventId, int userId){
+		return eventDAO.unfollowEvent(eventId, userId);
+	}
+	
+	public boolean isFollowingEvent(int eventId, int userId) {
+		if (eventDAO.isFollowingEvent(eventId, userId) == 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
