@@ -12,14 +12,25 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class TagDAO {
-	public void addTag(Tag bean){
+	
+	@Transactional
+	public void addTag(Tag bean) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addTag(session,bean);        
+        try {
+        	addTag(session,bean);        
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear el tag.");
+        }   
         tx.commit();
         session.close();
         
@@ -97,7 +108,8 @@ public class TagDAO {
         return rowCount;
     }
     
-    public int updateTag(int id, Tag tag){
+    @Transactional
+    public int updateTag(int id, Tag tag) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
          Session session = SessionUtil.getSession();
@@ -106,7 +118,15 @@ public class TagDAO {
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("name",tag.getName());
-            int rowCount = query.executeUpdate();
+            int rowCount;
+            try {
+            	rowCount = query.executeUpdate();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("No se pudo actualizar el tag.");
+            }   
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
             session.close();

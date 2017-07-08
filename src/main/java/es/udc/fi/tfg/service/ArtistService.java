@@ -12,6 +12,9 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Interest;
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class ArtistService {
@@ -152,7 +155,7 @@ public class ArtistService {
 		return ids;
 	}
 	
-	public void createArtist(Artist artist){
+	public void createArtist(Artist artist) throws EntityNotCreatableException{
 		artistDAO.addArtist(artist);
 	}
 	
@@ -160,7 +163,7 @@ public class ArtistService {
 		return artistDAO.deleteArtist(id);
 	}
 	
-	public int updateArtist(int id, Artist artist){
+	public int updateArtist(int id, Artist artist) throws EntityNotUpdatableException{
 		return artistDAO.updateArtist(id, artist);
 	}
 	
@@ -176,11 +179,11 @@ public class ArtistService {
 		return exists;
 	}
 	
-	public int followArtist (int artistId, int userId){
+	public int followArtist (int artistId, int userId) throws EntityNotCreatableException{
 		return artistDAO.followArtist(artistId, userId);
 	}
 	
-	public int unfollowArtist (int artistId, int userId){
+	public int unfollowArtist (int artistId, int userId) throws EntityNotRemovableException{
 		return artistDAO.unfollowArtist(artistId, userId);
 	}
 	

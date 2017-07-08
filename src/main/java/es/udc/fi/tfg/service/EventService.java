@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import es.udc.fi.tfg.dao.EventDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
@@ -108,7 +109,7 @@ public class EventService {
 		return topRecommendedEvents;
 	}
 	
-	public void createEvent(Event event, int localId){
+	public void createEvent(Event event, int localId) throws EntityNotCreatableException{
 		eventDAO.addEvent(event, localId);
 	}
 	
@@ -120,15 +121,15 @@ public class EventService {
 		return eventDAO.updateEvent(id, event);
 	}
 	
-	public int addArtistToEvent(int eventId, int artistId){
+	public int addArtistToEvent(int eventId, int artistId) throws EntityNotCreatableException{
 		return eventDAO.addArtistToEvent(eventId, artistId);
 	}
 	
-	public int deleteArtistFromEvent (int eventId, int artistId){
+	public int deleteArtistFromEvent (int eventId, int artistId) throws EntityNotRemovableException{
 		return eventDAO.deleteArtistFromEvent(eventId, artistId);
 	}
 	
-	public int modifyLocalFromEvent (int eventId, int localId){
+	public int modifyLocalFromEvent (int eventId, int localId) throws EntityNotUpdatableException{
 		return eventDAO.modifyLocalFromEvent(eventId, localId);
 	}
 	
@@ -242,11 +243,11 @@ public class EventService {
 		return events;
 	}
 	
-	public int followEvent (int eventId, int userId){
+	public int followEvent (int eventId, int userId) throws EntityNotCreatableException{
 		return eventDAO.followEvent(eventId, userId);
 	}
 	
-	public int unfollowEvent (int eventId, int userId){
+	public int unfollowEvent (int eventId, int userId) throws EntityNotRemovableException{
 		return eventDAO.unfollowEvent(eventId, userId);
 	}
 	

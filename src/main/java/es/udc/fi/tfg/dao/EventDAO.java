@@ -26,6 +26,7 @@ import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
@@ -34,10 +35,18 @@ public class EventDAO {
 	@Autowired
 	private LocalService localService;
 	
-	public void addEvent(Event bean, int localId){
+	@Transactional
+	public void addEvent(Event bean, int localId) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addEvent(session,bean, localId);
+        try {
+        	addEvent(session,bean, localId);
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear el evento.");
+        }   
         tx.commit();
         session.close();  
     }
@@ -144,40 +153,69 @@ public class EventDAO {
          }
     }
     
-    public int addArtistToEvent(int eventId, int artistId){
+    @Transactional
+    public int addArtistToEvent(int eventId, int artistId) throws EntityNotCreatableException{
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "INSERT INTO event_artist(event_id, artist_id) VALUES (?,?)");
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
-        int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo añadir el artista al evento.");
+        }   
+        //session.getTransaction().commit();
+        tx.commit();
         session.close();
         return rows;
     }
     
-    public int deleteArtistFromEvent(int eventId, int artistId) {
+    @Transactional
+    public int deleteArtistFromEvent(int eventId, int artistId) throws EntityNotRemovableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "delete from Event_Artist where (event_id, artist_id) = (?,?)");
         insertQuery.setParameter(0, eventId);
         insertQuery.setParameter(1, artistId);
-        int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();
+        int rows;
+        try {
+            rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo eliminar el artista del evento.");
+        }   
+        //session.getTransaction().commit();
+        tx.commit();
         session.close();
         return rows;
     }
     
-    public int modifyLocalFromEvent(int eventId, int localId){
+    @Transactional
+    public int modifyLocalFromEvent(int eventId, int localId) throws EntityNotUpdatableException{
         Session session = SessionUtil.getSession();
            Transaction tx = session.beginTransaction();
            String hql = "update Event set local_id =:localId where id = :eventId";
            Query query = session.createQuery(hql);
            query.setInteger("eventId",eventId);
            query.setInteger("localId",localId);
-           int rowCount = query.executeUpdate();
+           int rowCount;
+           try {
+        	   rowCount = query.executeUpdate();
+           }
+           catch(Exception e)
+           {
+           	tx.rollback();
+           	throw new EntityNotUpdatableException("No se pudo modificar el local del evento.");
+           }   
            System.out.println("Rows affected: " + rowCount);
            tx.commit();
            session.close();
@@ -211,27 +249,47 @@ public class EventDAO {
 		return sqlQuery.list();
     }
     
-    public int followEvent (int eventId, int userId) {
+    @Transactional
+    public int followEvent (int eventId, int userId) throws EntityNotCreatableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "INSERT INTO user_event(user_id, event_id) VALUES (?,?)");
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, eventId);
-        int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();  
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo seguir el evento.");
+        }   
+        tx.commit();
+        //session.getTransaction().commit();  
         //session.close();
         return rows;    		
     }
 	
-    public int unfollowEvent (int eventId, int userId) {
+    @Transactional
+    public int unfollowEvent (int eventId, int userId) throws EntityNotRemovableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "delete from User_Event where (user_id, event_id) = (?,?)");
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, eventId);
-        int rows = insertQuery.executeUpdate();
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo dejar de seguir el evento.");
+        }   
+        
         session.getTransaction().commit();
         //session.close();
         return rows;

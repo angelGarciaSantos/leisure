@@ -2,6 +2,8 @@ package es.udc.fi.tfg.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,6 +17,9 @@ import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class RatingDAO {
@@ -24,10 +29,18 @@ public class RatingDAO {
 	@Autowired
 	private UserService userService;
 	
-	public void addRating(Rating bean, int eventId, int userId){
+	@Transactional
+	public void addRating(Rating bean, int eventId, int userId) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addRating(session,bean, eventId, userId);        
+        try {
+        	addRating(session,bean, eventId, userId);        
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear la valoración.");
+        }   
         tx.commit();
         session.close();
         
@@ -82,28 +95,46 @@ public class RatingDAO {
         return ratings;
     }
     
-    public int deleteRating(int id) {
+    @Transactional
+    public int deleteRating(int id) throws EntityNotRemovableException {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         String hql = "delete from Rating where id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
+        int rowCount;
+        try {
+        	rowCount = query.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo eliminar la valoración.");
+        }   
         System.out.println("Rows affected: " + rowCount);
         tx.commit();
         session.close();
         return rowCount;
     }
     
-    public int updateRating(Rating rating, int eventId, int userId){
+    @Transactional
+    public int updateRating(Rating rating, int eventId, int userId) throws EntityNotUpdatableException{
          Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
             String hql = "update Rating set rating =:rating where event_id = :eventId and user_id = :userId";
             Query query = session.createQuery(hql);
             query.setDouble("rating",rating.getRating());
             query.setInteger("eventId",eventId);
-            query.setInteger("userId",userId);      
-            int rowCount = query.executeUpdate();
+            query.setInteger("userId",userId);   
+            int rowCount;
+            try {
+            	rowCount = query.executeUpdate();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("No se pudo actualizar la valoración.");
+            }   
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
             session.close();

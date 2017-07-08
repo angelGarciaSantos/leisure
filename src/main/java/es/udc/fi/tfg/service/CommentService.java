@@ -11,6 +11,9 @@ import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Event;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class CommentService {
@@ -39,15 +42,15 @@ public class CommentService {
 		return comments;
 	}
 	
-	public void createComment(Comment comment, int eventId, int userId){
+	public void createComment(Comment comment, int eventId, int userId) throws EntityNotCreatableException{
 		commentDAO.addComment(comment, eventId, userId);
 	}
 	
-	public int deleteComment(int id){
+	public int deleteComment(int id) throws EntityNotRemovableException{
 		return commentDAO.deleteComment(id);
 	}
 	
-	public int updateComment(int id, Comment comment){
+	public int updateComment(int id, Comment comment) throws EntityNotUpdatableException{
 		return commentDAO.updateComment(id, comment);
 	}
 }

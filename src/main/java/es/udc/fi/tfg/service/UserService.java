@@ -10,7 +10,9 @@ import es.udc.fi.tfg.dao.UserDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class UserService {
@@ -33,7 +35,7 @@ public class UserService {
 		return userDAO.getUser(id);
 	}
 	
-	public void createUser(User user){
+	public void createUser(User user) throws EntityNotCreatableException{
 		userDAO.addUser(user);
 	}
 	
@@ -41,7 +43,7 @@ public class UserService {
 		return userDAO.deleteUser(id);
 	}
 	
-	public int updateUser(int id, User user){
+	public int updateUser(int id, User user) throws EntityNotUpdatableException{
 		return userDAO.updateUser(id, user);
 	}
 	

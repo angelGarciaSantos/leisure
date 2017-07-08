@@ -15,14 +15,25 @@ import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Employee;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class ArtistDAO {
-    public void addArtist(Artist bean){
+	
+	@Transactional
+    public void addArtist(Artist bean) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addArtist(session,bean);        
+        try{
+        	addArtist(session,bean);
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("El artista no pudo crearse.");
+        }   
         tx.commit();
         session.close();
         
@@ -123,7 +134,7 @@ public class ArtistDAO {
         return rowCount;
     }
     
-    public int updateArtist(int id, Artist art){
+    public int updateArtist(int id, Artist art) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
          Session session = SessionUtil.getSession();
@@ -134,35 +145,61 @@ public class ArtistDAO {
             query.setString("name",art.getName());
             query.setString("description",art.getDescription());
             query.setString("image", art.getImage());
-            int rowCount = query.executeUpdate();
+            int rowCount;
+            try {
+            	rowCount = query.executeUpdate();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("El artista no pudo actualizarse.");
+            }   
+            
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
             //session.close();
             return rowCount;
     }
     
-    public int followArtist (int artistId, int userId) {
+    public int followArtist (int artistId, int userId) throws EntityNotCreatableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "INSERT INTO user_artist(user_id, artist_id) VALUES (?,?)");
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, artistId);
-        int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();  
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo seguir al artista.");
+        }   
+        tx.commit();  
         //session.close();
         return rows;    		
     }
 	
-    public int unfollowArtist (int artistId, int userId) {
+    public int unfollowArtist (int artistId, int userId) throws EntityNotRemovableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         SQLQuery insertQuery = session.createSQLQuery("" +
         "delete from User_Artist where (user_id, artist_id) = (?,?)");
         insertQuery.setParameter(0, userId);
         insertQuery.setParameter(1, artistId);
-        int rows = insertQuery.executeUpdate();
-        session.getTransaction().commit();
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo dejar de seguir al artista.");
+        }   
+        //session.getTransaction().commit();
+        tx.commit();
         //session.close();
         return rows;
     }

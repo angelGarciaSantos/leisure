@@ -16,6 +16,9 @@ import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class CommentDAO {
@@ -27,16 +30,22 @@ public class CommentDAO {
 	private UserDAO userDAO;
 	
 	@Transactional
-	public void addComment(Comment bean, int eventId, int userId){
+	public void addComment(Comment bean, int eventId, int userId) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addComment(session,bean, eventId, userId);        
+        try {
+        	addComment(session,bean, eventId, userId);  
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear el comentario.");
+        }   
         tx.commit();
         session.close();
         
     }
     
-	@Transactional
     private void addComment(Session session, Comment bean, int eventId, int userId ){
         Comment comment = new Comment();            
         Event event = (Event) session.load(Event.class, eventId);
@@ -49,7 +58,6 @@ public class CommentDAO {
         session.save(comment);
     }
     
-	@Transactional
     public List<Comment> getComments(){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment");
@@ -58,7 +66,6 @@ public class CommentDAO {
         return comments;
     }
     
-	@Transactional
     public Comment getComment(int id){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment where id = :id");
@@ -68,7 +75,6 @@ public class CommentDAO {
         return comment;
     }
     
-	@Transactional
     public List<Comment> getCommentsFromEvent(int eventId){
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment where event_id = :eventId");
@@ -78,20 +84,30 @@ public class CommentDAO {
         return comments;
     }
 	
-    public int deleteComment(int id) {
+    @Transactional
+    public int deleteComment(int id) throws EntityNotRemovableException {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         String hql = "delete from Comment where id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
+        int rowCount;
+        try {
+        	rowCount = query.executeUpdate();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo eliminar el comentario.");
+        }   
         System.out.println("Rows affected: " + rowCount);
         tx.commit();
         session.close();
         return rowCount;
     }
     
-    public int updateComment(int id, Comment comment){
+    @Transactional
+    public int updateComment(int id, Comment comment) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
          Session session = SessionUtil.getSession();
@@ -100,7 +116,15 @@ public class CommentDAO {
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("text",comment.getText());
-            int rowCount = query.executeUpdate();
+            int rowCount;
+            try {
+            	rowCount = query.executeUpdate();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("No se pudo actualizar el comentario");
+            }   
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
             session.close();

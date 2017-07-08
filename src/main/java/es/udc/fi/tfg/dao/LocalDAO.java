@@ -12,14 +12,24 @@ import org.springframework.stereotype.Component;
 
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class LocalDAO {
-    public void addLocal(Local bean){
+    @Transactional
+	public void addLocal(Local bean) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addLocal(session,bean);        
+        try {
+        	addLocal(session,bean);        
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear el local.");
+        }   
         tx.commit();
         session.close();
         
@@ -71,28 +81,6 @@ public class LocalDAO {
         session.close();
         return local;
     }
-	
-    @Transactional
-    public int deleteArtist(int id) throws Exception {
-        Session session = SessionUtil.getSession();
-        Transaction tx = session.beginTransaction();
-        String hql = "delete from Artist where artist_id = :id";
-        Query query = session.createQuery(hql);
-        query.setInteger("id",id);
-        int rowCount = 0;
-        try{
-            rowCount = query.executeUpdate();
-        }
-        catch(ConstraintViolationException e)
-        {
-        	tx.rollback();
-        	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Artista.");
-        }       
-        tx.commit(); 
-        System.out.println("Rows affected: " + rowCount);
-
-        return rowCount;
-    }
     
     @Transactional
     public int deleteLocal(int id) throws EntityNotRemovableException {
@@ -115,7 +103,8 @@ public class LocalDAO {
         return rowCount;
     }
     
-    public int updateLocal(int id, Local local){
+    @Transactional
+    public int updateLocal(int id, Local local) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
          Session session = SessionUtil.getSession();
@@ -130,8 +119,15 @@ public class LocalDAO {
             query.setDouble("lng", local.getLng());
             query.setString("image",local.getImage());
 
-
-            int rowCount = query.executeUpdate();
+            int rowCount;
+            try {
+            	rowCount = query.executeUpdate();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("No se pudo modificar el local.");
+            }   
             System.out.println("Rows affected: " + rowCount);
             tx.commit();
             session.close();

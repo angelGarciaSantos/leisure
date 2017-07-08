@@ -9,7 +9,9 @@ import es.udc.fi.tfg.dao.ArtistDAO;
 import es.udc.fi.tfg.dao.LocalDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class LocalService {
@@ -28,7 +30,7 @@ public class LocalService {
 		return localDAO.getLocal(id);
 	}
 	
-	public void createLocal(Local local){
+	public void createLocal(Local local) throws EntityNotCreatableException{
 		localDAO.addLocal(local);
 	}
 	
@@ -36,7 +38,7 @@ public class LocalService {
 		return localDAO.deleteLocal(id);
 	}
 	
-	public int updateLocal(int id, Local local){
+	public int updateLocal(int id, Local local) throws EntityNotUpdatableException{
 		return localDAO.updateLocal(id, local);
 	}
 }

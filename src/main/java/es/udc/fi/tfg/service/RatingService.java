@@ -10,6 +10,9 @@ import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.dao.RatingDAO;
 import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Rating;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class RatingService {
@@ -92,7 +95,7 @@ public class RatingService {
 		return ratingDAO.existsRating(eventId, userId);
 	}
 	
-	public void createRating(Rating rating, int eventId, int userId){
+	public void createRating(Rating rating, int eventId, int userId) throws EntityNotCreatableException, EntityNotUpdatableException{
 		if(!this.existsRating(eventId, userId)){
 			ratingDAO.addRating(rating, eventId, userId);
 		}
@@ -101,11 +104,11 @@ public class RatingService {
 		}		
 	}
 	
-	public int deleteRating(int id){
+	public int deleteRating(int id) throws EntityNotRemovableException{
 		return ratingDAO.deleteRating(id);
 	}
 	
-	public int updateRating(Rating rating, int eventId, int userId){
+	public int updateRating(Rating rating, int eventId, int userId) throws EntityNotUpdatableException{
 		return ratingDAO.updateRating(rating, eventId, userId);
 	}
 }

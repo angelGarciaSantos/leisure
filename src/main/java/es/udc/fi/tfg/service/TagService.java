@@ -13,7 +13,9 @@ import es.udc.fi.tfg.dao.TagDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class TagService {
@@ -68,7 +70,7 @@ public class TagService {
 		return tagDAO.getTag(id);
 	}
 	
-	public void createTag(Tag tag){
+	public void createTag(Tag tag) throws EntityNotCreatableException{
 		tagDAO.addTag(tag);
 	}
 	
@@ -76,7 +78,7 @@ public class TagService {
 		return tagDAO.deleteTag(id);
 	}
 	
-	public int updateTag(int id, Tag tag){
+	public int updateTag(int id, Tag tag) throws EntityNotUpdatableException{
 		return tagDAO.updateTag(id, tag);
 	}
 }
