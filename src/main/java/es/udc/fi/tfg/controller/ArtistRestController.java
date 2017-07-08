@@ -42,16 +42,16 @@ public class ArtistRestController {
 	@Autowired
 	private EventService eventService;
 	
-	@GetMapping("/artists")
-	public ResponseEntity<List<Artist>> getArtists() {
+	@GetMapping("/artists/{first}/{max}")
+	public ResponseEntity<List<Artist>> getArtists(@PathVariable int first, @PathVariable int max ) {
 		logger.warn("Obteniendo todos los artistas.");
-		return new ResponseEntity<List<Artist>>(artistService.getArtists(), HttpStatus.OK);
+		return new ResponseEntity<List<Artist>>(artistService.getArtists(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/artists/keywords/{keywords}")
-	public ResponseEntity<List<Artist>> getArtistsKeywords(@PathVariable String keywords) {
+	@GetMapping("/artists/keywords/{keywords}/{first}/{max}")
+	public ResponseEntity<List<Artist>> getArtistsKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
 		logger.warn("Obteniendo artistas por palabras clave: " + keywords);
-		return new ResponseEntity<List<Artist>>(artistService.getArtistsKeywords(keywords), HttpStatus.OK);
+		return new ResponseEntity<List<Artist>>(artistService.getArtistsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/artists/{id}")
@@ -67,15 +67,15 @@ public class ArtistRestController {
 		}
 	}	
 	
-	@GetMapping("/artists/event/{eventId}")
-	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId) {
+	@GetMapping("/artists/event/{eventId}/{first}/{max}")
+	public ResponseEntity getArtistsFromEvent(@PathVariable int eventId, @PathVariable int first, @PathVariable int max) {
 		if (eventService.getEvent(eventId) == null ) {
 			logger.error("El evento " + eventId + " no existe.");
 			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
 			logger.warn("Obteniendo los artistas del evento :" + eventId);
-			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromEvent(eventId),HttpStatus.OK);		
+			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromEvent(eventId, first, max),HttpStatus.OK);		
 		}
 	}
 	

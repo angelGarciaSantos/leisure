@@ -26,28 +26,38 @@ public class LocalDAO {
     }
     
     private void addLocal(Session session, Local bean){
-    	Local local = new Local();
-        
-    	local.setName(bean.getName());
-    	local.setDescription(bean.getDescription());
-    	local.setCapacity(bean.getCapacity());
-    	local.setRating(bean.getRating());
-        
+    	
+    	Local local;
+     	if (bean.getImage()==null){
+     		local = new Local(bean.getName(), bean.getDescription(), bean.getCapacity(), bean.getLat(), bean.getLng());
+        }
+        else{
+     		local = new Local(bean.getName(), bean.getDescription(), bean.getCapacity(), bean.getLat(), bean.getLng(), bean.getImage());
+        }    
+    	
         session.save(local);
     }
     
-    public List<Local> getLocals(){
+    public List<Local> getLocals(int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Local");
+        Query query = session.createQuery("from Local order by id");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Local> locals =  query.list();
         session.close();
         return locals;
     }
     
-    public List<Local> getLocalsKeywords(String keywords){
+    public List<Local> getLocalsKeywords(String keywords, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Local where lower(name) LIKE lower(:keywords)");
+        Query query = session.createQuery("from Local where lower(name) LIKE lower(:keywords) order by id");
         query.setString("keywords", "%"+keywords+"%");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Local> locals =  query.list();
         session.close();
         return locals;
@@ -110,13 +120,17 @@ public class LocalDAO {
                return 0;  
          Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
-            String hql = "update Local set name =:name, description=:description, capacity =:capacity, rating =:rating where id = :id";
+            String hql = "update Local set name =:name, description=:description, capacity =:capacity, lat =:lat, lng =:lng, image =:image where id = :id";
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("name",local.getName());
             query.setString("description",local.getDescription());
             query.setInteger("capacity", local.getCapacity());
-            query.setDouble("rating", local.getRating());
+            query.setDouble("lat", local.getLat());
+            query.setDouble("lng", local.getLng());
+            query.setString("image",local.getImage());
+
+
             int rowCount = query.executeUpdate();
             System.out.println("Rows affected: " + rowCount);
             tx.commit();

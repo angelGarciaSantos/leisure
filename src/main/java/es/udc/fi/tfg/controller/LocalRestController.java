@@ -28,14 +28,14 @@ public class LocalRestController {
 	@Autowired
 	private LocalService localService;
 	
-	@GetMapping("/locals")
-	public ResponseEntity<List<Local>> getLocals() {
-		return new ResponseEntity<List<Local>>(localService.getLocals(), HttpStatus.OK);
+	@GetMapping("/locals/{first}/{max}")
+	public ResponseEntity<List<Local>> getLocals(@PathVariable int first, @PathVariable int max ) {
+		return new ResponseEntity<List<Local>>(localService.getLocals(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/locals/keywords/{keywords}")
-	public ResponseEntity<List<Local>> getLocalsKeywords(@PathVariable String keywords) {
-		return new ResponseEntity<List<Local>>(localService.getLocalsKeywords(keywords), HttpStatus.OK);
+	@GetMapping("/locals/keywords/{keywords}/{first}/{max}")
+	public ResponseEntity<List<Local>> getLocalsKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<Local>>(localService.getLocalsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/locals/{id}")

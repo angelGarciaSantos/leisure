@@ -37,18 +37,26 @@ public class UserDAO {
 	        session.save(user);
 	    }
 	    
-	    public List<User> getUsers(){
+	    public List<User> getUsers(int first, int max){
 	        Session session = SessionUtil.getSession();    
-	        Query query = session.createQuery("from User");
+	        Query query = session.createQuery("from User order by id");
+	        query.setFirstResult(first);
+	        if (max != -1){
+	            query.setMaxResults(max);
+	        }
 	        List<User> users =  query.list();
 	        session.close();
 	        return users;
 	    }
 	    
-	    public List<User> getUsersKeywords(String keywords){
+	    public List<User> getUsersKeywords(String keywords, int first, int max){
 	        Session session = SessionUtil.getSession();    
-	        Query query = session.createQuery("from User where lower(name) LIKE lower(:keywords)");
+	        Query query = session.createQuery("from User where lower(name) LIKE lower(:keywords) order by id");
 	        query.setString("keywords", "%"+keywords+"%");
+	        query.setFirstResult(first);
+	        if (max != -1){
+	            query.setMaxResults(max);
+	        }
 	        List<User> users =  query.list();
 	        session.close();
 	        return users;

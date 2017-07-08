@@ -31,12 +31,12 @@ public class ArtistService {
 	 	}
 	 }
 	
-	public List<Artist> getArtists() {
-		return artistDAO.getArtists();
+	public List<Artist> getArtists(int first, int max) {
+		return artistDAO.getArtists(first, max);
 	}
 	
-	public List<Artist> getArtistsKeywords(String keywords) {
-		return artistDAO.getArtistsKeywords(keywords);
+	public List<Artist> getArtistsKeywords(String keywords, int first, int max) {
+		return artistDAO.getArtistsKeywords(keywords, first, max);
 	}
 	
 	public Artist getArtist(int id){
@@ -71,7 +71,7 @@ public class ArtistService {
 	 	});
 		System.out.println(tagsPoints);
 
-		List<Artist> allArtists = this.getArtists();
+		List<Artist> allArtists = this.getArtists(0,-1);
 		Integer[][] artistsPoints;
 		artistsPoints = new Integer[allArtists.size()][];
 		int sum = 0;
@@ -126,8 +126,8 @@ public class ArtistService {
 		return topRecommendedArtists;
 	}
 	
-	public List<Artist> getArtistsFromEvent(int eventId) {
-		List<Integer> ids = artistDAO.getArtistsFromEvent(eventId);
+	public List<Artist> getArtistsFromEvent(int eventId, int first, int max) {
+		List<Integer> ids = artistDAO.getArtistsFromEvent(eventId, first, max);
         List<Artist> artists = new ArrayList<Artist>();
 		for(Integer id : ids) {
 			artists.add(this.getArtist(id));
@@ -166,7 +166,7 @@ public class ArtistService {
 	
 	public boolean existsArtist (Artist artist){
 		List<Artist> artists = new ArrayList<Artist>();
-		artists = artistDAO.getArtists();
+		artists = artistDAO.getArtists(0,-1);
 		boolean exists = false;
         for(Artist a : artists) {
         	if (artist.getName().equals(a.getName())){

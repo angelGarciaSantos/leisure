@@ -15,6 +15,7 @@ import es.udc.fi.tfg.dao.EventDAO;
 import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class EventService {
@@ -25,12 +26,12 @@ public class EventService {
 	@Autowired
 	private ArtistService artistService;
 	
-	public List<Event> getEvents() {
-		return eventDAO.getEvents();
+	public List<Event> getEvents(int first, int max) {
+		return eventDAO.getEvents(first, max);
 	}
 	
-	public List<Event> getEventsKeywords(String keywords) {
-		return eventDAO.getEventsKeywords(keywords);
+	public List<Event> getEventsKeywords(String keywords, int first, int max) {
+		return eventDAO.getEventsKeywords(keywords, first, max);
 	}
 	
 	public Event getEvent(int id){
@@ -58,7 +59,7 @@ public class EventService {
 	 	});
 		
 		List<Event> allEvents = new ArrayList<Event>();
-		allEvents = this.getEvents();
+		allEvents = this.getEvents(0, -1);
 		Integer[][] eventsPoints;
 		eventsPoints = new Integer[allEvents.size()][];
 		int sum = 0;
@@ -67,7 +68,7 @@ public class EventService {
 			//Buscar los artistas del evento en Event_Artist.
 			//Para cada uno ver si hay alguno en artistsPoints, y si lo hay sumar esos points a eventsPoints.
 			sum = 0;
-			List<Artist> artistsFromEvent = artistService.getArtistsFromEvent(event.getId());
+			List<Artist> artistsFromEvent = artistService.getArtistsFromEvent(event.getId(), 0, -1);
 			for (Artist artist : artistsFromEvent) {
 				for (int i = 0;i<artistsPoints.length;i++){
 					if(artistsPoints[i][0] == artist.getId()){
@@ -115,7 +116,7 @@ public class EventService {
 		return eventDAO.deleteEvent(id);
 	}
 	
-	public int updateEvent(int id, Event event){
+	public int updateEvent(int id, Event event) throws EntityNotUpdatableException{
 		return eventDAO.updateEvent(id, event);
 	}
 	

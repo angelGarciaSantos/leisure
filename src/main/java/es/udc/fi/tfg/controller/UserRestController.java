@@ -111,14 +111,14 @@ public class UserRestController {
 		return new ResponseEntity<List<String>>(info, HttpStatus.OK);
 	}
 	
-	@GetMapping("/private/users")
-	public ResponseEntity<List<User>> getUsers() {
-		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+	@GetMapping("/private/users/{first}/{max}")
+	public ResponseEntity<List<User>> getUsers(@PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<User>>(userService.getUsers(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/private/users/keywords/{keywords}")
-	public ResponseEntity<List<User>> getUsersKeywords(@PathVariable String keywords) {
-		return new ResponseEntity<List<User>>(userService.getUsersKeywords(keywords), HttpStatus.OK);
+	@GetMapping("/private/users/keywords/{keywords}/{first}/{max}")
+	public ResponseEntity<List<User>> getUsersKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<User>>(userService.getUsersKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/private/user/email/{email}")

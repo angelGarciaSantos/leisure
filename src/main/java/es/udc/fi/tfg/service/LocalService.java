@@ -16,12 +16,12 @@ public class LocalService {
 	@Autowired
 	private LocalDAO localDAO;
 	
-	public List<Local> getLocals() {
-		return localDAO.getLocals();
+	public List<Local> getLocals(int first, int max) {
+		return localDAO.getLocals(first, max);
 	}
 	
-	public List<Local> getLocalsKeywords(String keywords) {
-		return localDAO.getLocalsKeywords(keywords);
+	public List<Local> getLocalsKeywords(String keywords, int first, int max) {
+		return localDAO.getLocalsKeywords(keywords, first, max);
 	}
 	
 	public Local getLocal(int id){

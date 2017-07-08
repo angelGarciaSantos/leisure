@@ -17,12 +17,12 @@ public class UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	public List<User> getUsers() {
-		return userDAO.getUsers();
+	public List<User> getUsers(int first, int max) {
+		return userDAO.getUsers(first, max);
 	}
 	
-	public List<User> getUsersKeywords(String keywords) {
-		return userDAO.getUsersKeywords(keywords);
+	public List<User> getUsersKeywords(String keywords, int first, int max) {
+		return userDAO.getUsersKeywords(keywords, first, max);
 	}
 	
 	public User getUserEmail(String email) {

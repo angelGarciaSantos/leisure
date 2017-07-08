@@ -39,18 +39,26 @@ public class ArtistDAO {
         session.save(artist);
     }
     
-    public List<Artist> getArtists(){
+    public List<Artist> getArtists(int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Artist");
+        Query query = session.createQuery("from Artist order by artist_id");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Artist> artists =  query.list();
         session.close();
         return artists;
     }
     
-    public List<Artist> getArtistsKeywords(String keywords){
+    public List<Artist> getArtistsKeywords(String keywords, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Artist where lower(name) LIKE lower(:keywords)");
+        Query query = session.createQuery("from Artist where lower(name) LIKE lower(:keywords) order by artist_id");
         query.setString("keywords", "%"+keywords+"%");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Artist> artists =  query.list();
         session.close();
         return artists;
@@ -65,10 +73,14 @@ public class ArtistDAO {
         return artist;
     }
     
-    public List<Integer> getArtistsFromEvent(int eventId) {
+    public List<Integer> getArtistsFromEvent(int eventId, int first, int max) {
     	Session session = SessionUtil.getSession();
-		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from event_artist where event_id = ?");
+		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from event_artist where event_id = ? order by artist_id");
 		sqlQuery.setParameter(0, eventId);
+		sqlQuery.setFirstResult(first);
+        if (max != -1){
+        	sqlQuery.setMaxResults(max);
+        }
 		//session.close();
 		return sqlQuery.list();
     }

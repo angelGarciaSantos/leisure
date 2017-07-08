@@ -33,18 +33,26 @@ public class TagDAO {
         session.save(tag);
     }
     
-    public List<Tag> getTags(){
+    public List<Tag> getTags(int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Tag");
+        Query query = session.createQuery("from Tag order by tag_id");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Tag> tags =  query.list();
         session.close();
         return tags;
     }
     
-    public List<Tag> getTagsKeywords(String keywords){
+    public List<Tag> getTagsKeywords(String keywords, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Tag where lower(name) LIKE lower(:keywords)");
+        Query query = session.createQuery("from Tag where lower(name) LIKE lower(:keywords) order by tag_id");
         query.setString("keywords", "%"+keywords+"%");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Tag> tags =  query.list();
         session.close();
         return tags;

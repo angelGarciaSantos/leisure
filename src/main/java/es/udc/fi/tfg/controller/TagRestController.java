@@ -33,14 +33,14 @@ public class TagRestController {
 	@Autowired
 	private EventService eventService;
 	
-	@GetMapping("/tags")
-	public ResponseEntity<List<Tag>> getTags() {
-		return new ResponseEntity<List<Tag>>(tagService.getTags(), HttpStatus.OK);
+	@GetMapping("/tags/{first}/{max}")
+	public ResponseEntity<List<Tag>> getTags(@PathVariable int first, @PathVariable int max ) {
+		return new ResponseEntity<List<Tag>>(tagService.getTags(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/tags/keywords/{keywords}")
-	public ResponseEntity<List<Tag>> getTagsKeywords(@PathVariable String keywords) {
-		return new ResponseEntity<List<Tag>>(tagService.getTagsKeywords(keywords), HttpStatus.OK);
+	@GetMapping("/tags/keywords/{keywords}/{first}/{max}")
+	public ResponseEntity<List<Tag>> getTagsKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<Tag>>(tagService.getTagsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/tags/artist/{artistId}")

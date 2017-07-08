@@ -25,6 +25,7 @@ import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.service.TagService;
 import es.udc.fi.tfg.service.UserService;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -44,14 +45,14 @@ public class EventRestController {
 	@Autowired
 	private LocalService localService;
 	
-	@GetMapping("/events")
-	public ResponseEntity<List<Event>> getEvents() {
-		return new ResponseEntity<List<Event>>(eventService.getEvents(), HttpStatus.OK);
+	@GetMapping("/events/{first}/{max}")
+	public ResponseEntity<List<Event>> getEvents(@PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<Event>>(eventService.getEvents(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/events/keywords/{keywords}")
-	public ResponseEntity<List<Event>> getEventsKeywords(@PathVariable String keywords) {
-		return new ResponseEntity<List<Event>>(eventService.getEventsKeywords(keywords), HttpStatus.OK);
+	@GetMapping("/events/keywords/{keywords}/{first}/{max}")
+	public ResponseEntity<List<Event>> getEventsKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
+		return new ResponseEntity<List<Event>>(eventService.getEventsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/events/{id}")
@@ -93,7 +94,7 @@ public class EventRestController {
 	}
 
 	@PutMapping("/private/events/{id}")
-	public ResponseEntity<String> updateEvent(@PathVariable int id, @RequestBody Event event) {
+	public ResponseEntity<String> updateEvent(@PathVariable int id, @RequestBody Event event) throws EntityNotUpdatableException {
 		if (event.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}

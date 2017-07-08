@@ -24,12 +24,12 @@ public class TagService {
 	private EventService eventService;
 	
 	
-	public List<Tag> getTags() {
-		return tagDAO.getTags();
+	public List<Tag> getTags(int first, int max) {
+		return tagDAO.getTags(first, max);
 	}
 	
-	public List<Tag> getTagsKeywords(String keywords) {
-		return tagDAO.getTagsKeywords(keywords);
+	public List<Tag> getTagsKeywords(String keywords, int first, int max) {
+		return tagDAO.getTagsKeywords(keywords, first, max);
 	}
 	
 	public List<Tag> getTagsFromArtist(int artistId) {

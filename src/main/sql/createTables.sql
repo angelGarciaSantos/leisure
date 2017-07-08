@@ -23,7 +23,10 @@ CREATE TABLE Local (
 	name varchar(255) NOT NULL,
 	description varchar(255) NOT NULL,
 	capacity int(11) NOT NULL,
-	rating float(53) NOT NULL,
+	lat float(53) NOT NULL,
+	lng float(53) NOT NULL,
+	image varchar(1000) NOT NULL,
+
 	CONSTRAINT local_PK PRIMARY KEY (id)
 );
 

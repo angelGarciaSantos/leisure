@@ -28,11 +28,11 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        //HandlerMethod handlerMethod = (HandlerMethod) handler;
         HttpSession session = request.getSession();
         boolean result;
         if (session.getAttributeNames().hasMoreElements()) {
-        	Integer userType = (Integer) session.getAttribute("type");
+        	//Integer userType = (Integer) session.getAttribute("type");
         	result = true;
         }
         else {

@@ -27,6 +27,7 @@ import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class EventDAO {
@@ -52,21 +53,27 @@ public class EventDAO {
         session.save(event);
     }
     
-	public List<Event> getEvents(){
+	public List<Event> getEvents(int first, int max){
         Session session = SessionUtil.getSession();    
-        //session.flush();
-        Query query = session.createQuery("from Event");
-        //session.setCacheMode(CacheMode.IGNORE);
+        Query query = session.createQuery("from Event order by id");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Event> events =  query.list();
         
         session.close();
         return events;
     }
     
-    public List<Event> getEventsKeywords(String keywords){
+    public List<Event> getEventsKeywords(String keywords, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Event where lower(name) LIKE lower(:keywords)");
+        Query query = session.createQuery("from Event where lower(name) LIKE lower(:keywords) order by id");
         query.setString("keywords", "%"+keywords+"%");
+        query.setFirstResult(first);
+        if (max != -1){
+            query.setMaxResults(max);
+        }
         List<Event> events =  query.list();
         session.close();
         return events;
@@ -90,7 +97,7 @@ public class EventDAO {
         query.setInteger("id",id);
         int rowCount = 0;
         try{
-        rowCount = query.executeUpdate();
+        	rowCount = query.executeUpdate();
         }
         catch(ConstraintViolationException e)
         {
@@ -103,7 +110,8 @@ public class EventDAO {
         return rowCount;
     }
     
-	public int updateEvent(int id, Event event){
+    @Transactional
+	public int updateEvent(int id, Event event) throws EntityNotUpdatableException{
          if(id <=0)  {
                return 0; 
          }
@@ -120,7 +128,15 @@ public class EventDAO {
 				query.setString("description",event.getDescription());
 				query.setString("beginDate", sdf.format(event.getBeginDate()));
 				query.setString("endDate", sdf.format(event.getEndDate()));
-				int rowCount = query.executeUpdate();
+				int rowCount;
+				try {
+					rowCount = query.executeUpdate();
+				}
+				catch(Exception e)
+		        {
+		        	tx.rollback();
+		        	throw new EntityNotUpdatableException("No pudo actualizarse el evento.");
+		        }
 				System.out.println("Rows affected: " + rowCount);
 				tx.commit();
 				session.close();

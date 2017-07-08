@@ -19,14 +19,36 @@ public class Local {
 	@Column
 	private int capacity;
 	@Column
-	private double rating;
+	private double lat;
+	@Column
+	private double lng;
+	@Column
+    private String image;
 	
-	public Local(int id, String name, String description, int capacity, double rating) {
+	public Local(int id, String name, String description, int capacity) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.capacity = capacity;
-		this.rating = rating;
+		this.image = "http://guitarchic.net/wp-content/uploads/2017/01/1-1.jpg";
+	}
+	
+	public Local(String name, String description, int capacity, double lat, double lng) {
+		this.name = name;
+		this.description = description;
+		this.capacity = capacity;
+		this.lat = lat;
+		this.lng = lng;
+		this.image = "http://guitarchic.net/wp-content/uploads/2017/01/1-1.jpg";
+	}
+	
+	public Local(String name, String description, int capacity, double lat, double lng, String image) {
+		this.name = name;
+		this.description = description;
+		this.capacity = capacity;
+		this.lat = lat;
+		this.lng = lng;
+		this.image = image;
 	}
 	
 	public Local(){
@@ -64,11 +86,27 @@ public class Local {
 		this.capacity = capacity;
 	}
 
-	public double getRating() {
-		return rating;
+	public double getLat() {
+		return lat;
 	}
 
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }
