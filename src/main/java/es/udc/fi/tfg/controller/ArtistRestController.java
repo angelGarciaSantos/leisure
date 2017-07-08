@@ -26,7 +26,9 @@ import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -93,7 +95,7 @@ public class ArtistRestController {
 
 	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/private/artists")
-	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) {
+	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) throws EntityNotCreatableException {
 		if (artistService.existsArtist(artist)){
 			logger.error("El artista con nombre " + artist.getName() + " ya existe.");
 			return new ResponseEntity<Artist>(HttpStatus.CONFLICT);	
@@ -135,7 +137,7 @@ public class ArtistRestController {
 	}
 
 	@PutMapping("/private/artists/{id}")
-	public ResponseEntity<String> updateArtist(@PathVariable int id, @RequestBody Artist artist) {
+	public ResponseEntity<String> updateArtist(@PathVariable int id, @RequestBody Artist artist) throws EntityNotUpdatableException {
 		if (artist.getId()!=id) {
 			logger.error("Los ids no coinciden" + id);
 			return new ResponseEntity<String>("Los ids no coinciden" + id, HttpStatus.BAD_REQUEST);
@@ -160,7 +162,7 @@ public class ArtistRestController {
 	}
 	
 	@PostMapping(value = "/private/artist/user/{artistId}/{userId}")
-	public ResponseEntity<String> followArtist(@PathVariable int artistId, @PathVariable int userId) {
+	public ResponseEntity<String> followArtist(@PathVariable int artistId, @PathVariable int userId) throws EntityNotCreatableException {
 		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
 			logger.error("El artista o usuario indicados no existen. Artista: "+
 				artistId + " Usuario: " + userId);
@@ -184,7 +186,7 @@ public class ArtistRestController {
 	}
 	
 	@DeleteMapping(value = "/private/artist/user/{artistId}/{userId}")
-	public ResponseEntity<String> unfollowArtist(@PathVariable int artistId, @PathVariable int userId) {
+	public ResponseEntity<String> unfollowArtist(@PathVariable int artistId, @PathVariable int userId) throws EntityNotRemovableException {
 		if ((artistService.getArtist(artistId) == null ) || userService.getUser(userId) == null) {
 			logger.error("El artista o usuario indicados no existen. Artista: "+
 					artistId + " Usuario: " + userId);

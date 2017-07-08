@@ -24,6 +24,7 @@ import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.service.TagService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
@@ -68,7 +69,7 @@ public class EventRestController {
 	}	
 	
 	@PostMapping(value = "/private/events/{localId}")
-	public ResponseEntity<Event> createEvent(@RequestBody Event event, @PathVariable int localId) {
+	public ResponseEntity<Event> createEvent(@RequestBody Event event, @PathVariable int localId) throws EntityNotCreatableException {
 		eventService.createEvent(event, localId);
 		return new ResponseEntity<Event>(HttpStatus.CREATED);
 	}
@@ -110,7 +111,7 @@ public class EventRestController {
 	}
 	
 	@PostMapping(value = "/private/events/artist/{eventId}/{artistId}")
-	public ResponseEntity<String> addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) {
+	public ResponseEntity<String> addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) throws EntityNotCreatableException {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
 				eventId + " Artista: " + artistId, HttpStatus.NOT_FOUND);
@@ -128,7 +129,7 @@ public class EventRestController {
 	}
 	
 	@DeleteMapping("/private/events/artist/{eventId}/{artistId}")
-	public ResponseEntity<String> deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) {
+	public ResponseEntity<String> deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) throws EntityNotRemovableException {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
 				eventId + " Artista: " + artistId, HttpStatus.NOT_FOUND);
@@ -146,7 +147,7 @@ public class EventRestController {
 	}
 	
 	@PutMapping("/private/events/local/{eventId}/{localId}")
-	public ResponseEntity<String> modifyLocalFromEvent(@PathVariable int eventId, @PathVariable int localId) {
+	public ResponseEntity<String> modifyLocalFromEvent(@PathVariable int eventId, @PathVariable int localId) throws EntityNotUpdatableException {
 		if ((eventService.getEvent(eventId) == null ) || localService.getLocal(localId) == null) {
 			return new ResponseEntity<String>("El evento o local indicados no existen. Evento: "+
 				eventId + " Local: " + localId, HttpStatus.NOT_FOUND);
@@ -231,7 +232,7 @@ public class EventRestController {
 	}
 	
 	@PostMapping(value = "/private/event/user/{eventId}/{userId}")
-	public ResponseEntity<String> followEvent(@PathVariable int eventId, @PathVariable int userId) {
+	public ResponseEntity<String> followEvent(@PathVariable int eventId, @PathVariable int userId) throws EntityNotCreatableException {
 		if ((eventService.getEvent(eventId) == null ) || userService.getUser(userId) == null) {
 			return new ResponseEntity<String>("El evento o usuario indicados no existen. Evento: "+
 				eventId + " Usuario: " + userId, HttpStatus.NOT_FOUND);
@@ -249,7 +250,7 @@ public class EventRestController {
 	}
 	
 	@DeleteMapping(value = "/private/event/user/{eventId}/{userId}")
-	public ResponseEntity<String> unfollowEvent(@PathVariable int eventId, @PathVariable int userId) {
+	public ResponseEntity<String> unfollowEvent(@PathVariable int eventId, @PathVariable int userId) throws EntityNotRemovableException {
 		if ((eventService.getEvent(eventId) == null ) || userService.getUser(userId) == null) {
 			return new ResponseEntity<String>("El evento o usuario indicados no existen. Evento: "+
 				eventId + " Usuario: " + userId, HttpStatus.NOT_FOUND);

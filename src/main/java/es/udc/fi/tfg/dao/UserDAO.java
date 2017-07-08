@@ -16,6 +16,7 @@ import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
+import es.udc.fi.tfg.util.PasswordEncrypter;
 
 @Component
 public class UserDAO {
@@ -38,11 +39,13 @@ public class UserDAO {
     }
     
     private void addUser(Session session, User bean){
-        User user = new User();
+    	String encryptedPassword = PasswordEncrypter.crypt(bean.getPassword());
+    	
+    	User user = new User();
         
         user.setName(bean.getName());
         user.setEmail(bean.getEmail());
-        user.setPassword(bean.getPassword());
+        user.setPassword(encryptedPassword);
         user.setType(bean.getType());
         
         session.save(user);

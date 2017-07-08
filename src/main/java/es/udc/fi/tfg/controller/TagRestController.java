@@ -19,7 +19,9 @@ import es.udc.fi.tfg.model.Tag;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.TagService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -75,7 +77,7 @@ public class TagRestController {
 	}	
 	
 	@PostMapping(value = "/private/tags")
-	public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
+	public ResponseEntity<Tag> createTag(@RequestBody Tag tag) throws EntityNotCreatableException {
 		tagService.createTag(tag);
 		return new ResponseEntity<Tag>(HttpStatus.CREATED);
 	}
@@ -101,7 +103,7 @@ public class TagRestController {
 	}
 
 	@PutMapping("/private/tags/{id}")
-	public ResponseEntity<String> updateTag(@PathVariable int id, @RequestBody Tag tag) {
+	public ResponseEntity<String> updateTag(@PathVariable int id, @RequestBody Tag tag) throws EntityNotUpdatableException {
 		if (tag.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}

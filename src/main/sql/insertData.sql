@@ -83,10 +83,10 @@ INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (2,2);
 
 INSERT INTO User (id, name, email, password, type)
-VALUES (1,"Angel", "angel@angel.com","angel", 1);
+VALUES (1,"Angel", "angel@angel.com","HWFw.vdjwVX0A", 1);
 
 INSERT INTO User (id, name, email, password, type)
-VALUES (2,"admin", "admin@admin.com","admin", 2);
+VALUES (2,"admin", "admin@admin.com","YU8rVoZ1TM.u2", 2);
 
 INSERT INTO Interest (id, points, tag_id, user_id)
 VALUES (1, 1, 1, 1);

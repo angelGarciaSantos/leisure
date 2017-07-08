@@ -32,7 +32,10 @@ import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
+import es.udc.fi.tfg.util.PasswordEncrypter;
 
 @CrossOrigin
 @RestController
@@ -54,7 +57,7 @@ public class UserRestController {
 			if (user == null){
 				return new ResponseEntity(HttpStatus.NOT_FOUND);
 			}
-			else if (!user.getPassword().equals(userReq.getPassword())) {
+			else if (!PasswordEncrypter.isClearPasswordCorrect(userReq.getPassword(), user.getPassword())) {
 				return new ResponseEntity(HttpStatus.BAD_REQUEST);
 			}
 			else {
@@ -68,7 +71,7 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity register (HttpSession session, @RequestBody User userReq) {
+	public ResponseEntity register (HttpSession session, @RequestBody User userReq) throws EntityNotCreatableException {
 		Enumeration atr = session.getAttributeNames();
 		if (atr.hasMoreElements()) {
 			return new ResponseEntity(HttpStatus.LOCKED);
@@ -139,7 +142,7 @@ public class UserRestController {
 	
 	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/private/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@RequestBody User user) throws EntityNotCreatableException {
 		userService.createUser(user);
 		return new ResponseEntity<User>(HttpStatus.CREATED);
 	}
@@ -165,7 +168,7 @@ public class UserRestController {
 	}
 
 	@PutMapping("/private/users/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
+	public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) throws EntityNotUpdatableException {
 		if (user.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}

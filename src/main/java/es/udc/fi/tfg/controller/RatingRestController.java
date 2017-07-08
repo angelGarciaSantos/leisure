@@ -23,6 +23,9 @@ import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.RatingService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -86,14 +89,14 @@ public class RatingRestController {
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/ratings/{eventId}/{userId}")
-	public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) {
+	public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) throws EntityNotCreatableException, EntityNotUpdatableException {
 		
 		ratingService.createRating(rating, eventId, userId);
 		return new ResponseEntity<Rating>(HttpStatus.CREATED);
 	}
 		
 	@DeleteMapping("/private/ratings/{id}")
-	public ResponseEntity<String> deleteRating(@PathVariable int id) {
+	public ResponseEntity<String> deleteRating(@PathVariable int id) throws EntityNotRemovableException {
 		int rows = ratingService.deleteRating(id);
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);

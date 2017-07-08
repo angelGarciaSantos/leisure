@@ -20,7 +20,9 @@ import es.udc.fi.tfg.model.Artist;
 import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.LocalService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -50,7 +52,7 @@ public class LocalRestController {
 	}	
 	
 	@PostMapping(value = "/private/locals")
-	public ResponseEntity<Local> createLocal(@RequestBody Local local) {
+	public ResponseEntity<Local> createLocal(@RequestBody Local local) throws EntityNotCreatableException {
 		localService.createLocal(local);
 		return new ResponseEntity<Local>(HttpStatus.CREATED);
 	}
@@ -76,7 +78,7 @@ public class LocalRestController {
 	}
 
 	@PutMapping("/private/locals/{id}")
-	public ResponseEntity<String> updateLocal(@PathVariable int id, @RequestBody Local local) {
+	public ResponseEntity<String> updateLocal(@PathVariable int id, @RequestBody Local local) throws EntityNotUpdatableException {
 		if (local.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
 		}
