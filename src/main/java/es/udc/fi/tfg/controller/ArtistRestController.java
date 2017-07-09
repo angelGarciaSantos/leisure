@@ -94,7 +94,7 @@ public class ArtistRestController {
 	}
 
 	//TODO: mensaje error si no se creó correctamente
-	@PostMapping(value = "/private/artists")
+	@PostMapping(value = "/admin/artists")
 	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) throws EntityNotCreatableException {
 		if (artistService.existsArtist(artist)){
 			logger.error("El artista con nombre " + artist.getName() + " ya existe.");
@@ -107,7 +107,7 @@ public class ArtistRestController {
 		}
 	}
 	
-	@DeleteMapping("/private/artists/{id}")
+	@DeleteMapping("/admin/artists/{id}")
 	public ResponseEntity<String> deleteArtist(@PathVariable int id) {
 		if (artistService.getArtist(id) == null) {
 			logger.error("No existe el Artista: " + id);
@@ -136,7 +136,7 @@ public class ArtistRestController {
 		}
 	}
 
-	@PutMapping("/private/artists/{id}")
+	@PutMapping("/admin/artists/{id}")
 	public ResponseEntity<String> updateArtist(@PathVariable int id, @RequestBody Artist artist) throws EntityNotUpdatableException {
 		if (artist.getId()!=id) {
 			logger.error("Los ids no coinciden" + id);

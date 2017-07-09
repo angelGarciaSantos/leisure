@@ -51,13 +51,13 @@ public class LocalRestController {
 		}
 	}	
 	
-	@PostMapping(value = "/private/locals")
+	@PostMapping(value = "/admin/locals")
 	public ResponseEntity<Local> createLocal(@RequestBody Local local) throws EntityNotCreatableException {
 		localService.createLocal(local);
 		return new ResponseEntity<Local>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/private/locals/{id}")
+	@DeleteMapping("/admin/locals/{id}")
 	public ResponseEntity<String> deleteLocal(@PathVariable int id) {
 		int rows;
 		try {
@@ -77,7 +77,7 @@ public class LocalRestController {
 		}
 	}
 
-	@PutMapping("/private/locals/{id}")
+	@PutMapping("/admin/locals/{id}")
 	public ResponseEntity<String> updateLocal(@PathVariable int id, @RequestBody Local local) throws EntityNotUpdatableException {
 		if (local.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);

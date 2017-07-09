@@ -76,13 +76,13 @@ public class TagRestController {
 		}
 	}	
 	
-	@PostMapping(value = "/private/tags")
+	@PostMapping(value = "/admin/tags")
 	public ResponseEntity<Tag> createTag(@RequestBody Tag tag) throws EntityNotCreatableException {
 		tagService.createTag(tag);
 		return new ResponseEntity<Tag>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/private/tags/{id}")
+	@DeleteMapping("/admin/tags/{id}")
 	public ResponseEntity<String> deleteTag(@PathVariable int id) {
 		int rows;
 		try{
@@ -102,7 +102,7 @@ public class TagRestController {
 		}
 	}
 
-	@PutMapping("/private/tags/{id}")
+	@PutMapping("/admin/tags/{id}")
 	public ResponseEntity<String> updateTag(@PathVariable int id, @RequestBody Tag tag) throws EntityNotUpdatableException {
 		if (tag.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);

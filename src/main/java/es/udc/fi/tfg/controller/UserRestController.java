@@ -114,22 +114,22 @@ public class UserRestController {
 		return new ResponseEntity<List<String>>(info, HttpStatus.OK);
 	}
 	
-	@GetMapping("/private/users/{first}/{max}")
+	@GetMapping("/admin/users/{first}/{max}")
 	public ResponseEntity<List<User>> getUsers(@PathVariable int first, @PathVariable int max) {
 		return new ResponseEntity<List<User>>(userService.getUsers(first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/private/users/keywords/{keywords}/{first}/{max}")
+	@GetMapping("/admin/users/keywords/{keywords}/{first}/{max}")
 	public ResponseEntity<List<User>> getUsersKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
 		return new ResponseEntity<List<User>>(userService.getUsersKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/private/user/email/{email}")
+	@GetMapping("/admin/user/email/{email}")
 	public ResponseEntity<User> getUserEmail(@PathVariable String email) {
 		return new ResponseEntity<User>(userService.getUserEmail(email), HttpStatus.OK);
 	}
 	
-	@GetMapping("/private/users/{id}")
+	@GetMapping("/admin/users/{id}")
 	public ResponseEntity<User> getUser(@PathVariable int id) {
 		User user = userService.getUser(id);
 		if (user == null){
@@ -141,13 +141,13 @@ public class UserRestController {
 	}	
 	
 	//TODO: mensaje error si no se creó correctamente
-	@PostMapping(value = "/private/users")
+	@PostMapping(value = "/admin/users")
 	public ResponseEntity<User> createUser(@RequestBody User user) throws EntityNotCreatableException {
 		userService.createUser(user);
 		return new ResponseEntity<User>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/private/users/{id}")
+	@DeleteMapping("/admin/users/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable int id) {
 		int rows;
 		try{
@@ -167,7 +167,7 @@ public class UserRestController {
 		}
 	}
 
-	@PutMapping("/private/users/{id}")
+	@PutMapping("/admin/users/{id}")
 	public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) throws EntityNotUpdatableException {
 		if (user.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);

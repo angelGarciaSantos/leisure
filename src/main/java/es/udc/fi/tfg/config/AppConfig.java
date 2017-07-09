@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import es.udc.fi.tfg.interceptor.AdminRequestInterceptor;
 import es.udc.fi.tfg.interceptor.RequestInterceptor;
 
 @Configuration
@@ -16,6 +17,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
        registry.addInterceptor(new RequestInterceptor()).addPathPatterns("/private/**");
-    }
+       registry.addInterceptor(new AdminRequestInterceptor()).addPathPatterns("/admin/**");
+	}
 
 }

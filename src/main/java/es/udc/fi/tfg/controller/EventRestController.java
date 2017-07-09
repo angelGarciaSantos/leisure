@@ -68,13 +68,13 @@ public class EventRestController {
 		}
 	}	
 	
-	@PostMapping(value = "/private/events/{localId}")
+	@PostMapping(value = "/admin/events/{localId}")
 	public ResponseEntity<Event> createEvent(@RequestBody Event event, @PathVariable int localId) throws EntityNotCreatableException {
 		eventService.createEvent(event, localId);
 		return new ResponseEntity<Event>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/private/events/{id}")
+	@DeleteMapping("/admin/events/{id}")
 	public ResponseEntity<String> deleteEvent(@PathVariable int id) {
 		int rows;
 		try{
@@ -94,7 +94,7 @@ public class EventRestController {
 		}
 	}
 
-	@PutMapping("/private/events/{id}")
+	@PutMapping("/admin/events/{id}")
 	public ResponseEntity<String> updateEvent(@PathVariable int id, @RequestBody Event event) throws EntityNotUpdatableException {
 		if (event.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
@@ -110,7 +110,7 @@ public class EventRestController {
 		}
 	}
 	
-	@PostMapping(value = "/private/events/artist/{eventId}/{artistId}")
+	@PostMapping(value = "/admin/events/artist/{eventId}/{artistId}")
 	public ResponseEntity<String> addArtistToEvent(@PathVariable int eventId, @PathVariable int artistId) throws EntityNotCreatableException {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
@@ -128,7 +128,7 @@ public class EventRestController {
 		}
 	}
 	
-	@DeleteMapping("/private/events/artist/{eventId}/{artistId}")
+	@DeleteMapping("/admin/events/artist/{eventId}/{artistId}")
 	public ResponseEntity<String> deleteArtistFromEvent(@PathVariable int eventId, @PathVariable int artistId) throws EntityNotRemovableException {
 		if ((eventService.getEvent(eventId) == null ) || artistService.getArtist(artistId) == null) {
 			return new ResponseEntity<String>("El evento o artista indicados no existen. Evento: "+
@@ -146,7 +146,7 @@ public class EventRestController {
 		}
 	}
 	
-	@PutMapping("/private/events/local/{eventId}/{localId}")
+	@PutMapping("/admin/events/local/{eventId}/{localId}")
 	public ResponseEntity<String> modifyLocalFromEvent(@PathVariable int eventId, @PathVariable int localId) throws EntityNotUpdatableException {
 		if ((eventService.getEvent(eventId) == null ) || localService.getLocal(localId) == null) {
 			return new ResponseEntity<String>("El evento o local indicados no existen. Evento: "+
