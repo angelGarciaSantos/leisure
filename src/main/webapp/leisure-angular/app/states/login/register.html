@@ -1,0 +1,28 @@
+<section name="Register">
+    <md-content layout="row" layout-align="center center" md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <div>
+            <md-input-container>
+                <label>Nombre</label>
+                <input ng-model="$ctrl.user.name">
+            </md-input-container>
+            
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="$ctrl.user.email">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Contraseña</label>
+                <input ng-model="$ctrl.user.password">
+            </md-input-container>
+
+             <md-input-container>
+                <label>Repita su contraseña</label>
+                <input ng-model="$ctrl.passwordCheck">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.registerUser()">Registrarse</md-button>
+        </div>
+    </md-content>
+</section>

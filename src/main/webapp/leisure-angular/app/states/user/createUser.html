@@ -1,0 +1,35 @@
+<section name="CreateUser">
+    <md-content md-theme="docs-dark" layout="column" layout-align="center center">
+        <div>
+            <md-input-container>
+                <label>Nombre</label>
+                <input ng-model="$ctrl.newUser.name">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="$ctrl.newUser.email">
+            </md-input-container>
+         </div>
+         <div>
+            <md-input-container>
+                <label>Contraseña</label>
+                <input type="password" ng-model="$ctrl.newUser.password">
+            </md-input-container>
+
+             <md-input-container>
+                <label>Repita su contraseña</label>
+                <input type="password" ng-model="$ctrl.passwordCheck">
+            </md-input-container>
+        </div>
+        <div>
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Tipo</label>
+                <input ng-model="$ctrl.newUser.type" type="number" step="1" min="0" max="2">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button ng-click="$ctrl.createUser()">Crear</md-button>
+        </div>
+    </md-content>
+</section>

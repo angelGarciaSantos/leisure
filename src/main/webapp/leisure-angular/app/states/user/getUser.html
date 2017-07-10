@@ -1,0 +1,24 @@
+<section name="GetUser">
+	<md-content class="md-padding" layout="row" layout-align="center center">
+		<div flex-xs flex-gt-xs="50" layout="column">
+			<md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+				<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{$ctrl.user.name}}</span>
+					<span class="md-subhead">{{$ctrl.user.description}}</span>
+                    <span class="md-subhead">{{$ctrl.user.email}}</span>
+					<span class="md-subhead">{{$ctrl.user.type}}</span>
+				</md-card-title-text>
+				<md-card-title-media>
+					<!-- TODO: ver como poner imagenes-->
+					<div class="md-media-lg card-media">IMAGEN</div>
+				</md-card-title-media>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+				<md-button ng-if="$ctrl.loginInfo[2] == 2" ui-sref="updateUser({ id: $ctrl.user.id })">Editar</md-button>
+				<md-button ng-if="$ctrl.loginInfo[2] == 2" ng-click="$ctrl.deleteUser()">Eliminar</md-button>
+				</md-card-actions>
+			</md-card>
+		</div> 
+	</md-content>
+</section>

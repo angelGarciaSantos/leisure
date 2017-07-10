@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <!-- Para evitar bug del favicon -->
+<link rel="icon" 
+      type="image/png" 
+      href="http://vignette1.wikia.nocookie.net/dbz-dokkanbattle/images/5/52/L11.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Leisure</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!-- default themes and core styles -->
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+
+  <!-- extra, overriding theme files -->
+  <!--<link rel="stylesheet" href="bower_components/angular-material/themes/indigo-theme.css">
+  <link rel="stylesheet" href="bower_components/angular-material/themes/green-theme.css">-->
+  
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+
+  <!-- Data Table from Daniel Nagy -->
+  <!-- style sheet -->
+  <link href="bower_components/angular-material-data-table/dist/md-data-table.min.css" rel="stylesheet" type="text/css"/>
+  <link href="bower_components/mdPickers/dist/mdPickers.min.css" rel="stylesheet" type="text/css"/>
+
+
+</head>
+<body>
+  <!--<ul class="menu">
+    <li><a href="#!/view1">view1</a></li>
+    <li><a href="#!/view2">view2</a></li>
+    <li><a href="#!/getAllArtists">Artists</a></li>
+
+  </ul>-->
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!--<div ng-view></div>-->
+  
+
+  <!--<md-toolbar md-scroll-shrink>
+    <div ng-click=null layout="row" layout-align="begin center" flex style="padding-left:20px;font-weight: bold;font-family: Segoe script;font-size: xx-large;">
+      Leisure
+    </div>
+  </md-toolbar>-->
+
+
+  <menu style="margin:0;padding: 0;">
+  </menu>
+  
+  <main flex>
+    <div class="container text-center" style="padding-top:0px;" ui-view></div>
+  </main>
+  <!--<div ui-view></div>-->
+
+  <footer flex>
+      <div>
+        Leisure app: v<span app-version></span>
+      </div>
+  </footer>
+
+     	<!--<div class="modal-footer"> 
+ 		 <div><p>&copy; 2015 Test<span class="separator">-</span>All rights reserved</p></div>
+ 	</div>-->
+
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <!--<script src="bower_components/lodash/dist/lodash.js"></script>
+  <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>-->
+  <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <!--<script src="http://maps.google.com/maps/api/js"></script>-->
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCIU6ld21ZanKHiBNFF4y6e-FqYRCq6gP8"></script>
+
+
+
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+  <script src="view2/view2.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+  <script src="components/menu/menu.js"></script>
+
+  <!-- module -->
+  <script type="text/javascript" src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+  <script type="text/javascript" src="bower_components/mdPickers/dist/mdPickers.min.js"></script>
+  <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+  <script type="text/javascript" src="bower_components/angular-moment/angular-moment.js"></script>
+
+  <!--Estados-->
+  <script src="./states/states.js"></script>
+  <script src="./states/home/home.js"></script>
+	<script src="./states/artist/getAllArtists.js"></script>
+	<script src="./states/artist/getArtist.js"></script>	
+	<script src="./states/artist/createArtist.js"></script>
+	<script src="./states/artist/updateArtist.js"></script>
+  <script src="./states/local/getAllLocals.js"></script>
+	<script src="./states/local/getLocal.js"></script>	
+	<script src="./states/local/createLocal.js"></script>
+	<script src="./states/local/updateLocal.js"></script>
+  <script src="./states/event/getAllEvents.js"></script>
+	<script src="./states/event/getEvent.js"></script>	
+	<script src="./states/event/createEvent.js"></script>
+	<script src="./states/event/updateEvent.js"></script>
+  <script src="./states/user/getAllUsers.js"></script>
+	<script src="./states/user/getUser.js"></script>	
+	<script src="./states/user/createUser.js"></script>
+	<script src="./states/user/updateUser.js"></script>
+  <script src="./states/tag/getAllTags.js"></script>
+	<script src="./states/tag/getTag.js"></script>	
+	<script src="./states/tag/createTag.js"></script>
+	<script src="./states/tag/updateTag.js"></script>
+  <script src="./states/test/test.js"></script>
+  <script src="./states/login/login.js"></script>
+  <script src="./states/login/register.js"></script>
+
+
+  <!--Servicios-->  
+  <script src="./services/services.js"></script>
+  <script src="./services/artistsService.js"></script>
+  <script src="./services/localsService.js"></script>
+  <script src="./services/eventsService.js"></script>
+  <script src="./services/usersService.js"></script>
+  <script src="./services/commentsService.js"></script>
+  <script src="./services/ratingsService.js"></script>
+  <script src="./services/tagsService.js"></script>
+  <script src="./services/interestsService.js"></script>
+
+
+
+
+
+
+
+</body>
+</html>

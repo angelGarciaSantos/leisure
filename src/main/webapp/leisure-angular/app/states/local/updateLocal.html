@@ -1,0 +1,38 @@
+<section name="UpdateLocal">
+    <md-content md-theme="docs-dark" layout="column" layout-align="center center">
+        <div layout="row">
+            <md-input-container>
+                <label>Nombre</label>
+                <input ng-model="$ctrl.editLocal.name">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Descripción</label>
+                <input ng-model="$ctrl.editLocal.description">
+            </md-input-container>
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Capacidad</label>
+                <input ng-model="$ctrl.editLocal.capacity" type="number" step="1" min="0">
+            </md-input-container>
+        </div>
+        <div layout="row">
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Latitud</label>
+                <input ng-model="$ctrl.editLocal.lat" type="number">
+            </md-input-container>
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Longitud</label>
+                <input ng-model="$ctrl.editLocal.lng" type="number">
+            </md-input-container>
+        </div>
+        <div layout="row">
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Imagen</label>
+                <input ng-model="$ctrl.editLocal.image" type="text">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button ng-click="$ctrl.updateLocal()">Actualizar</md-button>
+        </div>
+    </md-content>
+</section>

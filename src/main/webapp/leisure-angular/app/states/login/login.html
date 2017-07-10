@@ -1,0 +1,18 @@
+<section name="Login">
+    <md-content layout="row" layout-align="center center" md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <div>
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="$ctrl.user.email">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Contraseña</label>
+                <input ng-model="$ctrl.user.password">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button class="md-raised md-primary" ng-click="$ctrl.loginUser()">Entrar</md-button>
+        </div>
+    </md-content>
+</section>

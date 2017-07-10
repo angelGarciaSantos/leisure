@@ -1,0 +1,93 @@
+/* app css stylesheet */
+
+main {
+  overflow-y: auto;
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.listdemoBasicUsage md-divider {
+  margin-top: 10px;
+  margin-bottom: 0; }
+
+.buttondemoBasicUsage section {
+  background: #f7f7f7;
+  border-radius: 3px;
+  text-align: center;
+  margin: 1em;
+  position: relative !important;
+  padding-bottom: 10px; }
+
+.buttondemoBasicUsage md-content {
+  margin-right: 7px; }
+
+.buttondemoBasicUsage section .md-button {
+  margin-top: 16px;
+  margin-bottom: 16px; }
+
+.buttondemoBasicUsage .label {
+  position: absolute;
+  bottom: 5px;
+  left: 7px;
+  font-size: 14px;
+  opacity: 0.54; }
+
+  .image {
+    max-width: 550px;
+
+    /*max-height: 500px;*/
+  }
+
+  .imagelist {
+    width: 150px;
+    /*max-height: 500px;*/
+  }
+
+  .left {
+        max-width: 600px;
+        min-width: 200px;
+        /*max-height: 500px;*/
+        /*min-height: 300px;*/
+        margin-top: 90px;
+        margin-right: 50px;
+        margin-bottom: 50px;
+
+  }
+        
+  .right {
+        margin-top: 90px;
+        /*min-height: 300px;*/
+        min-width: 400px;
+        margin-bottom: 50px;
+
+  }
+
+  .list {
+      min-width: 700px;
+  }
+
+  .presentation {
+    min-height: 300px;
+  }

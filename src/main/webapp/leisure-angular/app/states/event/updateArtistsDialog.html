@@ -1,0 +1,48 @@
+<section name="updateArtistsDialog">
+    <md-content md-theme="docs-dark" layout="column" layout-align="center center">   
+        <form flex ng-submit="ctrl.parent.searchArtists()" >
+            <md-input-container>
+                <input placeholder="Introduce el texto a buscar" ng-model="ctrl.parent.keywordsArtist" />
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.parent.searchArtists()">Buscar</md-button>
+        </form>
+        <md-table-container>
+                <table md-table md-row-select="true" multiple="true" ng-model="ctrl.parent.selectedArtists" md-progress="promise">
+                    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+                    <tr md-row>
+                        <!--<th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
+                        <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
+                        <th md-column md-numeric>ID</th>
+                        <th md-column md-numeric>Nombre</th>
+                        <th md-column md-numeric>Descripción</th>
+                       
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                        <!--<tr md-row md-select="artist" md-select-id="name" md-auto-select ng-repeat="artist in $ctrl.artists">-->
+                        <tr  md-row md-select="artist.id" md-on-select="ctrl.parent.logItem" md-auto-select="true" ng-disabled="false" ng-repeat="artist in ctrl.parent.artists">   
+                            <td md-cell>{{artist.id}}</td>
+                            <td md-cell>{{artist.name}}</td>
+                            <td md-cell>{{artist.description}}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+             <div flex layout="column" layout-align="center center">
+				<div layout ="row">
+					<md-button ng-if="ctrl.parent.showPreviousButtonArtist" class="md-raised md-primary" ng-click="ctrl.parent.getPreviousArtist()">Anterior</md-button>
+					<md-button ng-if="ctrl.parent.showNextButtonArtist" class="md-raised md-primary" ng-click="ctrl.parent.getNextArtist()">Siguiente</md-button>
+				</div>
+			</div>
+             <div class="md-actions">
+                <md-button ng-click="ctrl.parent.addSelectedArtists();ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                    Aceptar
+                </md-button>
+                <md-button ng-click="ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                    Cancelar
+                </md-button>
+            </div>
+       
+    </md-content>
+</section>

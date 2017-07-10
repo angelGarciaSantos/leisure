@@ -1,0 +1,38 @@
+<section name="GetAllUsers">
+  	<div layout-align="begin center">
+		<md-content layout="column" layout-align="center center">
+			<form flex ng-submit="$ctrl.searchUsers()" >
+				<md-input-container>
+					<input placeholder="Introduce el texto a buscar" ng-model="$ctrl.keywords" />
+				</md-input-container>
+				<md-button class="md-raised md-primary" ng-click="$ctrl.searchUsers()">Buscar</md-button>
+			</form>
+			<md-list class="list" flex>
+				<h1 class="md-no-sticky">Usuarios</h1>
+				<md-list-item class="md-2-line contact-item" ng-repeat="user in $ctrl.users" 
+					ng-click="$ctrl.userDetails(user.id)">
+					<div layout="row" layout-align="center center" class="md-list-item-text compact">
+						<div flex ="15">
+							<!--<p>{{user.id}}</p>-->
+							<h3>{{user.name}}</h3>
+							<p>{{user.email}}</p>
+							<p ng-if="user.type==1" >Usuario estándar</p>
+							<p ng-if="user.type==2" >Administrador</p>
+						</div>				
+						<!--<div flex ="20" layout-margin class="md-media-lg card-media">
+							<img class = "imagelist"ng-src="{{user.image}}">
+						</div>					-->
+					</div>
+				<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+			<div flex layout="column" layout-align="center center">
+				<div layout ="row">
+					<md-button ng-if="$ctrl.showPreviousButton" class="md-raised md-primary" ng-click="$ctrl.getPrevious()">Anterior</md-button>
+					<md-button ng-if="$ctrl.showNextButton" class="md-raised md-primary" ng-click="$ctrl.getNext()">Siguiente</md-button>
+				</div>
+				<md-button ng-if="$ctrl.loginInfo[2] == 2" class="md-raised md-primary" ui-sref="createUser()">Crear nuevo usuario</md-button>
+			</div>
+		</md-content>
+  	</div>
+</section>

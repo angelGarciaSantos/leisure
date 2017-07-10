@@ -1,0 +1,183 @@
+<section name="GetEvent">
+	<md-content class="md-padding" layout="column" layout-align="center center">
+		<div layout="row">
+			<div class="left">
+				<div class="presentation">
+					<img class="image" ng-src="{{$ctrl.eventArtists[0].image}}">				
+				</div>	
+				<div>
+					<md-list class="list">
+						<md-subheader class="md-no-sticky">Artistas asistentes</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.eventArtists" 
+							ng-click="$ctrl.artistDetails(artist.id)">
+							<div class="md-list-item-text compact">
+								<!--<p>{{artist.id}}</p>-->
+								<h2>{{artist.name}}</h2>
+								<!--<p>{{artist.description}}</p>-->
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+					<div layout ="row">
+						<md-button ng-if="$ctrl.showPreviousButtonEventArtist" class="md-raised md-primary" ng-click="$ctrl.getPreviousEventArtist()">Anterior</md-button>
+						<md-button ng-if="$ctrl.showNextButtonEventArtist" class="md-raised md-primary" ng-click="$ctrl.getNextEventArtist()">Siguiente</md-button>
+					</div>
+
+
+					<md-list class="list">
+						<md-subheader class="md-no-sticky">Local</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="local in $ctrl.locals" 
+							ng-click="$ctrl.localDetails(local.id)">
+							<div class="md-list-item-text compact">
+								<!--<p>{{local.id}}</p>-->
+								<h2>{{local.name}}</h2>
+								<!--<p>{{local.description}}</p>-->
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+				</div>
+				<div>
+					<h3>Localización</h3>
+					<ng-map center="[{{$ctrl.local.lat}}, {{$ctrl.local.lng}}]">
+      					<marker position="[{{$ctrl.local.lat}}, {{$ctrl.local.lng}}]" centered="true"></marker>
+    				</ng-map>
+
+					{{$ctrl.local.lat}}
+					{{$ctrl.local.lng}}
+
+					{{$ctrl.lat}}
+					{{$ctrl.lng}}
+				</div>	
+			</div>
+			<div class="right">
+				<div class="presentation">
+					<div class="eventTitle">
+						<h1>{{$ctrl.event.name}}</h1>
+					</div>
+					<div class="eventDescription">
+						<p>{{$ctrl.event.description}}</p>
+					</div>	
+					<div class="eventDate">
+						<p>Fecha y hora: {{$ctrl.event.beginDate}}</p>
+					</div>	
+				</div>
+				<div>
+					<md-list>
+						<md-subheader class="md-no-sticky">Comentarios del evento</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.comments" ng-click=null>
+							<div class="md-list-item-text compact">
+								<!--<p>{{comment.id}}</p>-->
+								<h3>{{comment.text}}</h3>
+								<p>{{comment.user.name}}</p>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+					<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.commentEventDialog()">Comentar</md-button>
+					<md-subheader class="md-no-sticky">Valoración global del evento</md-subheader>
+					<p>{{$ctrl.globalRating[0]}}</p>
+					<md-list>
+						<md-subheader class="md-no-sticky">Valoraciones del evento</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.ratings" ng-click=null>
+							<div class="md-list-item-text compact">
+								<!--<p>{{rating.id}}</p>-->
+								<h3>{{rating.rating}}</h3>
+								<p>{{rating.user.name}}</p>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+					<div layout = "column">
+						<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
+						<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followEvent()">Seguir</md-button>
+						<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === true && $ctrl.loginInfo.length > 0" ng-click="$ctrl.unfollowEvent()">Dejar de Seguir</md-button>
+						<md-button ng-click="$ctrl.interestEvent()">Me interesa</md-button>
+
+						<md-button ng-if="$ctrl.loginInfo[2] == 2" ui-sref="updateEvent({ id: $ctrl.event.id })">Editar</md-button>
+						<md-button ng-if="$ctrl.loginInfo[2] == 2" ng-click="$ctrl.deleteEvent()">Eliminar</md-button>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+
+		<!--<div flex-xs flex-gt-xs="50" layout="column">
+			<md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+				<md-button ng-click="$ctrl.interestEvent()">Me interesa</md-button>
+
+				<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{$ctrl.event.name}}</span>
+					<span class="md-subhead">{{$ctrl.event.description}}</span>
+                    <span class="md-subhead">{{$ctrl.event.beginDate}}</span>
+					<span class="md-subhead">{{$ctrl.event.endDate}}</span>
+				</md-card-title-text>
+				<md-card-title-media>
+					<div class="md-media-lg card-media">IMAGEN</div>
+				</md-card-title-media>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+				<md-button ng-if="$ctrl.loginInfo.length > 0" ui-sref="updateEvent({ id: $ctrl.event.id })">Editar</md-button>
+				<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.deleteEvent()">Eliminar</md-button>
+				</md-card-actions>
+				<md-list>
+					<md-subheader class="md-no-sticky">Artistas</md-subheader>
+					<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.eventArtists" 
+						ng-click="$ctrl.artistDetails(artist.id)">
+						<div class="md-list-item-text compact">
+							<p>{{artist.id}}</p>
+							<h3>{{artist.name}}</h3>
+							<p>{{artist.description}}</p>
+						</div>
+						<md-divider ng-if="!$last"></md-divider>
+					</md-list-item>
+				</md-list>
+				<md-list>
+					<md-subheader class="md-no-sticky">Local</md-subheader>
+					<md-list-item class="md-2-line contact-item" ng-repeat="local in $ctrl.locals" 
+						ng-click="$ctrl.localDetails(local.id)">
+						<div class="md-list-item-text compact">
+							<p>{{local.id}}</p>
+							<h3>{{local.name}}</h3>
+							<p>{{local.description}}</p>
+						</div>
+						<md-divider ng-if="!$last"></md-divider>
+					</md-list-item>
+				</md-list>
+
+
+				<md-card-content>
+					<md-list>
+						<md-subheader class="md-no-sticky">Comentarios del evento</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.comments" ng-click=null>
+							<div class="md-list-item-text compact">
+								<p>{{comment.id}}</p>
+								<h3>{{comment.text}}</h3>
+								<p>{{comment.user.name}}</p>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+					<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.commentEventDialog()">Comentar</md-button>
+					<md-subheader class="md-no-sticky">Valoración global del evento</md-subheader>
+					<p>{{$ctrl.globalRating[0]}}</p>
+					<md-list>
+						<md-subheader class="md-no-sticky">Valoraciones del evento</md-subheader>
+						<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.ratings" ng-click=null>
+							<div class="md-list-item-text compact">
+								<p>{{rating.id}}</p>
+								<h3>{{rating.rating}}</h3>
+								<p>{{rating.user.name}}</p>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</md-list-item>
+					</md-list>
+					<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
+					<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followEvent()">Seguir</md-button>
+					<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === true && $ctrl.loginInfo.length > 0" ng-click="$ctrl.unfollowEvent()">Dejar de Seguir</md-button>
+				</md-card-content>
+			</md-card>
+		</div> -->
+	</md-content>
+</section>

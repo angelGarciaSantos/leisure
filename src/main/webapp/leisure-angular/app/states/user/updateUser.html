@@ -1,0 +1,35 @@
+<section name="UpdateUser">
+    <md-content md-theme="docs-dark" layout="row" layout-align="center center">
+        <div>
+            <md-input-container>
+                <label>Nombre</label>
+                <input ng-model="$ctrl.editUser.name">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="$ctrl.editUser.email">
+            </md-input-container>
+        </div>
+         <div>
+            <md-input-container>
+                <label>Contraseña</label>
+                <input type="password" ng-model="$ctrl.editUser.password">
+            </md-input-container>
+
+             <md-input-container>
+                <label>Repita la contraseña</label>
+                <input type="password" ng-model="$ctrl.passwordCheck">
+            </md-input-container>
+        </div>
+        <div>
+            <md-input-container class="md-icon-float md-icon-right md-block">
+                <label>Tipo</label>
+                <input ng-model="$ctrl.editUser.type" type="number" step="1" min="0" max="2">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button ng-click="$ctrl.updateUser()">Actualizar</md-button>
+        </div>
+    </md-content>
+</section>

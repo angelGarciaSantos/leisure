@@ -1,0 +1,18 @@
+<section name="commentEventDialog">
+     <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <div>
+            <md-input-container>
+                <label>Escribe un comentario</label>
+                <input ng-model="ctrl.parent.newComment.text">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button ng-click="ctrl.parent.commentEvent();ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                Comentar
+            </md-button>
+            <md-button ng-click="ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                Cancelar
+            </md-button>
+        </div>
+    </md-content>
+</section>

@@ -1,0 +1,49 @@
+<section name="manageArtistsDialog">
+    <md-content md-theme="docs-dark" layout="column" layout-align="center center">      
+        <div>
+            <form flex ng-submit="ctrl.parent.searchLocals()" >
+				<md-input-container>
+					<input placeholder="Introduce el texto a buscar" ng-model="ctrl.parent.keywords" />
+				</md-input-container>
+				<md-button class="md-raised md-primary" ng-click="ctrl.parent.searchLocals()">Buscar</md-button>
+			</form>
+            <md-table-container>
+            <table md-table md-row-select="true" multiple="false" ng-model="ctrl.parent.selectedLocal" md-progress="promise">
+                <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+                <tr md-row>
+                    <!--<th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
+                    <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
+                    <th md-column md-numeric>ID</th>
+                    <th md-column md-numeric>Nombre</th>
+                    <th md-column md-numeric>Descripción</th>
+                    <th md-column md-numeric>Capacidad</th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                    <!--<tr md-row md-select="artist" md-select-id="name" md-auto-select ng-repeat="artist in $ctrl.artists">-->
+                    <tr  md-row md-select="local.id" md-on-select="ctrl.parent.logItem" md-auto-select="true" ng-disabled="false" ng-repeat="local in ctrl.parent.locals">   
+                        <td md-cell>{{local.id}}</td>
+                        <td md-cell>{{local.name}}</td>
+                        <td md-cell>{{local.description}}</td>
+                        <td md-cell>{{local.capacity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </md-table-container>
+            <div flex layout="column" layout-align="center center">
+				<div layout ="row">
+					<md-button ng-if="ctrl.parent.showPreviousButton" class="md-raised md-primary" ng-click="ctrl.parent.getPrevious()">Anterior</md-button>
+					<md-button ng-if="ctrl.parent.showNextButton" class="md-raised md-primary" ng-click="ctrl.parent.getNext()">Siguiente</md-button>
+				</div>
+			</div>
+        </div>
+        <div class="md-actions">
+            <md-button ng-click="ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                Aceptar
+            </md-button>
+            <md-button ng-click="ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">
+                Cancelar
+            </md-button>
+        </div>
+    </md-content>
+</section>

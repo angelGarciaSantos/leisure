@@ -1,0 +1,47 @@
+<!--<div>
+    <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools" ng-click="$ctrl.toggleLeft()">* Leisure</h1>
+    </md-toolbar>
+</div>-->
+
+  <md-toolbar layout="row" md-scroll-shrink>
+    <div layout="row" layout-align="begin center" flex>
+      <md-button ng-click="$ctrl.toggleLeft()">Inicio</md-button>
+      <span style="font-weight: bold;font-family: Segoe script;font-size: xx-large;">Leisure</span>
+    </div>
+    <div layout="row" layout-align="begin center" style="padding-right:20px;font-weight: bold;">
+      <span ng-if="$ctrl.loginInfo.length > 0">Hola, {{$ctrl.loginInfo[1]}} </span>
+      <md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.logout()">Salir</md-button>
+      <md-button ng-if="$ctrl.loginInfo.length == 0" ng-click="$ctrl.loginDialog()">Iniciar Sesión</md-button>
+      <md-button ng-if="$ctrl.loginInfo.length == 0" ng-click="$ctrl.registerDialog()">Registro</md-button>
+
+    </div>
+  </md-toolbar>
+
+<md-sidenav class="md-sidenav-left" md-component-id="left"
+            md-disable-backdrop md-whiteframe="4">
+
+  <md-toolbar layout="row" class="md-theme-indigo">
+    <h1 class="md-toolbar-tools" ng-click="$ctrl.toggleLeft()">Menú Principal</h1>
+    <md-button ng-click="$ctrl.toggleLeft()">Cerrar</md-button>
+  </md-toolbar>
+
+  <md-content layout-margin>
+    <md-button href="#!/" ng-click="$ctrl.toggleLeft()">Inicio</md-button>
+    </br>
+    <md-button href="#!/getAllArtists" ng-click="$ctrl.toggleLeft()">Artistas</md-button>
+    </br>
+    <md-button href="#!/getAllEvents" ng-click="$ctrl.toggleLeft()">Eventos</md-button>
+    </br>
+    <md-button href="#!/getAllLocals" ng-click="$ctrl.toggleLeft()">Locales</md-button>
+    </br>
+    <md-button href="#!/getAllTags" ng-click="$ctrl.toggleLeft()">Tags</md-button>
+    </br>
+    <md-button href="#!/getAllUsers" ng-click="$ctrl.toggleLeft()">Usuarios</md-button>
+    </br>
+    </br>
+    <md-button ng-click="$ctrl.toggleLeft()" class="md-accent">
+      Cerrar menú
+    </md-button>
+  </md-content>
+</md-sidenav>

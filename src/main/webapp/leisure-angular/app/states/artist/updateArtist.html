@@ -1,0 +1,40 @@
+<section name="UpdateArtist">
+    <md-content md-theme="docs-dark" layout="column" layout-align="center center">
+        <div>
+            <md-input-container>
+                <label>Nombre</label>
+                <input ng-model="$ctrl.editArtist.name">
+            </md-input-container>
+            <md-input-container>
+                <label>Descripción</label>
+                <input ng-model="$ctrl.editArtist.description">
+            </md-input-container>
+            <md-input-container>
+                <label>Imagen</label>
+                <input ng-model="$ctrl.editArtist.image">
+            </md-input-container>
+        </div>
+        <div>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.updateArtist()">Actualizar</md-button>
+        </div>
+    </md-content>
+
+
+    <!--<form>
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="name" class="form-control" id="name" placeholder="Introduce Nombre" ng-model="$ctrl.editArtist.name">
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <input type="description" class="form-control" id="description" placeholder="Introduce Descripcion" ng-model="$ctrl.editArtist.description">
+        </div>
+        <div class="form-group">
+            <label for="rating">Valoración</label>
+            <input type="rating" class="form-control" id="rating" placeholder="Introduce valoración" ng-model="$ctrl.editArtist.rating">
+        </div>
+
+        <button type="submit" class="btn btn-default" ng-click="$ctrl.updateArtist()">Actualizar</button>
+        {{$ctrl.editArtist}}
+    </form>-->
+</section>
