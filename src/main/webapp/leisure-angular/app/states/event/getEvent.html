@@ -90,7 +90,7 @@
 					</md-list>
 					<div layout = "column">
 						<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
-						<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followEvent()">Seguir</md-button>
+						<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followEvent();$ctrl.interestEvent()">Seguir</md-button>
 						<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === true && $ctrl.loginInfo.length > 0" ng-click="$ctrl.unfollowEvent()">Dejar de Seguir</md-button>
 						<md-button ng-click="$ctrl.interestEvent()">Me interesa</md-button>
 

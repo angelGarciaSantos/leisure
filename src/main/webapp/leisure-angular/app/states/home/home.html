@@ -6,9 +6,9 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.artistsByUser" 
 					ng-click="$ctrl.artistDetails(artist.id)">
 					<div class="md-list-item-text compact">
-						<p>{{artist.id}}</p>
+						<!--<p>{{artist.id}}</p>-->
 						<h3>{{artist.name}}</h3>
-						<p>{{artist.description}}</p>
+						<p>{{artist.description.substring(0, 70)}}<span ng-if="artist.description.length>70">...</span></p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
@@ -18,9 +18,9 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.eventsByUser" 
 					ng-click="$ctrl.eventDetails(event.id)">
 					<div class="md-list-item-text compact">
-						<p>{{event.id}}</p>
+						<!--<p>{{event.id}}</p>-->
 						<h3>{{event.name}}</h3>
-						<p>{{event.description}}</p>
+						<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
 						<p>{{event.beginDate}}</p>
 						<p>{{event.endDate}}</p>
 						<p>{{event.localId}}</p>
@@ -33,9 +33,9 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.recommendedArtists" 
 					ng-click="$ctrl.artistDetails(artist.id)">
 					<div class="md-list-item-text compact">
-						<p>{{artist.id}}</p>
+						<!--<p>{{artist.id}}</p>-->
 						<h3>{{artist.name}}</h3>
-						<p>{{artist.description}}</p>
+						<p>{{artist.description.substring(0, 70)}}<span ng-if="artist.description.length>70">...</span></p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
@@ -45,9 +45,9 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.recommendedEvents" 
 					ng-click="$ctrl.eventDetails(event.id)">
 					<div class="md-list-item-text compact">
-						<p>{{event.id}}</p>
+						<!--<p>{{event.id}}</p>-->
 						<h3>{{event.name}}</h3>
-						<p>{{event.description}}</p>
+						<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
 						<p>{{event.beginDate}}</p>
 						<p>{{event.endDate}}</p>
 						<p>{{event.localId}}</p>

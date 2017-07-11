@@ -70,6 +70,55 @@ public class UserRestController {
 		}			
 	}
 	
+	@GetMapping("/private/login/{id}")
+	public ResponseEntity getLogin(HttpServletRequest request, @PathVariable int id) {
+		HttpSession session = request.getSession();
+		
+		if (session.getAttributeNames().hasMoreElements()) {
+        	Integer userId = (Integer) session.getAttribute("id");
+        	if (userId != id) {
+        		return new ResponseEntity<String>("El usuario sólo puede consultar sus propios datos."+id, HttpStatus.FORBIDDEN);
+        	}
+		}
+		
+		User user = userService.getUser(id);
+		if (user == null){
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
+	}
+	
+	@PutMapping("/private/login/{id}")
+	public ResponseEntity<String> loginUpdate(HttpServletRequest request, @PathVariable int id, @RequestBody User user) throws EntityNotUpdatableException {
+		HttpSession session = request.getSession();
+		
+		if (session.getAttributeNames().hasMoreElements()) {
+        	Integer userId = (Integer) session.getAttribute("id");
+        	if (userId != id) {
+        		return new ResponseEntity<String>("El usuario sólo puede actualizar sus propios datos."+id, HttpStatus.FORBIDDEN);
+        	}
+		}
+		
+		if (user.getId()!=id) {
+			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
+		}
+		else {
+			int rows = userService.updateUser(id, user);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido actualizarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				
+				session.removeAttribute("name");
+				session.setAttribute("name", user.getName());
+				
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
+	
 	@PostMapping("/register")
 	public ResponseEntity register (HttpSession session, @RequestBody User userReq) throws EntityNotCreatableException {
 		Enumeration atr = session.getAttributeNames();

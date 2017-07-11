@@ -15,7 +15,7 @@
 						<div flex ="80">
 							<!--<p>{{artist.id}}</p>-->
 							<h3>{{local.name}}</h3>
-							<p>{{local.description}}</p>
+							<p>{{local.description.substring(0, 70)}}<span ng-if="local.description.length>70">...</span></p>
 							<p>Capacidad: {{local.capacity}}</p>
 
 						</div>				

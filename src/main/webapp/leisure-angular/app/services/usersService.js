@@ -22,6 +22,12 @@
 			{ 'update': { method: 'PUT' } }// un método custom con el verobo put para actualizaciones
 		); 
 
+		this.editLogin = $resource(
+            "http://localhost:8080/leisure/private/login/:id", // plantilla de la url del api
+			{ id: '@id'}, // la plantilla se rellena con la propiedad id
+			{ 'update': { method: 'PUT' } }// un método custom con el verobo put para actualizaciones
+		); 
+
 		this.logout = $resource(
             "http://localhost:8080/leisure/logout", // plantilla de la url del api
 			{}, // la plantilla se rellena con la propiedad id

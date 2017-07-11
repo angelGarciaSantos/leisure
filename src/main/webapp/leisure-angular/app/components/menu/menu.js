@@ -61,6 +61,28 @@
 
                     }
 				};
+
+				vm.editLoginDialog = function (evt) {
+					usersService.editLogin.get({id: vm.loginInfo[0]}).$promise.then(function(data) {
+						vm.editLogin = data;
+						vm.dialogOpen = true;
+						$mdDialog.show({
+							targetEvent: evt,
+							controller: function () { 
+								this.parent = vm; 
+							},
+							controllerAs: 'ctrl',
+							templateUrl: './components/menu/editLoginDialog.html'
+						});
+
+
+
+					});       
+
+
+
+
+				};
 			
 				vm.userLogout = new usersService.logout(); 
 				vm.loginInfo = [];
@@ -125,6 +147,37 @@
 									.hideDelay(4000)
 								);
 						});
+				};
+
+				vm.editUserLogin = function () {
+                    if (vm.editLogin.password != vm.editPasswordCheck) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .textContent('Error: las contraseñas no coinciden.')
+                                .position('top right')
+                                .hideDelay(4000)
+                            );
+                    }
+                    else {
+                        vm.editLogin.$update({ id: vm.loginInfo[0] })
+                            .then(function (result) {
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .textContent('¡Perfil actualizado correctamente!')
+                                        .position('top right')
+                                        .hideDelay(3000)
+                                    );
+								$window.location.reload();
+                            }, function (error) {
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .textContent('Error: el perfil no pudo actualizarse.')
+                                        .position('top right')
+                                        .hideDelay(4000)
+                                    );
+                            });
+
+                    }
 				};            
 			}
 		})

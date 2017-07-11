@@ -15,7 +15,7 @@
 						<div flex ="80">
 							<!--<p>{{artist.id}}</p>-->
 							<h3>{{event.name}}</h3>
-							<p>{{event.description}}</p>
+							<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
 							<p>{{event.beginDate}}</p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">

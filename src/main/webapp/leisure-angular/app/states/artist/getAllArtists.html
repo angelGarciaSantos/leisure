@@ -15,7 +15,7 @@
 						<div flex ="80">
 							<!--<p>{{artist.id}}</p>-->
 							<h3>{{artist.name}}</h3>
-							<p>{{artist.description}}</p>
+							<p>{{artist.description.substring(0, 70)}}<span ng-if="artist.description.length>70">...</span></p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">
 							<img class = "imagelist"ng-src="{{artist.image}}">

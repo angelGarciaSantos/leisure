@@ -118,14 +118,17 @@ public class UserDAO {
     public int updateUser(int id, User user) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
-         Session session = SessionUtil.getSession();
+         
+         	String encryptedPassword = PasswordEncrypter.crypt(user.getPassword());
+
+         	Session session = SessionUtil.getSession();
             Transaction tx = session.beginTransaction();
             String hql = "update User set name =:name, email=:email, type =:type, password =:password where id = :id";
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setString("name",user.getName());
             query.setString("email",user.getEmail());
-            query.setString("password",user.getPassword());
+            query.setString("password", encryptedPassword);
             query.setInteger("type", user.getType());
             int rowCount;
             try {

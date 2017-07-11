@@ -1,54 +1,66 @@
 <section name="GetArtist">
-	<md-content layout="row" layout-align="center center">
-		<div flex-xs flex-gt-xs="50" layout="column">
-			<md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
-				<md-card-title>
-				<md-card-title-text>
-					<span class="md-headline">{{$ctrl.artist.name}}</span>
-					<span class="md-subhead">{{$ctrl.artist.description}}</span>
-					<span class="md-subhead">{{$ctrl.artist.rating}}</span>
-					<md-subheader class="md-no-sticky">Valoración global del artista</md-subheader>
-					<p ng-if="$ctrl.globalRating[0] != -1">{{$ctrl.globalRating[0]}}</p>
-					<p ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</p>
-					<md-list>
-						<md-subheader class="md-no-sticky">Tags</md-subheader>
-						<md-list-item class="md-2-line contact-item" ng-repeat="tag in $ctrl.tags" 
-							ng-click=$ctrl.tagDetails(tag.id)>
-							<div class="md-list-item-text compact">
-								<h3>{{tag.name}}</h3>
-							</div>
-							<md-divider ng-if="!$last"></md-divider>
-						</md-list-item>
-					</md-list>
-					<md-list>
-						<md-subheader class="md-no-sticky">Próximos Eventos</md-subheader>
-						<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.nextEvents" 
-							ng-click="$ctrl.eventDetails(event.id)">
-							<div class="md-list-item-text compact">
-								<p>{{event.id}}</p>
-								<h3>{{event.name}}</h3>
-								<p>{{event.description}}</p>
-								<p>{{event.beginDate}}</p>
-								<p>{{event.endDate}}</p>
-								<p>{{event.localId}}</p>
-							</div>
-							<md-divider ng-if="!$last"></md-divider>
-						</md-list-item>
-					</md-list>
-				</md-card-title-text>
-				<md-card-title-media>
-					<div class="md-media-lg card-media">
-						 <img ng-src="{{$ctrl.artist.image}}">
+	<md-content layout="column">
+		<div layout="row" layout-align="center stretch">
+			<div flex="45" layout="column">
+				<h1 class="md-no-sticky">{{$ctrl.artist.name}}</h1>
+				<div class="md-media-lg card-media">
+						<img class="image" ng-src="{{$ctrl.artist.image}}">
+				</div>
+			</div>
+			
+			<div flex="30" layout="column" layout-align="center center" layout-margin>
+				<br>
+				<br>
+				<br>
+				<br>
+				<p>{{$ctrl.artist.description}}</p>
+				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del artista: {{$ctrl.globalRating[0]}}</h3>
+				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>
+			</div>
+		</div>
+		<div layout="column" layout-align="center center">
+			<md-list layout="column" layout-align="center stretch" class="list" flex>
+				<h1 class="md-no-sticky">Tags</h1>
+				<md-list-item class="md-2-line contact-item" ng-repeat="tag in $ctrl.tags" 
+					ng-click="$ctrl.tagDetails(tag.id)">
+					<div layout="column" layout-align="center center" class="md-list-item-text compact">
+						<div flex ="100">
+							<!--<p>{{artist.id}}</p>-->
+							<h3>{{tag.name}}</h3>
+							<!--<p>{{tag.description}}</p>-->
+						</div>				
+						<!--<div flex ="20" layout-margin class="md-media-lg card-media">
+							<img class = "imagelist"ng-src="{{artist.image}}">
+						</div>					-->
 					</div>
-				</md-card-title-media>
-				</md-card-title>
-				<md-card-actions layout="row" layout-align="end center">
-				<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingArtist === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followArtist()">Seguir</md-button>
-				<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingArtist === true && $ctrl.loginInfo.length > 0" ng-click="$ctrl.unfollowArtist()">Dejar de Seguir</md-button>
-				<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo[2] == 2" ui-sref="updateArtist({ id: $ctrl.artist.id })">Editar</md-button>
-				<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo[2] == 2" ng-click="$ctrl.deleteArtist()">Eliminar</md-button>
-				</md-card-actions>
-			</md-card>
-		</div> 
+				<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+
+			<md-list layout="column" layout-align="center stretch" class="list" flex>
+				<h1 class="md-no-sticky">Próximos Eventos</h1>
+				<div flex ="100" layout = "column" layout-align="center center">
+					<h3 layout="column" layout-align="center stretch" ng-if="$ctrl.nextEvents.length == 0">No hay eventos próximos anunciados</h3>
+				</div>
+				<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.nextEvents" 
+					ng-click="$ctrl.eventDetails(event.id)">
+					<div layout="column" layout-align="center center" class="md-list-item-text compact">
+						<!--<p>{{event.id}}</p>-->
+						<h3>{{event.name}}</h3>
+						<p>{{event.description}}</p>
+						<p>{{event.beginDate}}</p>
+						<p>{{event.endDate}}</p>
+						<p>{{event.localId}}</p>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+		</div>
+		<div layout="row" layout-align="center center">	
+			<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingArtist === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followArtist()">Seguir</md-button>
+			<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingArtist === true && $ctrl.loginInfo.length > 0" ng-click="$ctrl.unfollowArtist()">Dejar de Seguir</md-button>
+			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo[2] == 2" ui-sref="updateArtist({ id: $ctrl.artist.id })">Editar</md-button>
+			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo[2] == 2" ng-click="$ctrl.deleteArtist()">Eliminar</md-button>
+		</div>
 	</md-content>
 </section>

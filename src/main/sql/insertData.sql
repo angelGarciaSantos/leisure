@@ -2,10 +2,13 @@
 -- VALUES (value1,value2,value3,...);
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (1, "Bar Pepe", "Bar de copas", 40, 43.3380199, -8.4074581, "http://guitarchic.net/wp-content/uploads/2017/01/1-1.jpg");
+VALUES (1, "Playa Club", "Sonidos eclécticos de vanguardia y música en directo en una discoteca y sala de conciertos abierta en 1957.", 500, 43.36853944004338, -8.413666470552245, "https://alvaropardoinfo4.files.wordpress.com/2012/05/playaclub.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (2, "Bar Manolo", "Bar de tapas", 35, 43.3380199, -8.4074581, "http://guitarchic.net/wp-content/uploads/2017/01/1-1.jpg");
+VALUES (2, "Sala Mardigras", "Sala de conciertos.", 300, 43.37464111624276, -8.398218548479454, "http://empuje.net/wp-content/uploads/2017/03/mardi17.jpg");
+
+INSERT INTO Local (id, name, description, capacity, lat, lng, image)
+VALUES (3, "Filomatic", "Sala de conciertos.", 250, 43.37442606541591, -8.395808412268488, "https://www.paxinasgalegas.es/imagenes/sala-filomatic_img551740t0.jpg");
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (1,"Concierto de Metallica", "Concierto de un grupo de trash metal...", now(), now(), 1);
@@ -14,7 +17,7 @@ INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (2,"Concierto", "Concierto varios grupos...", now(), now(), 2);
 
 INSERT INTO Artist (artist_id, name, description, image)
-VALUES (1,"Metallica", "Grupo de Trash Metal", "https://pbs.twimg.com/profile_images/766360293953802240/kt0hiSmv.jpg");
+VALUES (1,"Metallica", "Metallica es una banda de heavy metal estadounidense originaria de Los Ángeles, pero con base en San Francisco desde febrero de 1983. Fue fundada en 1981 en Los Ángeles por Lars Ulrich y James Hetfield, a los que se les unirían Dave Mustaine y Cliff Burton. Estos dos músicos fueron después sustituidos por el guitarrista Kirk Hammett y el bajista Jason Newsted, Dave Mustaine fue despedido un año después de ingresar en la banda debido a su excesiva adicción al alcohol y su actitud violenta, y fundó la banda Megadeth, siendo sustituido por Kirk Hammett ex guitarrista de Exodus. Por otra parte, el 27 de septiembre de 1986, la muerte de Cliff Burton en un accidente de autobús en Suecia, durante una de sus giras, provocó la entrada al grupo de Jason Newsted,1 quien, tras su abandono quince años más tarde, sería sustituido por el bajista actual, Robert Trujillo.", "https://pbs.twimg.com/profile_images/766360293953802240/kt0hiSmv.jpg");
 
 INSERT INTO Artist (artist_id, name, description, image)
 VALUES (2,"The Black Keys", "Grupo de Blues Rock", "http://i.imgur.com/1asNWI9.png");

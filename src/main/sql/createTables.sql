@@ -21,7 +21,7 @@ DROP TABLE Local;
 CREATE TABLE Local (
 	id int (11) NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
-	description varchar(255) NOT NULL,
+	description varchar(3000) NOT NULL,
 	capacity int(11) NOT NULL,
 	lat float(53) NOT NULL,
 	lng float(53) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Local (
 CREATE TABLE Event (
 	id int (11) NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
-	description varchar(255) NOT NULL,
+	description varchar(3000) NOT NULL,
 	begin_date TIMESTAMP NOT NULL,
 	end_date TIMESTAMP NOT NULL,
 	local_id int (11) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE Event (
 CREATE TABLE Artist (
 	artist_id int (11) NOT NULL AUTO_INCREMENT,
 	name varchar(255) NOT NULL,
-	description varchar(255) NOT NULL,
+	description varchar(3000) NOT NULL,
 	image varchar(1000) NOT NULL,
 	CONSTRAINT artist_PK PRIMARY KEY (artist_id)
 );

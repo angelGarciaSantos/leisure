@@ -11,6 +11,7 @@
     </div>
     <div layout="row" layout-align="begin center" style="padding-right:20px;font-weight: bold;">
       <span ng-if="$ctrl.loginInfo.length > 0">Hola, {{$ctrl.loginInfo[1]}} </span>
+      <md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.editLoginDialog()">Editar</md-button>
       <md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.logout()">Salir</md-button>
       <md-button ng-if="$ctrl.loginInfo.length == 0" ng-click="$ctrl.loginDialog()">Iniciar Sesión</md-button>
       <md-button ng-if="$ctrl.loginInfo.length == 0" ng-click="$ctrl.registerDialog()">Registro</md-button>
