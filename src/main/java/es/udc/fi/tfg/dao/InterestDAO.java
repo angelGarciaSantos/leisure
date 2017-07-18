@@ -2,6 +2,8 @@ package es.udc.fi.tfg.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,6 +20,9 @@ import es.udc.fi.tfg.model.User;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.TagService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Component
 public class InterestDAO {
@@ -27,12 +32,22 @@ public class InterestDAO {
 	@Autowired
 	private UserService userService;
 	
-	public void addInterest(Interest bean, int tagId, int userId){
+	@Transactional
+	public void addInterest(Interest bean, int tagId, int userId) throws EntityNotCreatableException{
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
-        addInterest(session,bean, tagId, userId);        
-        tx.commit();
-        session.close();
+        try {
+        	addInterest(session,bean, tagId, userId); 
+            tx.commit();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo crear el interest.");
+        }   
+        finally {
+        	session.close(); 
+        }   
     }
     
     private void addInterest(Session session, Interest bean, int tagId, int userId ){
@@ -87,20 +102,33 @@ public class InterestDAO {
         }
     }
     
-    public int deleteInterest(int id) {
+    @Transactional
+    public int deleteInterest(int id) throws EntityNotRemovableException {
         Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
         String hql = "delete from Interest where id = :id";
         Query query = session.createQuery(hql);
         query.setInteger("id",id);
-        int rowCount = query.executeUpdate();
+        int rowCount;
+        try{
+        	rowCount = query.executeUpdate();
+            tx.commit();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo eliminar el interest.");
+        }   
+        finally {
+        	session.close(); 
+        }   
         System.out.println("Rows affected: " + rowCount);
-        tx.commit();
-        session.close();
+
         return rowCount;
     }
     
-    public int updateInterest(int id, Interest interest){
+    @Transactional
+    public int updateInterest(int id, Interest interest) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
          Session session = SessionUtil.getSession();
@@ -109,10 +137,20 @@ public class InterestDAO {
             Query query = session.createQuery(hql);
             query.setInteger("id",id);
             query.setInteger("points",interest.getPoints());
-            int rowCount = query.executeUpdate();
+            int rowCount;
+            try{
+            	rowCount = query.executeUpdate();
+                tx.commit();
+            }
+            catch(Exception e)
+            {
+            	tx.rollback();
+            	throw new EntityNotUpdatableException("No se pudo actualizar el interest.");
+            }   
+            finally {
+            	session.close(); 
+            }   
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
             return rowCount;
     }
 }

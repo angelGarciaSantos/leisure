@@ -23,16 +23,17 @@ public class LocalDAO {
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
         try {
-        	addLocal(session,bean);        
+        	addLocal(session,bean);    
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear el local.");
         }   
-        tx.commit();
-        session.close();
-        
+        finally{
+        	session.close();
+        }    
     }
     
     private void addLocal(Session session, Local bean){
@@ -92,13 +93,16 @@ public class LocalDAO {
         int rowCount = 0;
         try{
         	rowCount = query.executeUpdate();
+            tx.commit();
         }
         catch(ConstraintViolationException e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Local.");
         } 
-        tx.commit();
+        finally {
+        	session.close();
+        }
         System.out.println("Rows affected: " + rowCount);
         return rowCount;
     }
@@ -122,15 +126,18 @@ public class LocalDAO {
             int rowCount;
             try {
             	rowCount = query.executeUpdate();
+                tx.commit();
             }
             catch(Exception e)
             {
             	tx.rollback();
             	throw new EntityNotUpdatableException("No se pudo modificar el local.");
-            }   
+            } 
+            finally
+            {
+                session.close();
+            }
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
             return rowCount;
     }
 }

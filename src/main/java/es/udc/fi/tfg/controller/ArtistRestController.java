@@ -81,15 +81,15 @@ public class ArtistRestController {
 		}
 	}
 	
-	@GetMapping("/artists/user/{userId}")
-	public ResponseEntity getArtistsFromUser(@PathVariable int userId) {
+	@GetMapping("/artists/user/{userId}/{first}/{max}")
+	public ResponseEntity getArtistsFromUser(@PathVariable int userId, @PathVariable int first, @PathVariable int max) {
 		if (userService.getUser(userId) == null ) {
 			logger.error("El usuario " + userId + " no existe.");
 			return new ResponseEntity<String>("El usuario " + userId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
 			logger.warn("Obteniendo los artistas seguidos por el usuario :" + userId);
-			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromUser(userId),HttpStatus.OK);		
+			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromUser(userId, first, max),HttpStatus.OK);		
 		}
 	}
 

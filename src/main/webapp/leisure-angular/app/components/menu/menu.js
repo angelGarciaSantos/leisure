@@ -65,6 +65,7 @@
 				vm.editLoginDialog = function (evt) {
 					usersService.editLogin.get({id: vm.loginInfo[0]}).$promise.then(function(data) {
 						vm.editLogin = data;
+						vm.editLogin.password = "";
 						vm.dialogOpen = true;
 						$mdDialog.show({
 							targetEvent: evt,
@@ -138,7 +139,8 @@
 									vm.loginInfo = data;
 									vm.recommendedArtists = [];	
 								});
-								$window.location.reload();
+								//$window.location.reload();
+								$state.go('home');
 						}, function (error) {
 							$mdToast.show(
 								$mdToast.simple()

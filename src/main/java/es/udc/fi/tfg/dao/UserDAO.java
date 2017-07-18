@@ -26,16 +26,17 @@ public class UserDAO {
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
         try {
-        	addUser(session,bean);        
+        	addUser(session,bean);  
+            tx.commit();     
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear el usuario.");
         }   
-        tx.commit();
-        session.close();
-        
+        finally {
+            session.close();
+        }
     }
     
     private void addUser(Session session, User bean){
@@ -104,17 +105,21 @@ public class UserDAO {
         int rowCount = 0;
         try{
         	rowCount = query.executeUpdate();
+            tx.commit();
         }
         catch(ConstraintViolationException e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Usuario.");
         }   
-        tx.commit();
+        finally {
+        	session.close();
+        }
         System.out.println("Rows affected: " + rowCount);
         return rowCount;
     }
     
+    @Transactional
     public int updateUser(int id, User user) throws EntityNotUpdatableException{
          if(id <=0)  
                return 0;  
@@ -133,16 +138,18 @@ public class UserDAO {
             int rowCount;
             try {
             	rowCount = query.executeUpdate();
+                tx.commit();
             }
             catch(Exception e)
             {
             	tx.rollback();
             	throw new EntityNotUpdatableException("No se pudo actualizar el usuario.");
             }  
+            finally{
+                session.close();
+            }
             
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
             return rowCount;
     }
 }

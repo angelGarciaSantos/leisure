@@ -139,8 +139,8 @@ public class ArtistService {
 		return artists;
 	}
 	
-	public List<Artist> getArtistsFromUser(int userId) {
-		List<Integer> ids = artistDAO.getArtistsFromUser(userId);
+	public List<Artist> getArtistsFromUser(int userId, int first, int max) {
+		List<Integer> ids = artistDAO.getArtistsFromUser(userId, first, max);
         List<Artist> artists = new ArrayList<Artist>();
 		for(Integer id : ids) {
 			artists.add(this.getArtist(id));
@@ -188,11 +188,6 @@ public class ArtistService {
 	}
 	
 	public boolean isFollowingArtist(int artistId, int userId) {
-		if (artistDAO.isFollowingArtist(artistId, userId) == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return artistDAO.isFollowingArtist(artistId, userId);
 	}
 }

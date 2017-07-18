@@ -36,8 +36,8 @@
 		);
 
 		this.artistsByUser = $resource(
-            "http://localhost:8080/leisure/artists/user/:id", // plantilla de la url del api
-			{ id: '@id' }, // la plantilla se rellena con la propiedad id
+            "http://localhost:8080/leisure/artists/user/:id/:first/:max", // plantilla de la url del api
+			{ id: '@id',first:'@first',max:'@max' }, // la plantilla se rellena con la propiedad id
 			{ 'update': { method: 'PUT' } }// un método custom con el verobo put para actualizaciones
 		);
 

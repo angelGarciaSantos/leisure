@@ -28,15 +28,16 @@ public class ArtistDAO {
         Transaction tx = session.beginTransaction();
         try{
         	addArtist(session,bean);
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("El artista no pudo crearse.");
-        }   
-        tx.commit();
-        session.close();
-        
+        } 
+        finally{
+            session.close();
+        }
     }
     
     private void addArtist(Session session, Artist bean){
@@ -59,6 +60,7 @@ public class ArtistDAO {
         }
         List<Artist> artists =  query.list();
         session.close();
+
         return artists;
     }
     
@@ -72,6 +74,7 @@ public class ArtistDAO {
         }
         List<Artist> artists =  query.list();
         session.close();
+
         return artists;
     }
     
@@ -81,6 +84,7 @@ public class ArtistDAO {
         query.setInteger("id",id);
         Artist artist = (Artist) query.uniqueResult();
         session.close();
+ 
         return artist;
     }
     
@@ -92,24 +96,35 @@ public class ArtistDAO {
         if (max != -1){
         	sqlQuery.setMaxResults(max);
         }
-		//session.close();
-		return sqlQuery.list();
+        
+        List<Integer> result = sqlQuery.list();
+        
+		session.close();
+		return result;
     }
     
-    public List<Integer> getArtistsFromUser(int userId) {
+    public List<Integer> getArtistsFromUser(int userId, int first, int max) {
     	Session session = SessionUtil.getSession();
-		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from user_artist where user_id = ?");
+		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from user_artist where user_id = ? order by artist_id");
 		sqlQuery.setParameter(0, userId);
-		//session.close();
-		return sqlQuery.list();
+		sqlQuery.setFirstResult(first);
+        if (max != -1){
+        	sqlQuery.setMaxResults(max);
+        }
+		List<Integer> result = sqlQuery.list();
+        session.close();
+ 
+		return result;
     }
 	
     public List<Integer> getArtistsFromTag(int tagId) {
     	Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from tag_artist where tag_id = ?");
 		sqlQuery.setParameter(0, tagId);
-		//session.close();
-		return sqlQuery.list();
+		List<Integer> result = sqlQuery.list();
+		session.close();
+
+		return result;
     }
     
     @Transactional
@@ -122,45 +137,55 @@ public class ArtistDAO {
         int rowCount = 0;
         try{
             rowCount = query.executeUpdate();
+            tx.commit(); 
         }
         catch(ConstraintViolationException e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Artista.");
-        }       
-        tx.commit(); 
+        }
+        finally{
+        	session.close();
+        }
+        
         System.out.println("Rows affected: " + rowCount);
 
         return rowCount;
     }
     
+    @Transactional
     public int updateArtist(int id, Artist art) throws EntityNotUpdatableException{
-         if(id <=0)  
-               return 0;  
-         Session session = SessionUtil.getSession();
-            Transaction tx = session.beginTransaction();
-            String hql = "update Artist set name =:name, description=:description, image =:image where id = :id";
-            Query query = session.createQuery(hql);
-            query.setInteger("id",id);
-            query.setString("name",art.getName());
-            query.setString("description",art.getDescription());
-            query.setString("image", art.getImage());
-            int rowCount;
-            try {
-            	rowCount = query.executeUpdate();
-            }
-            catch(Exception e)
-            {
-            	tx.rollback();
-            	throw new EntityNotUpdatableException("El artista no pudo actualizarse.");
-            }   
-            
-            System.out.println("Rows affected: " + rowCount);
+     if(id <=0)  
+           return 0;  
+     Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        String hql = "update Artist set name =:name, description=:description, image =:image where id = :id";
+        Query query = session.createQuery(hql);
+        query.setInteger("id",id);
+        query.setString("name",art.getName());
+        query.setString("description",art.getDescription());
+        query.setString("image", art.getImage());
+        int rowCount;
+        try {
+        	rowCount = query.executeUpdate();
             tx.commit();
-            //session.close();
-            return rowCount;
+
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotUpdatableException("El artista no pudo actualizarse.");
+        } 
+        finally{
+        	session.close();
+        }
+        
+        System.out.println("Rows affected: " + rowCount);
+      
+        return rowCount;
     }
     
+    @Transactional
     public int followArtist (int artistId, int userId) throws EntityNotCreatableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
@@ -171,17 +196,25 @@ public class ArtistDAO {
         int rows;
         try {
         	rows = insertQuery.executeUpdate();
+            tx.commit();  
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo seguir al artista.");
         }   
-        tx.commit();  
-        //session.close();
+        finally {
+        	boolean is = session.isDirty();
+        	System.out.println(is);
+        	session.close();
+        	
+
+        }
+  
         return rows;    		
     }
 	
+    @Transactional
     public int unfollowArtist (int artistId, int userId) throws EntityNotRemovableException {
 		Session session = SessionUtil.getSession();
         Transaction tx = session.beginTransaction();
@@ -192,27 +225,35 @@ public class ArtistDAO {
         int rows;
         try {
         	rows = insertQuery.executeUpdate();
+            //tx.commit();
+            session.getTransaction().commit();
+
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("No se pudo dejar de seguir al artista.");
         }   
+        finally{
+        	session.close();
+        }
         //session.getTransaction().commit();
-        tx.commit();
-        //session.close();
+
         return rows;
     }
     
-    public int isFollowingArtist(int artistId, int userId) {
+    public boolean isFollowingArtist(int artistId, int userId) {
     	Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select count(*) from user_artist where user_id = ? and artist_id = ?");
 		sqlQuery.setParameter(0, userId);
 		sqlQuery.setParameter(1, artistId);
-		//session.close();
 		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
-		
-		return count;
+        session.close();
+
+        if (count > 0)
+        	return true;
+        else
+        	return false;
     }
 	
 	

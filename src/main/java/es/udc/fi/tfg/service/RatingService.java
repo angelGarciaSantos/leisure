@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import es.udc.fi.tfg.dao.CommentDAO;
 import es.udc.fi.tfg.dao.RatingDAO;
 import es.udc.fi.tfg.model.Comment;
+import es.udc.fi.tfg.model.Event;
 import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
@@ -85,6 +86,41 @@ public class RatingService {
 			}
 				
 			
+			a.add(result);
+		}
+		
+		return a;
+	}
+	
+	public List<Double> getRatingFromLocal(int localId){
+		List<Event> events = eventService.getEventsFromLocal(localId);
+		
+		int total = events.size();
+		List<Double> a = new ArrayList<Double>();
+		if(total == 0) {
+			a.add((double) -1);
+		}
+		else {
+			double sumLocal = 0;
+			double actual = 0;
+			for (Event event : events) {
+				actual = this.getRatingFromEvent(event.getId()).get(0);
+				if (actual == -1) {
+					total--;
+				}	
+				else {
+					sumLocal += actual;
+				}
+				
+			}
+			double result;
+			if (total > 0) {
+				result = sumLocal / total;	
+			}
+			else {
+				result = -1;
+			}
+				
 			a.add(result);
 		}
 		

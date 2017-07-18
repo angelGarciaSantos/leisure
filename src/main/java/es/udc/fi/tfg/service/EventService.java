@@ -92,9 +92,11 @@ public class EventService {
 	 	});
 		
 		List<Event> recommendedEvents = new ArrayList<Event>();
-
+		
 		for (int i=0;i<eventsPoints.length;i++){
-			recommendedEvents.add(this.getEvent(eventsPoints[i][0]));   
+			if(!(this.isFollowingEvent(eventsPoints[i][0], userId))) {
+				recommendedEvents.add(this.getEvent(eventsPoints[i][0]));   
+			}
 		}
 		
 		//TODO: aqui decidimos la cantidad de eventos recomendados a devolver:
@@ -135,6 +137,10 @@ public class EventService {
 	
 	public List<Integer> getEventsFromArtist(int artistId) {
 		return eventDAO.getEventsFromArtist(artistId);
+	}
+	
+	public List<Event> getEventsFromLocal(int localId) {
+		return eventDAO.getEventsFromLocal(localId);
 	}
 	
 	public List<Event> getNextEventsFromArtist(int artistId) {
@@ -233,8 +239,8 @@ public class EventService {
 		return resultEvents;
 	}
 	
-	public List<Event> getEventsFromUser(int userId) {
-		List<Integer> ids = eventDAO.getEventsFromUser(userId);
+	public List<Event> getEventsFromUser(int userId, int first, int max) {
+		List<Integer> ids = eventDAO.getEventsFromUser(userId, first, max);
         List<Event> events = new ArrayList<Event>();
 		for(Integer id : ids) {
 			events.add(this.getEvent(id));

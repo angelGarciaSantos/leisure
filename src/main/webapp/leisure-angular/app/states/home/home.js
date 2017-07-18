@@ -14,23 +14,97 @@
                 var vm = this;
 				vm.user = new usersService.logout(); 
 				vm.loginInfo = [];
+				vm.firstArtist = 0;
+				vm.maxArtist = 5;
+				vm.showNextButtonArtist = false;
+				vm.showPreviousButtonArtist = false;
+				vm.firstEvent = 0;
+				vm.maxEvent = 5;
+				vm.showNextButtonEvent = false;
+				vm.showPreviousButtonEvent = false;
 
 				usersService.loginInfo.query().$promise.then(function(data) {
 					vm.loginInfo = data;
 					if (vm.loginInfo.length > 0) {
+
+						vm.loadArtists = function () {
+							artistsService.artistsByUser.query({id: vm.loginInfo[0], first: vm.firstArtist, max: (vm.maxArtist+1)}).$promise.then(function(data) {
+								vm.artistsByUser = data;
+
+								if(vm.firstArtist != 0) {
+									vm.showPreviousButtonArtist = true;
+								}
+								else {
+									vm.showPreviousButtonArtist = false;
+								}
+
+								if(vm.artistsByUser.length > 5) {
+									vm.showNextButtonArtist = true;
+									vm.artistsByUser.splice(vm.artistsByUser.length -1, 1);
+								}
+								else{
+									vm.showNextButtonArtist = false;
+								}
+							});
+						}	
+
+						vm.getNextArtist = function() {				
+							vm.firstArtist += 5;
+							vm.loadArtists();				
+						}
+
+						vm.getPreviousArtist = function() {						
+							vm.firstArtist -= 5;
+							if(vm.firstArtist < 0){
+								vm.firstArtist = 0;
+							}
+							vm.loadArtists();
+						}
+
+						vm.loadEvents = function () {
+							eventsService.eventsByUser.query({id: vm.loginInfo[0], first: vm.firstEvent, max: (vm.maxEvent+1)}).$promise.then(function(data) {
+								vm.eventsByUser = data;
+
+								if(vm.firstEvent != 0) {
+									vm.showPreviousButtonEvent = true;
+								}
+								else {
+									vm.showPreviousButtonEvent = false;
+								}
+
+								if(vm.eventsByUser.length > 5) {
+									vm.showNextButtonEvent = true;
+									vm.eventsByUser.splice(vm.eventsByUser.length -1, 1);
+								}
+								else{
+									vm.showNextButtonEvent = false;
+								}
+							});
+						}	
+
+						vm.getNextEvent = function() {				
+							vm.firstEvent += 5;
+							vm.loadEvents();				
+						}
+
+						vm.getPreviousEvent = function() {						
+							vm.firstEvent -= 5;
+							if(vm.firstEvent < 0){
+								vm.firstEvent = 0;
+							}
+							vm.loadEvents();
+						}
+
 						artistsService.recommendedArtists.query({id: vm.loginInfo[0]}).$promise.then(function(data) {
 							vm.recommendedArtists = data;
-						});
-						artistsService.artistsByUser.query({id: vm.loginInfo[0]}).$promise.then(function(data) {
-							vm.artistsByUser = data;
 						});
 
 						eventsService.recommendedEvents.query({id: vm.loginInfo[0]}).$promise.then(function(data) {
 							vm.recommendedEvents = data;
 						});
-						eventsService.eventsByUser.query({id: vm.loginInfo[0]}).$promise.then(function(data) {
-							vm.eventsByUser = data;
-						});
+
+						vm.loadArtists();
+						vm.loadEvents();
 					}
 					else {
 						$mdToast.show(

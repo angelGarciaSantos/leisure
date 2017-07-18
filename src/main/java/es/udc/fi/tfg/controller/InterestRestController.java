@@ -27,6 +27,9 @@ import es.udc.fi.tfg.service.InterestService;
 import es.udc.fi.tfg.service.RatingService;
 import es.udc.fi.tfg.service.TagService;
 import es.udc.fi.tfg.service.UserService;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @CrossOrigin
 @RestController
@@ -87,7 +90,7 @@ public class InterestRestController {
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 		@PostMapping(value = "/private/interests/event/{eventId}/{userId}")
-		public ResponseEntity<Rating> createInterestByEvent(@RequestBody Interest interest, @PathVariable int eventId, @PathVariable int userId) {
+		public ResponseEntity<Rating> createInterestByEvent(@RequestBody Interest interest, @PathVariable int eventId, @PathVariable int userId) throws EntityNotUpdatableException, EntityNotCreatableException {
 			
 			interestService.createInterestByEvent(interest, eventId, userId);
 			return new ResponseEntity<Rating>(HttpStatus.CREATED);
@@ -95,14 +98,14 @@ public class InterestRestController {
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/interests/{tagId}/{userId}")
-	public ResponseEntity<Rating> createInterest(@RequestBody Interest interest, @PathVariable int tagId, @PathVariable int userId) {
+	public ResponseEntity<Rating> createInterest(@RequestBody Interest interest, @PathVariable int tagId, @PathVariable int userId) throws EntityNotCreatableException {
 		
 		interestService.createInterest(interest, tagId, userId);
 		return new ResponseEntity<Rating>(HttpStatus.CREATED);
 	}
 		
 	@DeleteMapping("/private/interests/{id}")
-	public ResponseEntity<String> deleteInterest(@PathVariable int id) {
+	public ResponseEntity<String> deleteInterest(@PathVariable int id) throws EntityNotRemovableException {
 		int rows = interestService.deleteInterest(id);
 		if (rows < 1) {
 			return new ResponseEntity<String>("No ha podido eliminarse el interés "+ id, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +116,7 @@ public class InterestRestController {
 	}
 
 	@PutMapping("/private/interests/{id}")
-	public ResponseEntity<String> updateInterest(@PathVariable int id, @RequestBody Interest interest) {
+	public ResponseEntity<String> updateInterest(@PathVariable int id, @RequestBody Interest interest) throws EntityNotUpdatableException {
 		if (interest.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);
 		}

@@ -14,8 +14,8 @@
 				<br>
 				<br>
 				<p>{{$ctrl.local.description}}</p>
-				<!--<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del artista: {{$ctrl.globalRating[0]}}</h3>
-				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>-->
+				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del local: {{$ctrl.globalRating[0]}}</h3>
+				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>
 			</div>
 		</div>
 		<div layout="column" layout-align="center center">	
@@ -37,6 +37,17 @@
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
+			<div>
+				<h1 class="md-no-sticky">Localización</h1>
+				<ng-map class="map" center="[{{$ctrl.local.lat}}, {{$ctrl.local.lng}}]">
+					<marker position="[{{$ctrl.local.lat}}, {{$ctrl.local.lng}}]" centered="true"></marker>
+				</ng-map>
+				
+				<!--{{$ctrl.local.lat}}
+				{{$ctrl.local.lng}}-->
+
+
+			</div>	
 		</div>
 		<div layout="row" layout-align="center center">
 			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo[2] == 2" ui-sref="updateLocal({ id: $ctrl.local.id })">Editar</md-button>

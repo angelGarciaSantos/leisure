@@ -41,14 +41,16 @@ public class EventDAO {
         Transaction tx = session.beginTransaction();
         try {
         	addEvent(session,bean, localId);
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear el evento.");
         }   
-        tx.commit();
-        session.close();  
+        finally {
+        	session.close(); 
+        }        
     }
     
     private void addEvent(Session session, Event bean, int localId){    	
@@ -107,13 +109,17 @@ public class EventDAO {
         int rowCount = 0;
         try{
         	rowCount = query.executeUpdate();
+            tx.commit();
+
         }
         catch(ConstraintViolationException e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Artista.");
         }  
-        tx.commit();
+        finally {
+        	session.close();
+        }
         System.out.println("Rows affected: " + rowCount);
 
         return rowCount;
@@ -140,15 +146,18 @@ public class EventDAO {
 				int rowCount;
 				try {
 					rowCount = query.executeUpdate();
+					tx.commit();
 				}
 				catch(Exception e)
 		        {
 		        	tx.rollback();
 		        	throw new EntityNotUpdatableException("No pudo actualizarse el evento.");
 		        }
+				finally {
+					session.close();
+				}
 				System.out.println("Rows affected: " + rowCount);
-				tx.commit();
-				session.close();
+
 				return rowCount;
          }
     }
@@ -164,15 +173,18 @@ public class EventDAO {
         int rows;
         try {
         	rows = insertQuery.executeUpdate();
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo añadir el artista al evento.");
         }   
+        finally{
+        	session.close();
+        }
         //session.getTransaction().commit();
-        tx.commit();
-        session.close();
+
         return rows;
     }
     
@@ -187,15 +199,17 @@ public class EventDAO {
         int rows;
         try {
             rows = insertQuery.executeUpdate();
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("No se pudo eliminar el artista del evento.");
         }   
+        finally {
+            session.close();
+        }
         //session.getTransaction().commit();
-        tx.commit();
-        session.close();
         return rows;
     }
     
@@ -210,15 +224,19 @@ public class EventDAO {
            int rowCount;
            try {
         	   rowCount = query.executeUpdate();
+               tx.commit();
            }
            catch(Exception e)
            {
            	tx.rollback();
            	throw new EntityNotUpdatableException("No se pudo modificar el local del evento.");
            }   
+           finally {
+        	   session.close();
+           }
+           
            System.out.println("Rows affected: " + rowCount);
-           tx.commit();
-           session.close();
+
            return rowCount;
    }
     
@@ -226,8 +244,10 @@ public class EventDAO {
 		Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select event_id from event_artist where artist_id = ?");
 		sqlQuery.setParameter(0, artistId);
-
-		return sqlQuery.list();
+		List<Integer> result = sqlQuery.list();
+		session.close();
+		
+		return result;
     }
     
     public List<Event> getEventsFromLocal(int localId){
@@ -236,17 +256,23 @@ public class EventDAO {
         query.setInteger("localId", localId);
         //session.setCacheMode(CacheMode.IGNORE);
         List<Event> events =  query.list();
-        
         session.close();
+        
         return events;
     }
     
-    public List<Integer> getEventsFromUser(int userId) {
+    public List<Integer> getEventsFromUser(int userId, int first, int max) {
     	Session session = SessionUtil.getSession();
-		SQLQuery sqlQuery = session.createSQLQuery("select event_id from user_event where user_id = ?");
+		SQLQuery sqlQuery = session.createSQLQuery("select event_id from user_event where user_id = ? order by event_id");
 		sqlQuery.setParameter(0, userId);
-		//session.close();
-		return sqlQuery.list();
+		sqlQuery.setFirstResult(first);
+        if (max != -1){
+            sqlQuery.setMaxResults(max);
+        }
+        List<Integer> result = sqlQuery.list();
+		session.close();
+		
+		return result;
     }
     
     @Transactional
@@ -260,15 +286,18 @@ public class EventDAO {
         int rows;
         try {
         	rows = insertQuery.executeUpdate();
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo seguir el evento.");
         }   
-        tx.commit();
+        finally {
+        	session.close();
+        }
         //session.getTransaction().commit();  
-        //session.close();
+
         return rows;    		
     }
 	
@@ -283,15 +312,18 @@ public class EventDAO {
         int rows;
         try {
         	rows = insertQuery.executeUpdate();
+        	tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("No se pudo dejar de seguir el evento.");
-        }   
+        }  
+        finally {
+        	session.close();
+        }
         
-        session.getTransaction().commit();
-        //session.close();
+        //session.getTransaction().commit();
         return rows;
     }
     
@@ -300,8 +332,8 @@ public class EventDAO {
 		SQLQuery sqlQuery = session.createSQLQuery("select count(*) from user_event where user_id = ? and event_id = ?");
 		sqlQuery.setParameter(0, userId);
 		sqlQuery.setParameter(1, eventId);
-		//session.close();
 		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
+		session.close();
 		
 		return count;
     }

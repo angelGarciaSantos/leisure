@@ -10,7 +10,7 @@
 		})
 		.component('getLocal', {
 			templateUrl: './states/local/getLocal.html',
-			controller: function (localsService, usersService, eventsService, $state, $stateParams) {
+			controller: function (localsService, usersService, ratingsService, eventsService, $state, $stateParams) {
                 var vm = this;
 				vm.loginInfo = [];
 				vm.eventsLocal = [];
@@ -18,19 +18,19 @@
 					vm.loginInfo = data;
 				});
 
-                var localId = $stateParams.id;
+                vm.localId = $stateParams.id;
 				vm.delete = new localsService.localsP();  
 
                 //vm.local = localsService.locals.get({ id: localId });
-				localsService.locals.get({ id: localId }).$promise.then(function(data) {
+				localsService.locals.get({ id: vm.localId }).$promise.then(function(data) {
 					vm.local = data;
-					eventsService.eventsByLocal.query({ id: localId }).$promise.then(function(data2) {
+					eventsService.eventsByLocal.query({ id: vm.localId }).$promise.then(function(data2) {
 						vm.eventsLocal = data2;	
 					});
 				});
 
 				vm.deleteLocal = function(){
-					vm.delete.$delete({ id: localId })
+					vm.delete.$delete({ id: vm.localId })
 						.then(function (result) {
 							$state.go('getAllLocals');
 						}, function (error) {
@@ -42,6 +42,15 @@
 					var params = { id: id };
 					$state.go('getEvent', params);
 				}
+
+				vm.loadRating = function () {
+					ratingsService.globalRatingLocal.query({ id: vm.localId }).$promise.then(function(data) {
+						vm.globalRating = data;
+					});
+				};
+
+				vm.loadRating();
+
       
 			}
 		})

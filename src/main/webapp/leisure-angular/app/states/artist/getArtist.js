@@ -38,14 +38,6 @@
 					artistsService.followArtist.query({ artistId: vm.artistId, userId: vm.loginInfo[0] }).$promise.then(function(data) {
 						var result = data;
 						vm.isFollowingArtist = result[0]; 
-						artistsService.followArtist.query({ artistId: vm.artistId, userId: vm.loginInfo[0] }).$promise.then(function(data2) {
-							var result2 = data2;
-							vm.isFollowingArtist = result2[0]; 
-							artistsService.followArtist.query({ artistId: vm.artistId, userId: vm.loginInfo[0] }).$promise.then(function(data3) {
-								var result3 = data3;
-								vm.isFollowingArtist = result3[0]; 
-							});	
-						});	
 					});	
 				}
 

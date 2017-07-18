@@ -204,13 +204,13 @@ public class EventRestController {
 		}
 	}	
 	
-	@GetMapping("/events/user/{userId}")
-	public ResponseEntity getEventsFromUser(@PathVariable int userId) {
+	@GetMapping("/events/user/{userId}/{first}/{max}")
+	public ResponseEntity getEventsFromUser(@PathVariable int userId, @PathVariable int first, @PathVariable int max) {
 		if (userService.getUser(userId) == null ) {
 			return new ResponseEntity<String>("El usuario " + userId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
-			return new ResponseEntity<List<Event>>(eventService.getEventsFromUser(userId),HttpStatus.OK);		
+			return new ResponseEntity<List<Event>>(eventService.getEventsFromUser(userId, first, max),HttpStatus.OK);		
 		}
 	}
 	

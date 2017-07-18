@@ -34,16 +34,17 @@ public class RatingDAO {
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
         try {
-        	addRating(session,bean, eventId, userId);        
+        	addRating(session,bean, eventId, userId);    
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear la valoración.");
         }   
-        tx.commit();
-        session.close();
-        
+        finally {
+            session.close();
+        }
     }
     
     private void addRating(Session session, Rating bean, int eventId, int userId ){
@@ -105,15 +106,18 @@ public class RatingDAO {
         int rowCount;
         try {
         	rowCount = query.executeUpdate();
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("No se pudo eliminar la valoración.");
         }   
+        finally {
+            session.close();
+        }
+        
         System.out.println("Rows affected: " + rowCount);
-        tx.commit();
-        session.close();
         return rowCount;
     }
     
@@ -129,15 +133,18 @@ public class RatingDAO {
             int rowCount;
             try {
             	rowCount = query.executeUpdate();
+                tx.commit();
             }
             catch(Exception e)
             {
             	tx.rollback();
             	throw new EntityNotUpdatableException("No se pudo actualizar la valoración.");
             }   
+            finally {
+            	session.close();
+            }
+            
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
             return rowCount;
     }
 }

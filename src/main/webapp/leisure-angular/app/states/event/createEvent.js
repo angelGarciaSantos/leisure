@@ -138,7 +138,7 @@
 						this.parent = vm; 
 						},
 					controllerAs: 'ctrl',
-					templateUrl: './states/event/selectLocalDialog.html'
+					templateUrl: './states/event/selecLocalDialog.html'
 					});
 				};
 

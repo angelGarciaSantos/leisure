@@ -14,7 +14,6 @@
  <!--  <property name="hibernate.cache.use_query_cache">false</property>-->
   <!-- <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>-->
 <!--   <property name="hibernate.hbm2ddl.auto">create</property> -->
-  
   <property name="hibernate.c3p0.min_size">5</property>
   <property name="hibernate.c3p0.max_size">20</property>
   <property name="hibernate.c3p0.timeout">300</property>

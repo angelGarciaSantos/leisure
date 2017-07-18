@@ -35,15 +35,16 @@ public class CommentDAO {
         Transaction tx = session.beginTransaction();
         try {
         	addComment(session,bean, eventId, userId);  
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear el comentario.");
-        }   
-        tx.commit();
-        session.close();
-        
+        }
+        finally {
+        	session.close();
+        }
     }
     
     private void addComment(Session session, Comment bean, int eventId, int userId ){
@@ -94,15 +95,18 @@ public class CommentDAO {
         int rowCount;
         try {
         	rowCount = query.executeUpdate();
+            tx.commit();
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("No se pudo eliminar el comentario.");
         }   
+        finally {
+            session.close();
+        }
         System.out.println("Rows affected: " + rowCount);
-        tx.commit();
-        session.close();
+        
         return rowCount;
     }
     
@@ -119,15 +123,18 @@ public class CommentDAO {
             int rowCount;
             try {
             	rowCount = query.executeUpdate();
+                tx.commit();
             }
             catch(Exception e)
             {
             	tx.rollback();
             	throw new EntityNotUpdatableException("No se pudo actualizar el comentario");
             }   
+            finally {
+            	session.close();
+            }
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
+           
             return rowCount;
     }
 }

@@ -22,6 +22,7 @@ import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.service.ArtistService;
 import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.service.RatingService;
 import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
@@ -39,6 +40,9 @@ public class RatingRestController {
 	
 	@Autowired
 	private ArtistService artistService;
+	
+	@Autowired
+	private LocalService localService;
 	
 	@GetMapping("/ratings")
 	public ResponseEntity<List<Rating>> getRatings() {
@@ -86,6 +90,16 @@ public class RatingRestController {
 			return new ResponseEntity<List<Double>> (ratingService.getRatingFromArtist(artistId), HttpStatus.OK);
 		}
 	}	
+	
+	@GetMapping("/rating/local/{localId}")
+	public ResponseEntity<List<Double>> getRatingFromLocal(@PathVariable int localId) {
+		if (localService.getLocal(localId) == null){
+			return new ResponseEntity<List<Double>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
+			return new ResponseEntity<List<Double>> (ratingService.getRatingFromLocal(localId), HttpStatus.OK);
+		}
+	}		
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/ratings/{eventId}/{userId}")

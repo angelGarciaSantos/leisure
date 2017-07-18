@@ -24,16 +24,17 @@ public class TagDAO {
         Session session = SessionUtil.getSession();        
         Transaction tx = session.beginTransaction();
         try {
-        	addTag(session,bean);        
+        	addTag(session,bean); 
+            tx.commit();      
         }
         catch(Exception e)
         {
         	tx.rollback();
         	throw new EntityNotCreatableException("No se pudo crear el tag.");
         }   
-        tx.commit();
-        session.close();
-        
+        finally {
+            session.close();
+        }
     }
     
     private void addTag(Session session, Tag bean){
@@ -82,8 +83,9 @@ public class TagDAO {
     	Session session = SessionUtil.getSession();
 		SQLQuery sqlQuery = session.createSQLQuery("select tag_id from tag_artist where artist_id = ?");
 		sqlQuery.setParameter(0, artistId);
-		//session.close();
-		return sqlQuery.list();
+		List<Integer> result = sqlQuery.list();
+		session.close();
+		return result;
     }
 	
     @Transactional
@@ -96,13 +98,16 @@ public class TagDAO {
         int rowCount = 0;
         try{
             rowCount = query.executeUpdate();
+            tx.commit();
         }
         catch(ConstraintViolationException e)
         {
         	tx.rollback();
         	throw new EntityNotRemovableException("Elimine primero las entidades que dependen del Tag.");
         }    
-        tx.commit();
+        finally {
+        	session.close();
+        }
         System.out.println("Rows affected: " + rowCount);
 
         return rowCount;
@@ -121,15 +126,18 @@ public class TagDAO {
             int rowCount;
             try {
             	rowCount = query.executeUpdate();
+                tx.commit();
             }
             catch(Exception e)
             {
             	tx.rollback();
             	throw new EntityNotUpdatableException("No se pudo actualizar el tag.");
             }   
+            finally{
+            	session.close();
+            }
+            
             System.out.println("Rows affected: " + rowCount);
-            tx.commit();
-            session.close();
             return rowCount;
     }
 }

@@ -13,6 +13,9 @@ import es.udc.fi.tfg.model.Comment;
 import es.udc.fi.tfg.model.Interest;
 import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.model.Tag;
+import es.udc.fi.tfg.util.EntityNotCreatableException;
+import es.udc.fi.tfg.util.EntityNotRemovableException;
+import es.udc.fi.tfg.util.EntityNotUpdatableException;
 
 @Service
 public class InterestService {
@@ -34,7 +37,7 @@ public class InterestService {
 		return interestDAO.getInterestsFromUser(userId);
 	}
 	
-	public void createInterest(Interest interest, int tagId, int userId){
+	public void createInterest(Interest interest, int tagId, int userId) throws EntityNotCreatableException{
 		interest.setPoints(1);
 		interestDAO.addInterest(interest, tagId, userId);
 	}
@@ -43,7 +46,7 @@ public class InterestService {
 		return interestDAO.existsInterest(tagId, userId);
 	}
 	
-	public void createInterestByEvent(Interest interest, int eventId, int userId){
+	public void createInterestByEvent(Interest interest, int eventId, int userId) throws EntityNotUpdatableException, EntityNotCreatableException{
 		List<Tag> tags = tagService.getTagsFromEvent(eventId);
 		int points = 0;
 		for (Tag tag : tags){
@@ -61,11 +64,11 @@ public class InterestService {
 		}
 	}
 	
-	public int deleteInterest(int id){
+	public int deleteInterest(int id) throws EntityNotRemovableException{
 		return interestDAO.deleteInterest(id);
 	}
 	
-	public int updateInterest(int id, Interest interest){
+	public int updateInterest(int id, Interest interest) throws EntityNotUpdatableException{
 		return interestDAO.updateInterest(id, interest);
 	}
 }
