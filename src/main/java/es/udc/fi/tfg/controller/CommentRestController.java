@@ -22,6 +22,7 @@ import es.udc.fi.tfg.model.Local;
 import es.udc.fi.tfg.model.Rating;
 import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
+import es.udc.fi.tfg.service.UserService;
 import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
@@ -34,6 +35,9 @@ public class CommentRestController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/comments")
 	public ResponseEntity<List<Comment>> getComments() {
@@ -51,33 +55,41 @@ public class CommentRestController {
 		}		
 	}	
 	
-	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
 	@GetMapping("/comments/event/{eventId}")
 	public ResponseEntity<List<Comment>> getCommentsFromEvent(@PathVariable int eventId) {	
-//		if (eventService.getEvent(eventId) == null){
-//			return new ResponseEntity<List<Comment>>(HttpStatus.NOT_FOUND);
-//		}
-//		else {	
+		if (eventService.getEvent(eventId) == null){
+			return new ResponseEntity<List<Comment>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
 			return new ResponseEntity<List<Comment>> (commentService.getCommentsFromEvent(eventId), HttpStatus.OK);
-//		}
+		}
 	}	
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/comments/{eventId}/{userId}")
 	public ResponseEntity<Comment> createComment(@RequestBody Comment comment, @PathVariable int eventId, @PathVariable int userId) throws EntityNotCreatableException {
-		
-		commentService.createComment(comment, eventId, userId);
-		return new ResponseEntity<Comment>(HttpStatus.CREATED);
+		if (eventService.getEvent(eventId) == null || userService.getUser(userId) == null){
+			return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
+		}	
+		else {
+			commentService.createComment(comment, eventId, userId);
+			return new ResponseEntity<Comment>(HttpStatus.CREATED);		
+		}
 	}
 	
 	@DeleteMapping("/private/comments/{id}")
 	public ResponseEntity<String> deleteComment(@PathVariable int id) throws EntityNotRemovableException {
-		int rows = commentService.deleteComment(id);
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el Comentario"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+		if (commentService.getComment(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			int rows = commentService.deleteComment(id);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el Comentario"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}	
 		}
 	}
 
@@ -85,6 +97,9 @@ public class CommentRestController {
 	public ResponseEntity<String> updateComment(@PathVariable int id, @RequestBody Comment comment) throws EntityNotUpdatableException {
 		if (comment.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
+		}
+		else if (commentService.getComment(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		else{
 			int rows = commentService.updateComment(id, comment);

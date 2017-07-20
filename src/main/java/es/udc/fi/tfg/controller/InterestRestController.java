@@ -80,38 +80,51 @@ public class InterestRestController {
 	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
 	@GetMapping("/private/interests/user/{userId}")
 	public ResponseEntity<List<Interest>> getInterestsFromUser(@PathVariable int userId) {
-//		if (eventService.getEvent(eventId) == null){
-//			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
-//		}
-//		else {	
+		if (userService.getUser(userId) == null){
+			return new ResponseEntity<List<Interest>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
 			return new ResponseEntity<List<Interest>> (interestService.getInterestsFromUser(userId), HttpStatus.OK);
-//		}
+		}
 	}	
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 		@PostMapping(value = "/private/interests/event/{eventId}/{userId}")
 		public ResponseEntity<Rating> createInterestByEvent(@RequestBody Interest interest, @PathVariable int eventId, @PathVariable int userId) throws EntityNotUpdatableException, EntityNotCreatableException {
-			
-			interestService.createInterestByEvent(interest, eventId, userId);
-			return new ResponseEntity<Rating>(HttpStatus.CREATED);
+			if (eventService.getEvent(eventId) == null || userService.getUser(userId) == null){
+				return new ResponseEntity<Rating>(HttpStatus.NOT_FOUND);
+			}
+			else {
+				interestService.createInterestByEvent(interest, eventId, userId);
+				return new ResponseEntity<Rating>(HttpStatus.CREATED);				
+			}
 		}
 	
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/interests/{tagId}/{userId}")
 	public ResponseEntity<Rating> createInterest(@RequestBody Interest interest, @PathVariable int tagId, @PathVariable int userId) throws EntityNotCreatableException {
-		
-		interestService.createInterest(interest, tagId, userId);
-		return new ResponseEntity<Rating>(HttpStatus.CREATED);
+		if (tagService.getTag(tagId) == null || userService.getUser(userId) == null){
+			return new ResponseEntity<Rating>(HttpStatus.NOT_FOUND);
+		}	
+		else {
+			interestService.createInterest(interest, tagId, userId);
+			return new ResponseEntity<Rating>(HttpStatus.CREATED);			
+		}
 	}
 		
 	@DeleteMapping("/private/interests/{id}")
 	public ResponseEntity<String> deleteInterest(@PathVariable int id) throws EntityNotRemovableException {
-		int rows = interestService.deleteInterest(id);
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el interés "+ id, HttpStatus.INTERNAL_SERVER_ERROR);
+		if (interestService.getInterest(id) == null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			int rows = interestService.deleteInterest(id);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el interés "+ id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}			
 		}
 	}
 
@@ -119,6 +132,9 @@ public class InterestRestController {
 	public ResponseEntity<String> updateInterest(@PathVariable int id, @RequestBody Interest interest) throws EntityNotUpdatableException {
 		if (interest.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden "+id, HttpStatus.BAD_REQUEST);
+		}
+		else if (interestService.getInterest(id) == null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		else{
 			int rows = interestService.updateInterest(id, interest);

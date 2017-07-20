@@ -76,7 +76,7 @@ public class ArtistRestControllerTest {
     // =========================================== Get All Artists ==========================================
     
     @Test
-    public void test_get_all_success() throws Exception {
+    public void test_get_all_artists_success() throws Exception {
         List<Artist> artists = Arrays.asList(
                 new Artist(1, "Metallica", "Trash Metal", "image"),
                 new Artist(2, "Black Keys","Blues Rock", "image"));
@@ -104,7 +104,7 @@ public class ArtistRestControllerTest {
 // =========================================== Get All Artists Keywords ==========================================
     
     @Test
-    public void test_get_all_keywords_success() throws Exception {
+    public void test_get_all_artists_keywords_success() throws Exception {
         List<Artist> artists = Arrays.asList(
                 new Artist(1, "Metallica", "Trash Metal", "image"),
                 new Artist(2, "Black Keys","Blues Rock", "image"));
@@ -131,7 +131,7 @@ public class ArtistRestControllerTest {
  // =========================================== Get Artist By ID =========================================
 
     @Test
-    public void test_get_by_id_success() throws Exception {
+    public void test_get_artist_by_id_success() throws Exception {
         Artist artist = new Artist(1, "Metallica", "Trash Metal", "image");
 
         when(artistService.getArtist(1)).thenReturn(artist);
@@ -149,7 +149,7 @@ public class ArtistRestControllerTest {
     }
 
     @Test
-    public void test_get_by_id_fail_404_not_found() throws Exception {
+    public void test_get_artist_by_id_fail_404_not_found() throws Exception {
         when(artistService.getArtist(1)).thenReturn(null);
 
         mockMvc.perform(get("/artists/{id}", 1))

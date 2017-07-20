@@ -96,4 +96,24 @@ public class Comment {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (id != comment.id) return false;
+        if (text != null ? !text.equals(comment.text) : comment.text != null) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        return result;
+    }
 }

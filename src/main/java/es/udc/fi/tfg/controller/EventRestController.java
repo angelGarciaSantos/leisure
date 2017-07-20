@@ -77,27 +77,35 @@ public class EventRestController {
 	@DeleteMapping("/admin/events/{id}")
 	public ResponseEntity<String> deleteEvent(@PathVariable int id) {
 		int rows;
-		try{
-			rows = eventService.deleteEvent(id);
+		if(eventService.getEvent(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		catch(EntityNotRemovableException e){
-			return new ResponseEntity<String>(HttpStatus.LOCKED);
-		}
-		catch(Exception e){
-			return new ResponseEntity<String>("No ha podido eliminarse el Evento: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el Evento"+id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
-		}
+		else {
+			try{
+				rows = eventService.deleteEvent(id);
+			}
+			catch(EntityNotRemovableException e){
+				return new ResponseEntity<String>(HttpStatus.LOCKED);
+			}
+			catch(Exception e){
+				return new ResponseEntity<String>("No ha podido eliminarse el Evento: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el Evento"+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}	
+		}		
 	}
 
 	@PutMapping("/admin/events/{id}")
 	public ResponseEntity<String> updateEvent(@PathVariable int id, @RequestBody Event event) throws EntityNotUpdatableException {
 		if (event.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
+		}
+		else if(eventService.getEvent(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		else {
 			int rows = eventService.updateEvent(id, event);

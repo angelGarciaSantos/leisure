@@ -63,6 +63,13 @@ public class Event {
     
     @ManyToOne(cascade = CascadeType.ALL)
     private Local local;
+   
+    
+	public Event(int id, String name, String description) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
     
 	public Event(int id, String name, String description, Date beginDate, Date endDate) {
 		this.id = id;
@@ -149,4 +156,26 @@ public class Event {
 	public void setLocal(Local local) {
 		this.local = local;
 	}	
+	
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (id != event.id) return false;
+        if (name != null ? !name.equals(event.name) : event.name != null) return false;
+        if (description != null ? !description.equals(event.description) : event.description != null) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

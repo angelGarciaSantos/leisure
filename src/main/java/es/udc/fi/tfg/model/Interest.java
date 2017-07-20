@@ -74,4 +74,23 @@ public class Interest {
 	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Interest interest = (Interest) o;
+
+        if (id != interest.id) return false;
+        if (points !=(interest.points)) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        return result;
+    }
 }
