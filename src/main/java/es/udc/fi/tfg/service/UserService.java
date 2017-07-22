@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,15 @@ public class UserService {
 		return userDAO.updateUser(id, user);
 	}
 	
+	public boolean existsUser (User user){
+		List<User> users = new ArrayList<User>();
+		users = userDAO.getUsers(0,-1);
+		boolean exists = false;
+        for(User a : users) {
+        	if (user.getEmail().equals(a.getEmail())){
+        		exists = true;
+        	}
+        }
+		return exists;
+	}
 }

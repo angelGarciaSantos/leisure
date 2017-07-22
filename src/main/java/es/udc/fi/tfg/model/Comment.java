@@ -47,6 +47,10 @@ public class Comment {
 		this.text = text;
 	}
 	
+	public Comment (String text){
+		this.text = text;
+	}
+	
 	public Comment (int id, String text, User user, Event event){
 		this.id = id;
 		this.text = text;

@@ -192,27 +192,37 @@ public class UserRestController {
 	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/admin/users")
 	public ResponseEntity<User> createUser(@RequestBody User user) throws EntityNotCreatableException {
-		userService.createUser(user);
-		return new ResponseEntity<User>(HttpStatus.CREATED);
+		if (userService.existsUser(user)){
+			return new ResponseEntity<User>(HttpStatus.CONFLICT);	
+		}
+		else {
+			userService.createUser(user);
+			return new ResponseEntity<User>(HttpStatus.CREATED);			
+		}
 	}
 	
 	@DeleteMapping("/admin/users/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable int id) {
-		int rows;
-		try{
-			rows = userService.deleteUser(id);
-		}	
-		catch(EntityNotRemovableException e){
-			return new ResponseEntity<String>(HttpStatus.LOCKED);
+		if (userService.getUser(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		catch(Exception e){
-			return new ResponseEntity<String>("No ha podido eliminarse el Usuario: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			int rows;
+			try{
+				rows = userService.deleteUser(id);
+			}	
+			catch(EntityNotRemovableException e){
+				return new ResponseEntity<String>(HttpStatus.LOCKED);
+			}
+			catch(Exception e){
+				return new ResponseEntity<String>("No ha podido eliminarse el Usuario: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el Usuario "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}			
 		}
 	}
 
@@ -220,6 +230,9 @@ public class UserRestController {
 	public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) throws EntityNotUpdatableException {
 		if (user.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
+		}
+		else if (userService.getUser(id)==null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		else {
 			int rows = userService.updateUser(id, user);

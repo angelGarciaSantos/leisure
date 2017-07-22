@@ -109,4 +109,25 @@ public class Local {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Local local = (Local) o;
+
+        if (id != local.id) return false;
+        if (name != null ? !name.equals(local.name) : local.name != null) return false;
+        if (description != null ? !description.equals(local.description) : local.description != null) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

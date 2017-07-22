@@ -53,27 +53,37 @@ public class LocalRestController {
 	
 	@PostMapping(value = "/admin/locals")
 	public ResponseEntity<Local> createLocal(@RequestBody Local local) throws EntityNotCreatableException {
-		localService.createLocal(local);
-		return new ResponseEntity<Local>(HttpStatus.CREATED);
+		if (localService.existsLocal(local)){
+			return new ResponseEntity<Local>(HttpStatus.CONFLICT);	
+		}
+		else {
+			localService.createLocal(local);
+			return new ResponseEntity<Local>(HttpStatus.CREATED);			
+		}
 	}
 	
 	@DeleteMapping("/admin/locals/{id}")
 	public ResponseEntity<String> deleteLocal(@PathVariable int id) {
 		int rows;
-		try {
-			rows = localService.deleteLocal(id);
+		if (localService.getLocal(id)==null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);		
 		}
-		catch(EntityNotRemovableException e){
-			return new ResponseEntity<String>(HttpStatus.LOCKED);
-		}
-		catch(Exception e){
-			return new ResponseEntity<String>("No ha podido eliminarse el Local: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse el Local "+id, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			try {
+				rows = localService.deleteLocal(id);
+			}
+			catch(EntityNotRemovableException e){
+				return new ResponseEntity<String>(HttpStatus.LOCKED);
+			}
+			catch(Exception e){
+				return new ResponseEntity<String>("No ha podido eliminarse el Local: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse el Local "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}			
 		}
 	}
 
@@ -81,6 +91,9 @@ public class LocalRestController {
 	public ResponseEntity<String> updateLocal(@PathVariable int id, @RequestBody Local local) throws EntityNotUpdatableException {
 		if (local.getId()!=id) {
 			return new ResponseEntity<String>("Los ids no coinciden"+id, HttpStatus.BAD_REQUEST);
+		}
+		else if (localService.getLocal(id)==null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);		
 		}
 		else {
 			int rows = localService.updateLocal(id, local);

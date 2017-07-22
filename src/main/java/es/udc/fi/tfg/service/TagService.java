@@ -81,4 +81,16 @@ public class TagService {
 	public int updateTag(int id, Tag tag) throws EntityNotUpdatableException{
 		return tagDAO.updateTag(id, tag);
 	}
+	
+	public boolean existsTag (Tag tag){
+		List<Tag> tags = new ArrayList<Tag>();
+		tags = tagDAO.getTags(0,-1);
+		boolean exists = false;
+        for(Tag a : tags) {
+        	if (tag.getName().equals(a.getName())){
+        		exists = true;
+        	}
+        }
+		return exists;
+	}
 }

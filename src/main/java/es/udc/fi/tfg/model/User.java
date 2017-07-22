@@ -103,4 +103,25 @@ public class User {
 	public void setArtists(Set<Artist> artists) {
 		this.artists = artists;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+    	Integer result = (int) (long) id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

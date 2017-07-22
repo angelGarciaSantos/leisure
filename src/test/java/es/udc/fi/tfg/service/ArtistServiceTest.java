@@ -31,17 +31,13 @@ public class ArtistServiceTest{
 	@Test
     public void getArtistsTest() {
         List<Artist> artists = artistService.getArtists(0, -1);
-
         assertEquals(7, artists.size());
-
     }
 	
 	@Test
     public void getArtistsKeywordsTest() {
         List<Artist> artists = artistService.getArtistsKeywords("Metallica", 0, -1);
-
         assertEquals(1, artists.size());
-
     }
 	
 	@Test

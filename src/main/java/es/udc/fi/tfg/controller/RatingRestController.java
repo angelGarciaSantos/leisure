@@ -24,6 +24,7 @@ import es.udc.fi.tfg.service.CommentService;
 import es.udc.fi.tfg.service.EventService;
 import es.udc.fi.tfg.service.LocalService;
 import es.udc.fi.tfg.service.RatingService;
+import es.udc.fi.tfg.service.UserService;
 import es.udc.fi.tfg.util.EntityNotCreatableException;
 import es.udc.fi.tfg.util.EntityNotRemovableException;
 import es.udc.fi.tfg.util.EntityNotUpdatableException;
@@ -44,6 +45,9 @@ public class RatingRestController {
 	@Autowired
 	private LocalService localService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@GetMapping("/ratings")
 	public ResponseEntity<List<Rating>> getRatings() {
 		return new ResponseEntity<List<Rating>> (ratingService.getRatings(), HttpStatus.OK);
@@ -60,15 +64,14 @@ public class RatingRestController {
 		}	
 	}	
 	
-	//TODO: devuelve 1 de cada 2 veces el not_found sin tener sentido, por eso está así
 	@GetMapping("/ratings/event/{eventId}")
 	public ResponseEntity<List<Rating>> getRatingsFromEvent(@PathVariable int eventId) {
-//		if (eventService.getEvent(eventId) == null){
-//			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
-//		}
-//		else {	
+		if (eventService.getEvent(eventId) == null){
+			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
+		}
+		else {	
 			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId), HttpStatus.OK);
-//		}
+		}
 	}	
 	
 	@GetMapping("/rating/event/{eventId}")
@@ -104,19 +107,28 @@ public class RatingRestController {
 	//TODO: ver como comprobar que se crea correctamente desde el DAO
 	@PostMapping(value = "/private/ratings/{eventId}/{userId}")
 	public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable int eventId, @PathVariable int userId) throws EntityNotCreatableException, EntityNotUpdatableException {
-		
-		ratingService.createRating(rating, eventId, userId);
-		return new ResponseEntity<Rating>(HttpStatus.CREATED);
+		if (eventService.getEvent(eventId)==null || userService.getUser(userId)==null){
+			return new ResponseEntity<Rating>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			ratingService.createRating(rating, eventId, userId);
+			return new ResponseEntity<Rating>(HttpStatus.CREATED);			
+		}
 	}
 		
 	@DeleteMapping("/private/ratings/{id}")
 	public ResponseEntity<String> deleteRating(@PathVariable int id) throws EntityNotRemovableException {
-		int rows = ratingService.deleteRating(id);
-		if (rows < 1) {
-			return new ResponseEntity<String>("No ha podido eliminarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+		if (ratingService.getRating(id)==null){
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
-		else{
-			return new ResponseEntity<String>(HttpStatus.OK);
+		else {
+			int rows = ratingService.deleteRating(id);
+			if (rows < 1) {
+				return new ResponseEntity<String>("No ha podido eliminarse la valoración "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}			
 		}
 	}
 }

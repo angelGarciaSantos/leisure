@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,18 @@ public class LocalService {
 	
 	public Local getLocal(int id){
 		return localDAO.getLocal(id);
+	}
+	
+	public boolean existsLocal (Local local){
+		List<Local> locals = new ArrayList<Local>();
+		locals = localDAO.getLocals(0,-1);
+		boolean exists = false;
+        for(Local a : locals) {
+        	if (local.getName().equals(a.getName())){
+        		exists = true;
+        	}
+        }
+		return exists;
 	}
 	
 	public void createLocal(Local local) throws EntityNotCreatableException{
