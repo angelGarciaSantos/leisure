@@ -46,13 +46,13 @@ public class ArtistRestController {
 	
 	@GetMapping("/artists/{first}/{max}")
 	public ResponseEntity<List<Artist>> getArtists(@PathVariable int first, @PathVariable int max ) {
-		logger.warn("Obteniendo todos los artistas.");
+		logger.info("Obteniendo todos los artistas.");
 		return new ResponseEntity<List<Artist>>(artistService.getArtists(first, max), HttpStatus.OK);
 	}	
 	
 	@GetMapping("/artists/keywords/{keywords}/{first}/{max}")
 	public ResponseEntity<List<Artist>> getArtistsKeywords(@PathVariable String keywords, @PathVariable int first, @PathVariable int max) {
-		logger.warn("Obteniendo artistas por palabras clave: " + keywords);
+		logger.info("Obteniendo artistas por palabras clave: " + keywords);
 		return new ResponseEntity<List<Artist>>(artistService.getArtistsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
@@ -64,7 +64,7 @@ public class ArtistRestController {
 			return new ResponseEntity<Artist>(HttpStatus.NOT_FOUND);
 		}
 		else {
-			logger.warn("Obteniendo artista con id: " + id);
+			logger.info("Obteniendo artista con id: " + id);
 			return new ResponseEntity<Artist>(artist, HttpStatus.OK);
 		}
 	}	
@@ -76,7 +76,7 @@ public class ArtistRestController {
 			return new ResponseEntity<String>("El evento " + eventId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
-			logger.warn("Obteniendo los artistas del evento :" + eventId);
+			logger.info("Obteniendo los artistas del evento :" + eventId);
 			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromEvent(eventId, first, max),HttpStatus.OK);		
 		}
 	}
@@ -88,12 +88,11 @@ public class ArtistRestController {
 			return new ResponseEntity<String>("El usuario " + userId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
-			logger.warn("Obteniendo los artistas seguidos por el usuario :" + userId);
+			logger.info("Obteniendo los artistas seguidos por el usuario :" + userId);
 			return new ResponseEntity<List<Artist>>(artistService.getArtistsFromUser(userId, first, max),HttpStatus.OK);		
 		}
 	}
 
-	//TODO: mensaje error si no se creó correctamente
 	@PostMapping(value = "/admin/artists")
 	public ResponseEntity<Artist> createArtist(@RequestBody Artist artist) throws EntityNotCreatableException {
 		if (artistService.existsArtist(artist)){
@@ -102,7 +101,7 @@ public class ArtistRestController {
 		}
 		else {
 			artistService.createArtist(artist);
-			logger.warn("Se ha creado el artista con nombre " + artist.getName());
+			logger.info("Se ha creado el artista con nombre " + artist.getName());
 			return new ResponseEntity<Artist>(HttpStatus.CREATED);
 		}
 	}
@@ -119,9 +118,11 @@ public class ArtistRestController {
 				rows = artistService.deleteArtist(id);
 			}
 			catch(EntityNotRemovableException e){
+				logger.error("No ha podido eliminarse el artista: " + id);
 				return new ResponseEntity<String>(HttpStatus.LOCKED);
 			}
 			catch(Exception e){
+				logger.error("No ha podido eliminarse el artista: " + id);
 				return new ResponseEntity<String>("No ha podido eliminarse el Artista: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
@@ -130,7 +131,7 @@ public class ArtistRestController {
 				return new ResponseEntity<String>("No ha podido eliminarse el Artista: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			else{
-				logger.warn("Se ha eliminado el artista: " + id);
+				logger.info("Se ha eliminado el artista: " + id);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			}
 		}
@@ -154,7 +155,7 @@ public class ArtistRestController {
 					return new ResponseEntity<String>("No ha podido actualizarse el artista: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 				else{
-					logger.warn("Se ha actualizado el artista: " + id);
+					logger.info("Se ha actualizado el artista: " + id);
 					return new ResponseEntity<String>(HttpStatus.OK);
 				}
 			}
@@ -178,7 +179,7 @@ public class ArtistRestController {
 					+ " con el usuario " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			else{
-				logger.warn("Se ha seguido al artista: " + artistId + " con el usuario: "
+				logger.info("Se ha seguido al artista: " + artistId + " con el usuario: "
 					+ userId);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			}
@@ -202,7 +203,7 @@ public class ArtistRestController {
 					+ " con el usuario: " + userId, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			else{
-				logger.warn("Se ha dejado de seguir al artista: " + artistId + " con el usuario: "
+				logger.info("Se ha dejado de seguir al artista: " + artistId + " con el usuario: "
 						+ userId);
 				return new ResponseEntity<String>(HttpStatus.OK);
 			}
@@ -220,7 +221,7 @@ public class ArtistRestController {
 		else {
 			List<Boolean> list = new ArrayList<Boolean>();
 			list.add(artistService.isFollowingArtist(artistId, userId));
-			logger.warn("El artista: " + artistId + " sigue al usuario: "
+			logger.info("El artista: " + artistId + " sigue al usuario: "
 					+ userId + ": " + list.get(0));		
 			return new ResponseEntity<List<Boolean>>( list,HttpStatus.OK);
 		}
@@ -233,10 +234,7 @@ public class ArtistRestController {
 			return new ResponseEntity<String>("El usuario indicado no existe. Usuario: " + userId, HttpStatus.NOT_FOUND);
 		}
 		else {
-			//List<Boolean> list = new ArrayList<Boolean>();
-			//list.add(artistService.isFollowingArtist(artistId, userId));
-			//logger.warn("El artista: " + artistId + " sigue al usuario: "
-			//		+ userId + ": " + list.get(0));	
+			logger.info("Obteniendo artistas recomendados para el usuario: " + userId);
 			List<Artist> list = new ArrayList<Artist>();
 			list = artistService.getRecommendedArtist(userId);
 			return new ResponseEntity<List<Artist>>( list,HttpStatus.OK);
