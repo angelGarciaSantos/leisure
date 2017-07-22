@@ -1,38 +1,45 @@
 <section name="UpdateLocal">
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
-        <div layout="row">
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.editLocal.name">
-            </md-input-container>
+        <form layout="column" layout-align="center center" name="updateLocalForm" ng-submit="$ctrl.updateLocal()" novalidate>
+            <div layout="row">
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.editLocal.name" required>
+                    <p class="error" ng-show="updateLocalForm.name.$invalid && !updateLocalForm.name.$pristine">Escribe un nombre</p>                    
+                </md-input-container>
 
-            <md-input-container>
-                <label>Descripción</label>
-                <input ng-model="$ctrl.editLocal.description">
-            </md-input-container>
-            <md-input-container class="md-icon-float md-icon-right md-block">
-                <label>Capacidad</label>
-                <input ng-model="$ctrl.editLocal.capacity" type="number" step="1" min="0">
-            </md-input-container>
-        </div>
-        <div layout="row">
-            <md-input-container class="md-icon-float md-icon-right md-block">
-                <label>Latitud</label>
-                <input ng-model="$ctrl.editLocal.lat" type="number">
-            </md-input-container>
-            <md-input-container class="md-icon-float md-icon-right md-block">
-                <label>Longitud</label>
-                <input ng-model="$ctrl.editLocal.lng" type="number">
-            </md-input-container>
-        </div>
-        <div layout="row">
-            <md-input-container class="md-icon-float md-icon-right md-block">
-                <label>Imagen</label>
-                <input ng-model="$ctrl.editLocal.image" type="text">
-            </md-input-container>
-        </div>
-        <div>
-            <md-button ng-click="$ctrl.updateLocal()">Actualizar</md-button>
-        </div>
+                <md-input-container>
+                    <label>Descripción</label>
+                    <input type="text" name="description" class="form-control" ng-model="$ctrl.editLocal.description" required>
+                    <p class="error" ng-show="updateLocalForm.description.$invalid && !updateLocalForm.description.$pristine">Escribe una descripción</p>                    
+                </md-input-container>
+                <md-input-container class="md-icon-float md-icon-right md-block">
+                    <label>Capacidad</label>
+                    <input name="capacity" class="form-control" ng-model="$ctrl.editLocal.capacity" type="number" step="1" min="0" required>
+                    <p class="error" ng-show="updateLocalForm.capacity.$invalid && !updateLocalForm.capacity.$pristine">Escribe una capacidad</p>                                    
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <md-input-container class="md-icon-float md-icon-right md-block">
+                    <label>Latitud</label>
+                    <input type="text" name="lat" class="form-control" ng-model="$ctrl.editLocal.lat" type="number" required>
+                    <p class="error" ng-show="updateLocalForm.lat.$invalid && !updateLocalForm.lat.$pristine">Escribe una latitud</p>                    
+                </md-input-container>
+                <md-input-container class="md-icon-float md-icon-right md-block">
+                    <label>Longitud</label>
+                    <input type="text" name="lng" class="form-control" ng-model="$ctrl.editLocal.lng" type="number" required>
+                    <p class="error" ng-show="updateLocalForm.lng.$invalid && !updateLocalForm.lng.$pristine">Escribe una longitud</p>                    
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <md-input-container class="md-icon-float md-icon-right md-block">
+                    <label>Imagen</label>
+                    <input ng-model="$ctrl.editLocal.image" type="text">
+                </md-input-container>
+            </div>
+            <div>
+                <md-button type="submit" ng-click="$ctrl.updateLocal()">Actualizar</md-button>
+            </div>
+        </form>
     </md-content>
 </section>

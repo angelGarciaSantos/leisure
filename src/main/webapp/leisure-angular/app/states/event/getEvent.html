@@ -75,7 +75,7 @@
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
-			<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.commentEventDialog()">Comentar</md-button>
+			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.commentEventDialog()">Comentar</md-button>
 
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Valoraciones</h1>
@@ -87,8 +87,10 @@
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
-			<md-button ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
-
+			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
+			</br>
+			</br>
+			</br>
 		</div>
 		<div layout="row" layout-align="center center">	
 			<md-button class="md-raised md-primary" ng-if="$ctrl.isFollowingEvent === false && $ctrl.loginInfo.length > 0" ng-click="$ctrl.followEvent()">Seguir</md-button>

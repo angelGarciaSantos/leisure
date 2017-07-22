@@ -96,3 +96,11 @@ main {
     width: 500px;
     height: 300px;
   }
+
+  .error {
+    color: red;
+  }
+
+  .time {
+    margin-top: 22px;
+  }

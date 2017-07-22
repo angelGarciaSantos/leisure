@@ -6,7 +6,7 @@
 
   <md-toolbar layout="row" md-scroll-shrink>
     <div layout="row" layout-align="begin center" flex>
-      <md-button ng-click="$ctrl.toggleLeft()">Inicio</md-button>
+      <md-button ng-click="$ctrl.toggleLeft()">Menú</md-button>
       <span style="font-weight: bold;font-family: Segoe script;font-size: xx-large;">Leisure</span>
     </div>
     <div layout="row" layout-align="begin center" style="padding-right:20px;font-weight: bold;">
@@ -27,22 +27,39 @@
     <md-button ng-click="$ctrl.toggleLeft()">Cerrar</md-button>
   </md-toolbar>
 
-  <md-content layout-margin>
-    <md-button href="#!/" ng-click="$ctrl.toggleLeft()">Inicio</md-button>
-    </br>
-    <md-button href="#!/getAllArtists" ng-click="$ctrl.toggleLeft()">Artistas</md-button>
-    </br>
-    <md-button href="#!/getAllEvents" ng-click="$ctrl.toggleLeft()">Eventos</md-button>
-    </br>
-    <md-button href="#!/getAllLocals" ng-click="$ctrl.toggleLeft()">Locales</md-button>
-    </br>
-    <md-button href="#!/getAllTags" ng-click="$ctrl.toggleLeft()">Tags</md-button>
-    </br>
-    <md-button href="#!/getAllUsers" ng-click="$ctrl.toggleLeft()">Usuarios</md-button>
-    </br>
-    </br>
-    <md-button ng-click="$ctrl.toggleLeft()" class="md-accent">
-      Cerrar menú
+  <md-content layout="column" layout-align="begin begin" layout-margin>
+    <md-button href="#!/" ng-click="$ctrl.toggleLeft()">
+      <h3>
+      Inicio
+      </h3>
     </md-button>
+    <md-button href="#!/getAllArtists" ng-click="$ctrl.toggleLeft()">
+      <h3>
+        Artistas
+      </h3>
+    </md-button>
+    <md-button href="#!/getAllEvents" ng-click="$ctrl.toggleLeft()">
+      <h3>
+      Eventos
+      </h3>
+    </md-button>
+    <md-button href="#!/getAllLocals" ng-click="$ctrl.toggleLeft()">
+      <h3>
+      Locales
+      </h3>
+    </md-button>
+    <md-button href="#!/getAllTags" ng-click="$ctrl.toggleLeft()">
+      <h3>
+      Tags
+      </h3>
+    </md-button>
+    <md-button ng-if="$ctrl.loginInfo[2] == 2" href="#!/getAllUsers" ng-click="$ctrl.toggleLeft()">
+      <h3>
+      Usuarios
+      </h3>
+    </md-button>
+    <!-- <md-button ng-click="$ctrl.toggleLeft()" class="md-accent">
+      Cerrar menú
+    </md-button> -->
   </md-content>
 </md-sidenav>

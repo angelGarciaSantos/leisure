@@ -1,7 +1,11 @@
 <section name="Home">
   	<div layout-align="begin center">
 		<md-content layout="column" layout-align="center center">
-			<md-list class="list" flex>
+			<h1 ng-if="!($ctrl.loginInfo.length > 0)">¡Bienvenid@!</h1>
+			<h2 ng-if="!($ctrl.loginInfo.length > 0)">Abre el menú de la izquierda para comenzar</h2> 
+			<h2 ng-if="!($ctrl.loginInfo.length > 0)">o inicia sesión para recibir recomendaciones de artistas y eventos.</h2>
+
+			<md-list ng-if="$ctrl.loginInfo.length > 0" class="list" flex>
 				<h1 class="md-no-sticky">Artistas Recomendados</h1>
 				<h3 ng-if="$ctrl.recommendedArtists.length == 0">No hay artistas para recomendar</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.recommendedArtists" 
@@ -19,7 +23,7 @@
 				<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
-			<md-list class="list" flex>
+			<md-list ng-if="$ctrl.loginInfo.length > 0" class="list" flex>
 				<h1 class="md-no-sticky">Eventos Recomendados</h1>
 				<h3 ng-if="$ctrl.recommendedEvents.length == 0">No hay eventos para recomendar</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.recommendedEvents" 
@@ -41,7 +45,7 @@
 			
 			
 			
-			<md-list class="list" flex>
+			<md-list ng-if="$ctrl.loginInfo.length > 0" class="list" flex>
 				<h1 class="md-no-sticky">Artistas que sigues</h1>
 				<h3 ng-if="$ctrl.artistsByUser.length == 0">No sigues ningún artista</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="artist in $ctrl.artistsByUser" 
@@ -67,7 +71,7 @@
 			</div>
 
 
-			<md-list class="list" flex>
+			<md-list ng-if="$ctrl.loginInfo.length > 0" class="list" flex>
 				<h1 class="md-no-sticky">Eventos que sigues</h1>
 				<h3 ng-if="$ctrl.eventsByUser.length == 0">No sigues ningún evento</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="event in $ctrl.eventsByUser" 

@@ -1,36 +1,42 @@
 <section name="CreateEvent">
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
-        <div>
-            <h3>Información básica</h4>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.newEvent.name">
-            </md-input-container>
-            <md-input-container>
-                <label>Descripción</label>
-                <input ng-model="$ctrl.newEvent.description">
-            </md-input-container>
-        </div>
-        <div>
-            <div layout="row" layout-align="center center">
-                <h4>Fecha inicio</h4>
-                <md-datepicker ng-model="$ctrl.newEvent.beginDate"></md-datepicker>
-                <mdp-time-picker ng-model="$ctrl.newEvent.beginDate"></mdp-time-picker>
+        <form layout="column" name="createEventForm" ng-submit="$ctrl.createEvent()" novalidate>
+            <div layout="column" layout-align="center center" >
+                <h3>Información básica</h4>
+                <div layout="row" layout-align="center center">    
+                    <md-input-container>
+                        <label>Nombre</label>
+                        <input type="text" name="name" class="form-control" ng-model="$ctrl.newEvent.name" required>
+                        <p class="error" ng-show="createEventForm.name.$invalid && !createEventForm.name.$pristine">Escribe un nombre</p>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Descripción</label>
+                        <input type="text" name="description" class="form-control" ng-model="$ctrl.newEvent.description" required>
+                        <p class="error" ng-show="createEventForm.description.$invalid && !createEventForm.description.$pristine">Escribe una descripción</p>                
+                    </md-input-container>
+                </div>
             </div>
-            <div layout="row" layout-align="center center">
-                <h4>Fecha Fin</h4>
-                <md-datepicker ng-model="$ctrl.newEvent.endDate"></md-datepicker>
-                <mdp-time-picker ng-model="$ctrl.newEvent.endDate"></mdp-time-picker>
+            <div layout="column" layout-align="center center">
+                <div layout="row" layout-align="center center">
+                    <h4>Fecha inicio</h4>
+                    <md-datepicker ng-model="$ctrl.newEvent.beginDate"></md-datepicker>
+                    <mdp-time-picker class="time" ng-model="$ctrl.newEvent.beginDate"></mdp-time-picker>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <h4>Fecha Fin</h4>
+                    <md-datepicker ng-model="$ctrl.newEvent.endDate"></md-datepicker>
+                    <mdp-time-picker class="time" ng-model="$ctrl.newEvent.endDate"></mdp-time-picker>
+                </div>
             </div>
-        </div>
-        <div>
-            <h3>Local del evento</h4>
-            <md-button class="md-raised" ng-click="$ctrl.selectLocalDialog($event)">
-                Seleccionar Local
-            </md-button>
-        </div>    
-        <div>
-            <md-button class="md-primary md-raised" ng-click="$ctrl.createEvent()">Crear</md-button>
-        </div>
+            <div layout="column" layout-align="center center">
+                <h3>Local del evento</h4>
+                <md-button class="md-raised" ng-click="$ctrl.selectLocalDialog($event)">
+                    Seleccionar Local
+                </md-button>
+            </div>    
+            <div layout="column" layout-align="center center">
+                <md-button type="submit" class="md-primary md-raised" ng-click="$ctrl.createEvent()">Crear</md-button>
+            </div>
+        </form>
     </md-content>
 </section>

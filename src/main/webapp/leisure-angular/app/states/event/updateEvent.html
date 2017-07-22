@@ -1,29 +1,32 @@
 <section name="UpdateEvent">
     <md-content md-theme="docs-dark" layout="column">
-        <div layout="column" layout-align="center center">
+        <form layout="column" layout-align="center center" name="updateEventForm" ng-submit="$ctrl.updateEvent()" novalidate>
             <h3>Información básica</h4>
             <div layout="row" layout-align="center center">
                 <md-input-container>
                     <label>Nombre</label>
-                    <input ng-model="$ctrl.editEvent.name">
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.editEvent.name" required>
+                    <p class="error" ng-show="updateEventForm.name.$invalid && !updateEventForm.name.$pristine">Escribe un nombre</p>
                 </md-input-container>
                 <md-input-container>
                     <label>Descripción</label>
-                    <input ng-model="$ctrl.editEvent.description">
+                    <input type="text" name="description" class="form-control" ng-model="$ctrl.editEvent.description" required>
+                    <p class="error" ng-show="updateEventForm.description.$invalid && !updateEventForm.description.$pristine">Escribe una descripción</p>
                 </md-input-container>
             </div>    
             <div layout="column" layout-align="center center">
                  <div layout="row" layout-align="center center">
                     <h4>Fecha inicio</h4>
                     <md-datepicker ng-model="$ctrl.editEvent.beginDate"></md-datepicker>
-                    <mdp-time-picker ng-model="$ctrl.editEvent.beginDate"></mdp-time-picker>
+                    <mdp-time-picker class="time" ng-model="$ctrl.editEvent.beginDate"></mdp-time-picker>
                  </div>
                 <div layout="row" layout-align="center center">
                     <h4>Fecha Fin</h4>
                     <md-datepicker ng-model="$ctrl.editEvent.endDate"></md-datepicker>
-                    <mdp-time-picker ng-model="$ctrl.editEvent.endDate"></mdp-time-picker>
+                    <mdp-time-picker class="time" ng-model="$ctrl.editEvent.endDate"></mdp-time-picker>
                 </div>
             </div>
+        </form>
         <div layout="column" layout-align="center center">
             <h3>Artistas asistentes</h3>
             <div layout="column" layout-align="center center">
@@ -33,18 +36,18 @@
                     <tr md-row>
                         <!--<th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
                         <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
-                        <th md-column md-numeric>ID</th>
+                        <!-- <th md-column md-numeric>ID</th> -->
                         <th md-column md-numeric>Nombre</th>
-                        <th md-column md-numeric>Descripción</th>
+                        <!-- <th md-column md-numeric>Descripción</th> -->
                         <th md-column md-numeric>Eliminar</th>
                     </tr>
                     </thead>
                     <tbody md-body>
                     <!--<tr md-row md-select="artist" md-select-id="name" md-auto-select ng-repeat="artist in $ctrl.artists">-->
                     <tr md-row ng-repeat="artist in $ctrl.eventArtists">   
-                        <td md-cell>{{artist.id}}</td>
+                        <!-- <td md-cell>{{artist.id}}</td> -->
                         <td md-cell>{{artist.name}}</td>
-                        <td md-cell>{{artist.description}}</td>
+                        <!-- <td md-cell>{{artist.description}}</td> -->
                         <td md-cell>
                             <md-button ng-click="$ctrl.deleteSelectedArtist(artist.id)">Eliminar</md-button>
                         </td>
@@ -72,19 +75,49 @@
         </div>
         <div layout="column" layout-align="center center">
             <h3>Local del evento</h4>
+
+
+                <md-table-container>
+                <table md-table md-progress="promise">
+                    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+                    <tr md-row>
+                        <!--<th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
+                        <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
+                        <th md-column md-numeric>Nombre</th>
+                        <!-- <th md-column md-numeric>Descripción</th> -->
+                        <th md-column md-numeric>Capacidad</th>
+
+                        <!-- <th md-column md-numeric>Eliminar</th> -->
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <!--<tr md-row md-select="artist" md-select-id="name" md-auto-select ng-repeat="artist in $ctrl.artists">-->
+                    <tr md-row>   
+                        <td md-cell>{{$ctrl.editEvent.local.name}}</td>
+                        <!-- <td md-cell>{{$ctrl.editEvent.local.description}}</td> -->
+                        <td md-cell>{{$ctrl.editEvent.local.capacity}}</td>
+                        <!-- <td md-cell>{{artist.description}}</td> -->
+                        <!-- <td md-cell>
+                            <md-button ng-click="$ctrl.deleteSelectedArtist(artist.id)">Eliminar</md-button>
+                        </td> -->
+                    </tr>
+                    </tbody>
+                </table>
+                </md-table-container>
+<!-- 
             <div class="md-list-item-text compact">
                 <p>Nombre: {{$ctrl.editEvent.local.name}}</p>
                 <p>Descripción: {{$ctrl.editEvent.local.description}}</p>
                 <p>Capacidad: {{$ctrl.editEvent.local.capacity}}</p>
-            </div>
+            </div> -->
             <div>
                 <md-button class="md-raised" ng-click="$ctrl.modifyLocalDialog($event)">
                     Modificar Local
                 </md-button>
             </div>
         </div>
-        <div>
-            <md-button class="md-primary md-raised" ng-click="$ctrl.updateEvent()">Guardar cambios</md-button>
+        <div layout="column" layout-align="center center">
+            <md-button type="submit" class="md-primary md-raised" ng-click="$ctrl.updateEvent()">Guardar cambios</md-button>
         </div>
 
 <!--

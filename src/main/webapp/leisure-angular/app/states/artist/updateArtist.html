@@ -1,22 +1,26 @@
 <section name="UpdateArtist">
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
-        <div>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.editArtist.name">
-            </md-input-container>
-            <md-input-container>
-                <label>Descripción</label>
-                <input ng-model="$ctrl.editArtist.description">
-            </md-input-container>
-            <md-input-container>
-                <label>Imagen</label>
-                <input ng-model="$ctrl.editArtist.image">
-            </md-input-container>
-        </div>
-        <div>
-            <md-button class="md-primary md-raised" ng-click="$ctrl.updateArtist()">Actualizar</md-button>
-        </div>
+        <form name="updateArtistForm" ng-submit="$ctrl.updateArtist()" novalidate>
+            <div>
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.editArtist.name" required>
+                    <p class="error" ng-show="updateArtistForm.name.$invalid && !updateArtistForm.name.$pristine">Escribe un nombre</p>
+                </md-input-container>
+                <md-input-container>
+                    <label>Descripción</label>
+                    <input type="text" name="description" class="form-control" ng-model="$ctrl.editArtist.description" required>
+                    <p class="error" ng-show="updateArtistForm.description.$invalid && !updateArtistForm.description.$pristine">Escribe una descripción</p>                
+                </md-input-container>
+                <md-input-container>
+                    <label>Imagen</label>
+                    <input ng-model="$ctrl.editArtist.image">
+                </md-input-container>
+            </div>
+            <div layout="column" layout-align="center center">
+                <md-button type="submit" class="md-primary md-raised" ng-click="$ctrl.updateArtist()">Actualizar</md-button>
+            </div>
+        </form>
     </md-content>
 
 

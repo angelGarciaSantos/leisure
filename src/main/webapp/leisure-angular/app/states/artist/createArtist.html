@@ -20,24 +20,29 @@
         <button type="submit" class="btn btn-default" ng-click="$ctrl.createArtist()">Crear</button>
     </form>-->
     <md-content layout="row" layout-align="center center" md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-        <div>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.newArtist.name">
-            </md-input-container>
+        <form name="createArtistForm" ng-submit="$ctrl.createArtist()" novalidate>
+            <div>
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.newArtist.name" required>
+                    <p class="error" ng-show="createArtistForm.name.$invalid && !createArtistForm.name.$pristine">Escribe un nombre</p>
+                </md-input-container>
 
-            <md-input-container>
-                <label>Descripción</label>
-                <input ng-model="$ctrl.newArtist.description">
-            </md-input-container>
+                <md-input-container>
+                    <label>Descripción</label>
+                    <input type="text" name="description" class="form-control" ng-model="$ctrl.newArtist.description" required>
+                    <p class="error" ng-show="createArtistForm.description.$invalid && !createArtistForm.description.$pristine">Escribe una descripción</p>
 
-            <md-input-container>
-                <label>Imagen</label>
-                <input ng-model="$ctrl.newArtist.image">
-            </md-input-container>
-        </div>
-        <div>
-            <md-button class="md-raised md-primary" ng-click="$ctrl.createArtist()">Crear</md-button>
-        </div>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Imagen</label>
+                    <input ng-model="$ctrl.newArtist.image">
+                </md-input-container>
+            </div>
+            <div>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.createArtist()">Crear</md-button>
+            </div>
+        </form>
     </md-content>
 </section>

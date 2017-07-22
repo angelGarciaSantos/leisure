@@ -1,13 +1,16 @@
 <section name="UpdateTag">
     <md-content md-theme="docs-dark" layout="row" layout-align="center center">
-        <div>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.editTag.name">
-            </md-input-container>
-        </div>
-        <div>
-            <md-button ng-click="$ctrl.updateTag()">Actualizar</md-button>
-        </div>
+        <form layout="column" layout-align="center center" name="updateTagForm" ng-submit="$ctrl.updateTag()" novalidate>
+            <div>
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.editTag.name" required>
+                    <p class="error" ng-show="updateTagForm.name.$invalid && !updateTagForm.name.$pristine">Escribe un nombre</p>
+                </md-input-container>
+            </div>
+            <div>
+                <md-button type="submit" ng-click="$ctrl.updateTag()">Actualizar</md-button>
+            </div>
+        </form>
     </md-content>
 </section>

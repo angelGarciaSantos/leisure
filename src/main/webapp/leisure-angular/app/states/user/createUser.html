@@ -1,35 +1,42 @@
 <section name="CreateUser">
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
-        <div>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.newUser.name">
-            </md-input-container>
+        <form name="createUserForm" ng-submit="$ctrl.createUser()" novalidate>
+            <div>
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.newUser.name" required>
+                    <p class="error" ng-show="createUserForm.name.$invalid && !createUserForm.name.$pristine">Escribe un nombre</p>   
+                </md-input-container>
 
-            <md-input-container>
-                <label>Email</label>
-                <input ng-model="$ctrl.newUser.email">
-            </md-input-container>
-         </div>
-         <div>
-            <md-input-container>
-                <label>Contraseña</label>
-                <input type="password" ng-model="$ctrl.newUser.password">
-            </md-input-container>
+                <md-input-container>
+                    <label>Email</label>
+                    <input type="text" name="email" class="form-control" ng-model="$ctrl.newUser.email" required>
+                    <p class="error" ng-show="createUserForm.email.$invalid && !createUserForm.email.$pristine">Escribe un email</p>   
+                </md-input-container>
+            </div>
+            <div>
+                <md-input-container>
+                    <label>Contraseña</label>
+                    <input name="password" class="form-control" type="password" ng-model="$ctrl.newUser.password" required>
+                    <p class="error" ng-show="createUserForm.password.$invalid && !createUserForm.password.$pristine">Escribe una contraseña</p>   
+                </md-input-container>
 
-             <md-input-container>
-                <label>Repita su contraseña</label>
-                <input type="password" ng-model="$ctrl.passwordCheck">
-            </md-input-container>
-        </div>
-        <div>
-            <md-input-container class="md-icon-float md-icon-right md-block">
-                <label>Tipo</label>
-                <input ng-model="$ctrl.newUser.type" type="number" step="1" min="0" max="2">
-            </md-input-container>
-        </div>
-        <div>
-            <md-button ng-click="$ctrl.createUser()">Crear</md-button>
-        </div>
+                <md-input-container>
+                    <label>Repita su contraseña</label>
+                    <input name="passwordCheck" class="form-control" type="password" ng-model="$ctrl.passwordCheck" required>
+                    <p class="error" ng-show="createUserForm.passwordCheck.$invalid && !createUserForm.passwordCheck.$pristine">Repite la contraseña</p>   
+                </md-input-container>
+            </div>
+            <div>
+                <md-input-container class="md-icon-float md-icon-right md-block">
+                    <label>Tipo</label>
+                    <input name="type" class="form-control" ng-model="$ctrl.newUser.type" type="number" step="1" min="0" max="2" required> 
+                    <p class="error" ng-show="createUserForm.type.$invalid && !createUserForm.type.$pristine">Escribe el tipo</p>   
+                </md-input-container>
+            </div>
+            <div layout="column" layout-align="center center">
+                <md-button type="submit" ng-click="$ctrl.createUser()">Crear</md-button>
+            </div>
+        </form>
     </md-content>
 </section>

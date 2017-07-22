@@ -1,15 +1,16 @@
 <section name="CreateTag">
     <md-content md-theme="docs-dark" layout="row" layout-align="center center">
-        <div>
-            <md-input-container>
-                <label>Nombre</label>
-                <input ng-model="$ctrl.newTag.name">
-            </md-input-container>
-
-        </div>
-
-        <div>
-            <md-button class="md-raised md-primary" ng-click="$ctrl.createTag()">Crear</md-button>
-        </div>
+        <form layout="column" layout-align="center center" name="createTagForm" ng-submit="$ctrl.createTag()" novalidate>
+            <div>
+                <md-input-container>
+                    <label>Nombre</label>
+                    <input type="text" name="name" class="form-control" ng-model="$ctrl.newTag.name" required>
+                    <p class="error" ng-show="createTagForm.name.$invalid && !createTagForm.name.$pristine">Escribe un nombre</p>
+                </md-input-container>
+            </div>
+            <div>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.createTag()">Crear</md-button>
+            </div>
+        </form>
     </md-content>
 </section>
