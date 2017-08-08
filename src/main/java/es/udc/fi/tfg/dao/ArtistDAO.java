@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,7 @@ public class ArtistDAO {
         	artist = new Artist(bean.getName(), bean.getDescription(), bean.getImage());
         }    
         session.save(artist);
+        session.flush();
     }
     
     public List<Artist> getArtists(int first, int max){
@@ -58,7 +60,7 @@ public class ArtistDAO {
         if (max != -1){
             query.setMaxResults(max);
         }
-        List<Artist> artists =  query.list();
+        List<Artist> artists =  query.setCacheable(false).list();
         session.close();
 
         return artists;
@@ -137,6 +139,7 @@ public class ArtistDAO {
         int rowCount = 0;
         try{
             rowCount = query.executeUpdate();
+            session.flush();
             tx.commit(); 
         }
         catch(ConstraintViolationException e)
