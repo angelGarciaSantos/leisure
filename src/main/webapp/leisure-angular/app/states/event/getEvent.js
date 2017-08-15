@@ -76,9 +76,20 @@
 				vm.deleteEvent = function () {
 					vm.event.$delete({ id: vm.eventId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Evento eliminado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go('getAllEvents');
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido eliminarse el evento.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				};
 
@@ -87,18 +98,40 @@
 				vm.followEvent = function () {
 					vm.follow.$save({ eventId: vm.eventId, userId: vm.userId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Evento seguido correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							vm.isFollowing();	
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido seguirse el evento.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
 
 				vm.unfollowEvent = function () {
 					vm.follow.$delete({ eventId: vm.eventId, userId: vm.userId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Se ha dejado de seguir el evento correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							vm.isFollowing();
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido dejarse de seguir el evento.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
 
@@ -127,11 +160,22 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);
                     vm.newComment.$save({ eventId: vm.eventId, userId: vm.userId})
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Comentario creado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							commentsService.commentsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
 								vm.comments = data;
 							});
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido crearse el comentario.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 							//vm.nuevoMovimiento.importe = -9999;
 						});
 				};
@@ -162,6 +206,12 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);              
                     vm.newRating.$save({ eventId: vm.eventId, userId: vm.userId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Evento valorado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							ratingsService.ratingsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
 								vm.ratings = data;
 								ratingsService.globalRatingEvent.query({ id: vm.eventId }).$promise.then(function(data) {
@@ -171,7 +221,12 @@
 							});
 							
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido valorarse el evento.')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							//vm.nuevoMovimiento.importe = -9999;
 						});
 				};

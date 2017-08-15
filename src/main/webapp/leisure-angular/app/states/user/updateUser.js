@@ -20,9 +20,20 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);              
                     vm.editUser.$update({ id: userId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Usuario actualizado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go("getAllUsers");
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: el usuario no ha podido actualizarse.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 							//vm.nuevoMovimiento.importe = -9999;
 						});
 				};

@@ -15,7 +15,7 @@
                     <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
                     <th md-column md-numeric>ID</th>
                     <th md-column md-numeric>Nombre</th>
-                    <th md-column md-numeric>Descripción</th>
+                    <!-- <th md-column md-numeric>Descripción</th> -->
                     <th md-column md-numeric>Capacidad</th>
                 </tr>
                 </thead>
@@ -24,7 +24,7 @@
                     <tr  md-row md-select="local.id" md-on-select="ctrl.parent.logItem" md-auto-select="true" ng-disabled="false" ng-repeat="local in ctrl.parent.locals">   
                         <td md-cell>{{local.id}}</td>
                         <td md-cell>{{local.name}}</td>
-                        <td md-cell>{{local.description}}</td>
+                        <!-- <td md-cell>{{local.description}}</td> -->
                         <td md-cell>{{local.capacity}}</td>
                     </tr>
                 </tbody>

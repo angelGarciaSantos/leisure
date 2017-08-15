@@ -28,9 +28,20 @@
 				vm.deleteTag = function(){
 					vm.delete.$delete({ id: tagId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Tag eliminado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go('getAllTags');
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido eliminarse el tag.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
       

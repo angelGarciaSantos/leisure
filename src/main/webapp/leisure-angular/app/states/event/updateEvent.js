@@ -268,11 +268,22 @@
 
                     vm.sendEvent.$update({ id: vm.eventId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Evento actualizado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							//vm.reloadEvent();
 							var params = { id: vm.eventId };
 							$state.go('getEvent', params);
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido actualizarse el evento.')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							//vm.nuevoMovimiento.importe = -9999;
 						});
 				};
@@ -486,7 +497,7 @@
 							this.parent = vm; 
 							},
 						controllerAs: 'ctrl',
-						templateUrl: './states/event/updateArtistsDialog.html'
+						templateUrl: './states/event/editArtistsDialog.html'
 							// '<md-dialog>' +
 							// '  <md-content>{{ctrl.parent.greeting}}, world !</md-content>' +
 							// '  <div class="md-actions">' +
@@ -506,7 +517,7 @@
 							this.parent = vm; 
 							},
 						controllerAs: 'ctrl',
-						templateUrl: './states/event/manageLocalDialog.html'
+						templateUrl: './states/event/editLocalDialog.html'
 							// '<md-dialog>' +
 							// '  <md-content>{{ctrl.parent.greeting}}, world !</md-content>' +
 							// '  <div class="md-actions">' +

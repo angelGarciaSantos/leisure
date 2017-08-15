@@ -28,10 +28,21 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);              
                     vm.sendLocal.$update({ id: vm.localId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Local actualizado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							var params = { id: vm.localId };
 							$state.go('getLocal', params);
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido actualizarse el local.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 							//vm.nuevoMovimiento.importe = -9999;
 						});
 				};

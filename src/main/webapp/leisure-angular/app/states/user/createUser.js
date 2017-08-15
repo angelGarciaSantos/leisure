@@ -25,12 +25,23 @@
 					else {
 						vm.newUser.$save()
 							.then(function (result) {
+								$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Usuario creado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 								$state.go("getAllUsers");
 								// cuando ha terminado el guardado del movimiento
 								// es momento de pedir una actualización de datos
 								//vm.nuevoMovimiento.importe = 0;
 							}, function (error) {
-								console.error(error);
+								$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: el usuario no ha podido crearse.')
+									.position('top right')
+									.hideDelay(3000)
+								);
 								//vm.nuevoMovimiento.importe = -9999;
 							});
 					}		

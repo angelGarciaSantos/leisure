@@ -108,9 +108,20 @@
                 vm.createEvent = function () {           
 					vm.newEvent.$save({ localId: vm.selectedLocal[0]})
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Evento creado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go('getAllEvents');
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: el evento no ha podido crearse.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				};
 

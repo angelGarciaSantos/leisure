@@ -14,7 +14,7 @@
                         <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>-->
                         <th md-column md-numeric>ID</th>
                         <th md-column md-numeric>Nombre</th>
-                        <th md-column md-numeric>Descripción</th>
+                        <!-- <th md-column md-numeric>Descripción</th> -->
                        
                     </tr>
                     </thead>
@@ -23,7 +23,7 @@
                         <tr  md-row md-select="artist.id" md-on-select="ctrl.parent.logItem" md-auto-select="true" ng-disabled="false" ng-repeat="artist in ctrl.parent.artists">   
                             <td md-cell>{{artist.id}}</td>
                             <td md-cell>{{artist.name}}</td>
-                            <td md-cell>{{artist.description}}</td>
+                            <!-- <td md-cell>{{artist.description}}</td> -->
                             
                         </tr>
                     </tbody>

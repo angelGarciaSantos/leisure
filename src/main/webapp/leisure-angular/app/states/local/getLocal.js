@@ -32,9 +32,20 @@
 				vm.deleteLocal = function(){
 					vm.delete.$delete({ id: vm.localId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Local eliminado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go('getAllLocals');
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido eliminarse el local.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
 

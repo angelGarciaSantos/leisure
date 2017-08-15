@@ -66,6 +66,12 @@
 				vm.deleteArtist = function () {
 					vm.delete.$delete({ id: vm.artistId })
 						.then(function (result) {
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Artista eliminado correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 							$state.go('getAllArtists');
 						}, function (error) {
 							if(error.status == 423) {
@@ -77,7 +83,12 @@
 								);
 							}
 							else{
-								console.error(error);
+								$mdToast.show(
+								$mdToast.simple()
+									.textContent('No se puede borrar: Error interno del servidor.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 							}
 						});
 				}
@@ -100,8 +111,19 @@
 					vm.follow.$save({ artistId: vm.artistId, userId: vm.loginInfo[0] })
 						.then(function (result) {
 							vm.isFollowing();	
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Artista seguido correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no se pudo seguir al artista.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
 
@@ -109,8 +131,19 @@
 					vm.follow.$delete({ artistId: vm.artistId, userId: vm.loginInfo[0] })
 						.then(function (result) {
 							vm.isFollowing();
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('¡Has dejado de seguir al artista correctamente!')
+									.position('top right')
+									.hideDelay(3000)
+								);
 						}, function (error) {
-							console.error(error);
+							$mdToast.show(
+								$mdToast.simple()
+									.textContent('Error: no ha podido dejar de seguirse al artista.')
+									.position('top right')
+									.hideDelay(4000)
+								);
 						});
 				}
 
