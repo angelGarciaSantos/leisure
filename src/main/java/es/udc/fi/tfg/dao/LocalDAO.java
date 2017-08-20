@@ -57,7 +57,7 @@ public class LocalDAO {
             query.setMaxResults(max);
         }
         List<Local> locals =  query.list();
-        session.close();
+        //session.close();
         return locals;
     }
     
@@ -70,7 +70,7 @@ public class LocalDAO {
             query.setMaxResults(max);
         }
         List<Local> locals =  query.list();
-        session.close();
+        //session.close();
         return locals;
     }
     
@@ -79,7 +79,7 @@ public class LocalDAO {
         Query query = session.createQuery("from Local where id = :id");
         query.setInteger("id",id);
         Local local = (Local) query.uniqueResult();
-        session.close();
+        //session.close();
         return local;
     }
     

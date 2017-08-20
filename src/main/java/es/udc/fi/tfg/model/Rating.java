@@ -1,5 +1,7 @@
 package es.udc.fi.tfg.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import es.udc.fi.tfg.config.JsonDateSerializer;
 
 @Entity
 @Table(name = "Rating")
@@ -22,6 +30,11 @@ public class Rating {
     
 	@Column
 	private double rating;
+	
+	@Column(name = "date", nullable = false, updatable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
+    private Date date;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     private User user;
@@ -78,6 +91,14 @@ public class Rating {
 		this.event = event;
 	}
 	
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;

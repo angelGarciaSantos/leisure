@@ -31,12 +31,12 @@ public class RatingService {
 		return ratingDAO.getRating(id);
 	}
 	
-	public List<Rating> getRatingsFromEvent(int eventId){
-		return ratingDAO.getRatingsFromEvent(eventId);
+	public List<Rating> getRatingsFromEvent(int eventId, int first, int max){
+		return ratingDAO.getRatingsFromEvent(eventId, first, max);
 	}
 	
 	public List<Double> getRatingFromEvent(int eventId){
-		List<Rating> ratings = ratingDAO.getRatingsFromEvent(eventId);	
+		List<Rating> ratings = ratingDAO.getRatingsFromEvent(eventId, 0, -1);	
 		List<Double> a = new ArrayList<Double>();
 		int total = ratings.size();
 		if (total == 0){

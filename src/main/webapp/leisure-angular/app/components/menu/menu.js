@@ -141,6 +141,7 @@
 								});
 								//$window.location.reload();
 								$state.go('home');
+								$window.location.reload();
 						}, function (error) {
 							$mdToast.show(
 								$mdToast.simple()

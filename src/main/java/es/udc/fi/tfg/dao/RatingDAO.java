@@ -1,5 +1,6 @@
 package es.udc.fi.tfg.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -51,6 +52,8 @@ public class RatingDAO {
         Rating rating = new Rating(); 
         Event event = (Event) session.load(Event.class, eventId);
         User user = (User) session.load(User.class, userId);        
+        Date date = new Date();
+        rating.setDate(date);
         rating.setUser(user);
         rating.setEvent(event);       
         rating.setRating(bean.getRating());        
@@ -61,7 +64,7 @@ public class RatingDAO {
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Rating");
         List<Rating> ratings =  query.list();
-        session.close();
+        //session.close();
         return ratings;
     }
 	
@@ -70,7 +73,7 @@ public class RatingDAO {
         Query query = session.createQuery("from Rating where id = :id");
         query.setInteger("id",id);
         Rating rating = (Rating) query.uniqueResult();
-        session.close();
+        //session.close();
         return rating;
     }
     
@@ -80,19 +83,23 @@ public class RatingDAO {
          query.setInteger("eventId",eventId);
          query.setInteger("userId",userId);
          Rating rating =  (Rating) query.uniqueResult();
-         session.close();
+         //session.close();
          if (rating == null)
         	 return false;
          else
         	 return true;
     }
     
-    public List<Rating> getRatingsFromEvent(int eventId){
+    public List<Rating> getRatingsFromEvent(int eventId, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Rating where event_id = :eventId");
+        Query query = session.createQuery("from Rating where event_id = :eventId order by date desc, id desc");
         query.setInteger("eventId",eventId);
+        query.setFirstResult(first);
+        if (max != -1){
+        	query.setMaxResults(max);
+        }
         List<Rating> ratings =  query.list();
-        session.close();
+        //session.close();
         return ratings;
     }
     

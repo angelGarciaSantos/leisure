@@ -44,7 +44,7 @@
 				vm.loadArtist = function() {
 					artistsService.artists.get({ id: vm.artistId  }).$promise.then(function(data) {
 						vm.artist = data;
-						tagsService.tagsByArtist.query({ id: vm.artistId }).$promise.then(function(data) {
+						tagsService.tagsByArtist.query({ id: vm.artistId, first:0, max:-1 }).$promise.then(function(data) {
 							vm.tags = data;	
 						});	
 						eventsService.eventsByArtist.query({id: vm.artistId}).$promise.then(function(data) {

@@ -64,7 +64,7 @@ public class InterestDAO {
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Interest");
         List<Interest> interests =  query.list();
-        session.close();
+        //session.close();
         return interests;
     }
 	
@@ -73,7 +73,7 @@ public class InterestDAO {
         Query query = session.createQuery("from Interest where id = :id");
         query.setInteger("id",id);
         Interest interest = (Interest) query.uniqueResult();
-        session.close();
+        //session.close();
         return interest;
     }
     
@@ -82,7 +82,7 @@ public class InterestDAO {
         Query query = session.createQuery("from Interest where user_id = :userId");
         query.setInteger("userId",userId);
         List<Interest> interests =  query.list();
-        session.close();
+        //session.close();
         return interests;
     }
     
@@ -92,7 +92,7 @@ public class InterestDAO {
         query.setInteger("tagId", tagId);
         query.setInteger("userId", userId);
         List<Interest> interests =  query.list();
-        session.close();
+        //session.close();
         
         if(interests.size() > 0) {
         	return interests.get(0).getId();

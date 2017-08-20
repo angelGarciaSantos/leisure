@@ -61,15 +61,15 @@ public class CommentRestController {
 		}		
 	}	
 	
-	@GetMapping("/comments/event/{eventId}")
-	public ResponseEntity<List<Comment>> getCommentsFromEvent(@PathVariable int eventId) {	
+	@GetMapping("/comments/event/{eventId}/{first}/{max}")
+	public ResponseEntity<List<Comment>> getCommentsFromEvent(@PathVariable int eventId, @PathVariable int first, @PathVariable int max) {	
 		if (eventService.getEvent(eventId) == null){
 			logger.error("No han podido obtenerse los comentarios del evento: "+eventId);
 			return new ResponseEntity<List<Comment>>(HttpStatus.NOT_FOUND);
 		}
 		else {	
 			logger.info("Obteniendo los comentarios del evento: "+eventId);
-			return new ResponseEntity<List<Comment>> (commentService.getCommentsFromEvent(eventId), HttpStatus.OK);
+			return new ResponseEntity<List<Comment>> (commentService.getCommentsFromEvent(eventId, first, max), HttpStatus.OK);
 		}
 	}	
 	

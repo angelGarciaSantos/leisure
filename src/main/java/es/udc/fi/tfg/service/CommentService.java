@@ -28,8 +28,8 @@ public class CommentService {
 		return commentDAO.getComment(id);
 	}
 	
-	public List<Comment> getCommentsFromEvent(int eventId){
-		List<Comment> comments = commentDAO.getCommentsFromEvent(eventId);
+	public List<Comment> getCommentsFromEvent(int eventId, int first, int max){
+		List<Comment> comments = commentDAO.getCommentsFromEvent(eventId, first, max);
 		
 		Collections.sort(comments, new Comparator<Comment>() {
 			  public int compare(Comment o1, Comment o2) {

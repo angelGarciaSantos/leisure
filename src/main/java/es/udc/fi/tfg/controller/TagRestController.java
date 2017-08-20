@@ -49,15 +49,56 @@ public class TagRestController {
 		return new ResponseEntity<List<Tag>>(tagService.getTagsKeywords(keywords, first, max), HttpStatus.OK);
 	}	
 	
-	@GetMapping("/tags/artist/{artistId}")
-	public ResponseEntity getTagsFromArtist(@PathVariable int artistId) {
+	@GetMapping("/tags/artist/{artistId}/{first}/{max}")
+	public ResponseEntity getTagsFromArtist(@PathVariable int artistId, @PathVariable int first, @PathVariable int max) {
 		if (artistService.getArtist(artistId) == null ) {
 			logger.error("No se ha encontrado el artista: "+artistId);
 			return new ResponseEntity<String>("El artista " + artistId + " no existe.", HttpStatus.NOT_FOUND);
 		}
 		else {
 			logger.info("Obteniendo todos los tags del artista: "+artistId);
-			return new ResponseEntity<List<Tag>>(tagService.getTagsFromArtist(artistId),HttpStatus.OK);		
+			return new ResponseEntity<List<Tag>>(tagService.getTagsFromArtist(artistId, first, max),HttpStatus.OK);		
+		}
+	}
+	
+	@PostMapping("/admin/tag/artist/{tagId}/{artistId}")
+	public ResponseEntity addTagToArtist(@PathVariable int tagId, @PathVariable int artistId) throws EntityNotCreatableException {
+		if (tagService.getTag(tagId) == null || artistService.getArtist(artistId) == null ) {
+			logger.error("No se ha encontrado el tag "+ tagId +" o artista: "+artistId);
+			return new ResponseEntity<String>("No se ha encontrado el tag "+ tagId +" o artista: "+artistId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = tagService.addTagToArtist(tagId, artistId);
+			if (rows < 1) {
+				logger.error("No ha podido añadirse el tag: "+ tagId+" al artista: "+artistId);
+				return new ResponseEntity<String>("No ha podido añadirse el tag " + tagId
+					+ " al artista " + artistId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				logger.info("Añadiendo el tag: "+tagId+" al artista: "+artistId);
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
+		}
+	}
+	
+	@DeleteMapping("/admin/tag/artist/{tagId}/{artistId}")
+	public ResponseEntity<String> deleteTagFromArtist(@PathVariable int tagId, @PathVariable int artistId) throws EntityNotRemovableException {
+		if ((tagService.getTag(tagId) == null ) || artistService.getArtist(artistId) == null) {
+			logger.error("No ha podido eliminarse el tag: "+tagId+" del artista: "+artistId+" no se han encontrado.");
+			return new ResponseEntity<String>("El tag o artista indicados no existen. Tag: "+
+				tagId + " Artista: " + artistId, HttpStatus.NOT_FOUND);
+		}
+		else {
+			int rows = tagService.deleteTagFromArtist(tagId, artistId);
+			if (rows < 1) {
+				logger.error("No ha podido eliminarse el tag: "+tagId+" del artista: "+artistId);
+				return new ResponseEntity<String>("No ha podido eliminarse el tag " + tagId
+					+ " del artista " + artistId, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else{
+				logger.info("Eliminando el tag: "+tagId+" del artista: "+artistId);
+				return new ResponseEntity<String>(HttpStatus.OK);
+			}
 		}
 	}
 	

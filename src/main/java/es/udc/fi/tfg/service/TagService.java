@@ -34,8 +34,8 @@ public class TagService {
 		return tagDAO.getTagsKeywords(keywords, first, max);
 	}
 	
-	public List<Tag> getTagsFromArtist(int artistId) {
-		List<Integer> ids = tagDAO.getTagsFromArtist(artistId);
+	public List<Tag> getTagsFromArtist(int artistId, int first, int max) {
+		List<Integer> ids = tagDAO.getTagsFromArtist(artistId, first, max);
         List<Tag> tags = new ArrayList<Tag>();
 		for(Integer id : ids) {
 			tags.add(this.getTag(id));
@@ -92,5 +92,13 @@ public class TagService {
         	}
         }
 		return exists;
+	}
+	
+	public int addTagToArtist(int tagId, int artistId) throws EntityNotCreatableException{
+		return tagDAO.addTagToArtist(tagId, artistId);
+	}
+	
+	public int deleteTagFromArtist (int tagId, int artistId) throws EntityNotRemovableException{
+		return tagDAO.deleteTagFromArtist(tagId, artistId);
 	}
 }

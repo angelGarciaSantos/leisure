@@ -54,14 +54,14 @@ public class ArtistDAO {
     }
     
     public List<Artist> getArtists(int first, int max){
-        Session session = SessionUtil.getSession();    
+        Session session = SessionUtil.getSession();   
         Query query = session.createQuery("from Artist order by artist_id");
         query.setFirstResult(first);
         if (max != -1){
             query.setMaxResults(max);
         }
         List<Artist> artists =  query.setCacheable(false).list();
-        session.close();
+        //session.close();
 
         return artists;
     }
@@ -75,7 +75,7 @@ public class ArtistDAO {
             query.setMaxResults(max);
         }
         List<Artist> artists =  query.list();
-        session.close();
+        //session.close();
 
         return artists;
     }
@@ -85,7 +85,7 @@ public class ArtistDAO {
         Query query = session.createQuery("from Artist where id = :id");
         query.setInteger("id",id);
         Artist artist = (Artist) query.uniqueResult();
-        session.close();
+        //session.close();
  
         return artist;
     }
@@ -101,7 +101,7 @@ public class ArtistDAO {
         
         List<Integer> result = sqlQuery.list();
         
-		session.close();
+		//session.close();
 		return result;
     }
     
@@ -114,7 +114,7 @@ public class ArtistDAO {
         	sqlQuery.setMaxResults(max);
         }
 		List<Integer> result = sqlQuery.list();
-        session.close();
+        //session.close();
  
 		return result;
     }
@@ -124,7 +124,7 @@ public class ArtistDAO {
 		SQLQuery sqlQuery = session.createSQLQuery("select artist_id from tag_artist where tag_id = ?");
 		sqlQuery.setParameter(0, tagId);
 		List<Integer> result = sqlQuery.list();
-		session.close();
+		//session.close();
 
 		return result;
     }
@@ -251,7 +251,7 @@ public class ArtistDAO {
 		sqlQuery.setParameter(0, userId);
 		sqlQuery.setParameter(1, artistId);
 		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
-        session.close();
+        //session.close();
 
         if (count > 0)
         	return true;

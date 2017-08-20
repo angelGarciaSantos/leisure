@@ -63,7 +63,7 @@ public class CommentDAO {
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery("from Comment");
         List<Comment> comments =  query.list();
-        session.close();
+        //session.close();
         return comments;
     }
     
@@ -72,16 +72,20 @@ public class CommentDAO {
         Query query = session.createQuery("from Comment where id = :id");
         query.setInteger("id",id);
         Comment comment = (Comment) query.uniqueResult();
-        session.close();
+        //session.close();
         return comment;
     }
     
-    public List<Comment> getCommentsFromEvent(int eventId){
+    public List<Comment> getCommentsFromEvent(int eventId, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Comment where event_id = :eventId");
+        Query query = session.createQuery("from Comment where event_id = :eventId order by date desc, id desc");
         query.setInteger("eventId",eventId);
+        query.setFirstResult(first);
+        if (max != -1){
+        	query.setMaxResults(max);
+        }
         List<Comment> comments =  query.list();
-        session.close();
+        //session.close();
         return comments;
     }
 	

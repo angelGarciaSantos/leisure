@@ -124,10 +124,30 @@ CREATE TABLE Comment (
 CREATE TABLE Rating (
 	id int (11) NOT NULL AUTO_INCREMENT,
 	rating float(53) NOT NULL,
+	date TIMESTAMP NOT NULL,
 	event_id int (11) NOT NULL,
 	user_id int (11) NOT NULL,
 	CONSTRAINT rating_PK PRIMARY KEY (id),
 	CONSTRAINT ratingEventIdFK FOREIGN KEY(event_id) REFERENCES Event (id) ON DELETE CASCADE,
 	CONSTRAINT ratingUserIdFK FOREIGN KEY(user_id) REFERENCES User (id)	
 );
+
+
+
+
+ALTER DATABASE
+    leisuredb
+    CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+
+ALTER TABLE artist CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE local CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE event CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE tag CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE interest CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE comment CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
 

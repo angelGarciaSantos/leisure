@@ -4,7 +4,7 @@
 
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (1, "Playa Club", "Sonidos eclecticos de vanguardia y musica en directo en una discoteca y sala de conciertos abierta en 1957.", 500, 43.36853944004338, -8.413666470552245, "https://alvaropardoinfo4.files.wordpress.com/2012/05/playaclub.jpg");
+VALUES (1, "Playa Club", "Sonidos eclécticos de vanguardia y musica en directo en una discoteca y sala de conciertos abierta en 1957.", 500, 43.36853944004338, -8.413666470552245, "https://alvaropardoinfo4.files.wordpress.com/2012/05/playaclub.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
 VALUES (2, "Sala Mardigras", "Sala de conciertos.", 300, 43.37464111624276, -8.398218548479454, "http://empuje.net/wp-content/uploads/2017/03/mardi17.jpg");
@@ -139,8 +139,8 @@ VALUES (1,1);
 INSERT INTO Comment (id, text, date, event_id, user_id)
 VALUES (1,"Ha sido un conciertazo", now(), 1, 1);
 
-INSERT INTO Rating (id, rating, event_id, user_id)
-VALUES (1, 9, 1, 1);
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (1, 9, now(), 1, 1);
 
-INSERT INTO Rating (id, rating, event_id, user_id)
-VALUES (2, 3, 2, 1);
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (2, 3, now(), 2, 1);

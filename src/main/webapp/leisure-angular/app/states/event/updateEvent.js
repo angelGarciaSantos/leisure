@@ -215,25 +215,29 @@
 							vm.eventArtists = data;	
 							artistsService.artistsByEvent.query({ id: vm.eventId, first: vm.firstEventArtists, max: vm.maxEventArtists+1 }).$promise.then(function(data) {
 								vm.eventArtists = data;
-								vm.selectedArtists = [];	
-								for (i = 0; i < vm.eventArtists.length; i++) {
-									vm.selectedArtists.push(vm.eventArtists[i].id);
-								}
+								artistsService.artistsByEvent.query({ id: vm.eventId, first: 0, max: -1 }).$promise.then(function(data2) {
+									vm.totalEventArtists = data2;
 
-								if(vm.firstEventArtists != 0) {
-									vm.showPreviousButtonEventArtist = true;
-								}
-								else {
-									vm.showPreviousButtonEventArtist = false;
-								}
+									vm.selectedArtists = [];	
+									for (i = 0; i < vm.totalEventArtists.length; i++) {
+										vm.selectedArtists.push(vm.totalEventArtists[i].id);
+									}
 
-								if(vm.eventArtists.length > 3) {
-									vm.showNextButtonEventArtist = true;
-									vm.eventArtists.splice(vm.eventArtists.length -1, 1);
-								}
-								else{
-									vm.showNextButtonEventArtist = false;
-								}
+									if(vm.firstEventArtists != 0) {
+										vm.showPreviousButtonEventArtist = true;
+									}
+									else {
+										vm.showPreviousButtonEventArtist = false;
+									}
+
+									if(vm.eventArtists.length > 3) {
+										vm.showNextButtonEventArtist = true;
+										vm.eventArtists.splice(vm.eventArtists.length -1, 1);
+									}
+									else{
+										vm.showNextButtonEventArtist = false;
+									}
+								});
 							});
 						});
 					});
@@ -297,23 +301,23 @@
 					//por cada artista guardado, comprobamos que existe en los seleccionados.
 					//en caso de no existir en los seleccionados, hay que borrar el artista guardado.
 					var selected = false;
-					for (i = 0; i < vm.eventArtists.length; i++) { 
+					for (i = 0; i < vm.totalEventArtists.length; i++) { 
 						selected = false;
 						for (j = 0; j < vm.selectedArtists.length; j++) {
-							if (vm.eventArtists[i].id == vm.selectedArtists[j]){
+							if (vm.totalEventArtists[i].id == vm.selectedArtists[j]){
 								selected = true;
 							}
 						}
 						if (!selected) {
-							vm.deleteSelectedArtist(vm.eventArtists[i].id);
+							vm.deleteSelectedArtist(vm.totalEventArtists[i].id);
 						}				
 					}					
 
 					var exists = false;
 					for (i = 0; i < vm.selectedArtists.length; i++) { 
 						exists = false;
-						for (j = 0; j < vm.eventArtists.length; j++) {
-							if (vm.eventArtists[j].id == vm.selectedArtists[i]){
+						for (j = 0; j < vm.totalEventArtists.length; j++) {
+							if (vm.totalEventArtists[j].id == vm.selectedArtists[i]){
 								exists = true;
 							}
 						}

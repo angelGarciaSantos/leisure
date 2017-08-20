@@ -17,6 +17,16 @@
 				vm.showNextButtonEventArtist = false;
 				vm.showPreviousButtonEventArtist = false;
 
+				vm.firstEventComments = 0;
+				vm.maxEventComments = 5;
+				vm.showNextButtonEventComment = false;
+				vm.showPreviousButtonEventComment = false;
+
+				vm.firstEventRatings = 0;
+				vm.maxEventRatings = 5;
+				vm.showNextButtonEventRating = false;
+				vm.showPreviousButtonEventRating = false;
+
                 vm.hideDialog = $mdDialog.hide;
 				vm.loginInfo = [];
 				vm.local;
@@ -135,16 +145,7 @@
 						});
 				}
 
-				commentsService.commentsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
-					vm.comments = data;
-				});
-
 				//vm.globalRating = ratingsService.globalRating.get({ id: vm.eventId });
-
-
-				ratingsService.ratingsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
-					vm.ratings = data;
-				});
 
 				ratingsService.globalRatingEvent.query({ id: vm.eventId }).$promise.then(function(data) {
 					vm.globalRating = data;
@@ -160,15 +161,14 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);
                     vm.newComment.$save({ eventId: vm.eventId, userId: vm.userId})
 						.then(function (result) {
+							vm.newComment.text = "";
 							$mdToast.show(
 								$mdToast.simple()
 									.textContent('¡Comentario creado correctamente!')
 									.position('top right')
 									.hideDelay(3000)
 								);
-							commentsService.commentsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
-								vm.comments = data;
-							});
+							vm.reloadEventComments();
 						}, function (error) {
 							$mdToast.show(
 								$mdToast.simple()
@@ -206,19 +206,16 @@
 					//vm.nuevoMovimiento.fecha = new Date(vm.nuevoMovimiento.fecha);              
                     vm.newRating.$save({ eventId: vm.eventId, userId: vm.userId })
 						.then(function (result) {
+							
+							
 							$mdToast.show(
 								$mdToast.simple()
 									.textContent('¡Evento valorado correctamente!')
 									.position('top right')
 									.hideDelay(3000)
 								);
-							ratingsService.ratingsByEvent.query({ id: vm.eventId }).$promise.then(function(data) {
-								vm.ratings = data;
-								ratingsService.globalRatingEvent.query({ id: vm.eventId }).$promise.then(function(data) {
-									vm.globalRating = data;
-								});
-							
-							});
+							vm.reloadEventRatings();
+						
 							
 						}, function (error) {
 							$mdToast.show(
@@ -296,6 +293,81 @@
 					vm.reloadEventArtists();
 				}
 
+				vm.reloadEventComments = function () {
+					commentsService.commentsByEvent.query({ id: vm.eventId, first: vm.firstEventComments, max: vm.maxEventComments+1 }).$promise.then(function(data) {
+						vm.eventComments = data;
+
+						if(vm.firstEventComments != 0) {
+							vm.showPreviousButtonEventComment = true;
+						}
+						else {
+							vm.showPreviousButtonEventComment = false;
+						}
+
+						if(vm.eventComments.length > 5) {
+							vm.showNextButtonEventComment = true;
+							vm.eventComments.splice(vm.eventComments.length -1, 1);
+						}
+						else{
+							vm.showNextButtonEventComment = false;
+						}
+							
+						
+					});
+				};
+
+				vm.getNextEventComment = function() {								
+					vm.firstEventComments += 5;
+					vm.reloadEventComments();					
+				}
+
+				vm.getPreviousEventComment = function() {
+					vm.firstEventComments -= 5;
+					if(vm.firstEventComments < 0){
+						vm.firstEventComments = 0;
+					}
+					vm.reloadEventComments();
+				}
+
+				vm.reloadEventRatings = function () {
+					ratingsService.ratingsByEvent.query({ id: vm.eventId, first: vm.firstEventRatings, max: vm.maxEventRatings+1 }).$promise.then(function(data) {
+						vm.eventRatings = data;
+
+						if(vm.firstEventRatings != 0) {
+							vm.showPreviousButtonEventRating = true;
+						}
+						else {
+							vm.showPreviousButtonEventRating = false;
+						}
+
+						if(vm.eventRatings.length > 5) {
+							vm.showNextButtonEventRating = true;
+							vm.eventRatings.splice(vm.eventRatings.length -1, 1);
+						}
+						else{
+							vm.showNextButtonEventRating = false;
+						}
+						ratingsService.globalRatingEvent.query({ id: vm.eventId }).$promise.then(function(data2) {
+							vm.globalRating = data2;
+						});
+							
+						
+					});
+				};
+
+				vm.getNextEventRating = function() {								
+					vm.firstEventRatings += 5;
+					vm.reloadEventRatings();					
+				}
+
+				vm.getPreviousEventRating = function() {
+					vm.firstEventRatings -= 5;
+					if(vm.firstEventRatings < 0){
+						vm.firstEventRatings = 0;
+					}
+					vm.reloadEventRatings();
+				}
+
 				vm.artistDetails = function (id) {
 					var params = { id: id };
 					$state.go('getArtist', params);
@@ -307,6 +379,8 @@
 				}
 
 				vm.reloadEventArtists();
+				vm.reloadEventComments();
+				vm.reloadEventRatings();
 			}
 		})
 

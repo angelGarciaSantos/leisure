@@ -60,7 +60,7 @@ public class UserDAO {
             query.setMaxResults(max);
         }
         List<User> users =  query.list();
-        session.close();
+        //session.close();
         return users;
     }
     
@@ -73,7 +73,7 @@ public class UserDAO {
             query.setMaxResults(max);
         }
         List<User> users =  query.list();
-        session.close();
+        //session.close();
         return users;
     }
     
@@ -82,7 +82,7 @@ public class UserDAO {
         Query query = session.createQuery("from User where email = :email");
         query.setString("email", email);
         User user =  (User) query.uniqueResult();
-        session.close();
+        //session.close();
         return user;
     }
     
@@ -91,7 +91,7 @@ public class UserDAO {
         Query query = session.createQuery("from User where id = :id");
         query.setInteger("id",id);
         User user = (User) query.uniqueResult();
-        session.close();
+        //session.close();
         return user;
     }
 	

@@ -53,7 +53,7 @@ public class TagDAO {
             query.setMaxResults(max);
         }
         List<Tag> tags =  query.list();
-        session.close();
+        //session.close();
         return tags;
     }
     
@@ -66,7 +66,7 @@ public class TagDAO {
             query.setMaxResults(max);
         }
         List<Tag> tags =  query.list();
-        session.close();
+        //session.close();
         return tags;
     }
     
@@ -75,16 +75,20 @@ public class TagDAO {
         Query query = session.createQuery("from Tag where id = :id");
         query.setInteger("id",id);
         Tag tag = (Tag) query.uniqueResult();
-        session.close();
+        //session.close();
         return tag;
     }
     
-    public List<Integer> getTagsFromArtist(int artistId) {
+    public List<Integer> getTagsFromArtist(int artistId, int first, int max) {
     	Session session = SessionUtil.getSession();
-		SQLQuery sqlQuery = session.createSQLQuery("select tag_id from tag_artist where artist_id = ?");
+		SQLQuery sqlQuery = session.createSQLQuery("select tag_id from tag_artist where artist_id = ? order by tag_id");
 		sqlQuery.setParameter(0, artistId);
+		sqlQuery.setFirstResult(first);
+        if (max != -1){
+        	sqlQuery.setMaxResults(max);
+        }
 		List<Integer> result = sqlQuery.list();
-		session.close();
+		//session.close();
 		return result;
     }
 	
@@ -139,5 +143,56 @@ public class TagDAO {
             
             System.out.println("Rows affected: " + rowCount);
             return rowCount;
+    }
+    
+    @Transactional
+    public int addTagToArtist(int tagId, int artistId) throws EntityNotCreatableException{
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "INSERT INTO tag_artist(tag_id, artist_id) VALUES (?,?)");
+        insertQuery.setParameter(0, tagId);
+        insertQuery.setParameter(1, artistId);
+        int rows;
+        try {
+        	rows = insertQuery.executeUpdate();
+            tx.commit();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotCreatableException("No se pudo añadir el tag al artista.");
+        }   
+        finally{
+        	session.close();
+        }
+        //session.getTransaction().commit();
+
+        return rows;
+    }
+    
+    @Transactional
+    public int deleteTagFromArtist(int tagId, int artistId) throws EntityNotRemovableException {
+		Session session = SessionUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        SQLQuery insertQuery = session.createSQLQuery("" +
+        "delete from Tag_Artist where (tag_id, artist_id) = (?,?)");
+        insertQuery.setParameter(0, tagId);
+        insertQuery.setParameter(1, artistId);
+        int rows;
+        try {
+            rows = insertQuery.executeUpdate();
+            tx.commit();
+        }
+        catch(Exception e)
+        {
+        	tx.rollback();
+        	throw new EntityNotRemovableException("No se pudo eliminar el tag del artista.");
+        }   
+        finally {
+            session.close();
+        }
+        //session.getTransaction().commit();
+        return rows;
     }
 }

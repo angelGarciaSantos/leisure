@@ -68,15 +68,15 @@ public class RatingRestController {
 		}	
 	}	
 	
-	@GetMapping("/ratings/event/{eventId}")
-	public ResponseEntity<List<Rating>> getRatingsFromEvent(@PathVariable int eventId) {
+	@GetMapping("/ratings/event/{eventId}/{first}/{max}")
+	public ResponseEntity<List<Rating>> getRatingsFromEvent(@PathVariable int eventId, @PathVariable int first, @PathVariable int max) {
 		if (eventService.getEvent(eventId) == null){
 			logger.error("No se ha encontrado el evento: "+eventId);
 			return new ResponseEntity<List<Rating>>(HttpStatus.NOT_FOUND);
 		}
 		else {	
 			logger.info("Obteniendo las valoraciones del evento: "+eventId);
-			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId), HttpStatus.OK);
+			return new ResponseEntity<List<Rating>> (ratingService.getRatingsFromEvent(eventId, first, max), HttpStatus.OK);
 		}
 	}	
 	

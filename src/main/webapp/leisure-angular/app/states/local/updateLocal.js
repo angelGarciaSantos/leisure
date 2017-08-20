@@ -10,7 +10,7 @@
 		})
 		.component('updateLocal', {
 			templateUrl: './states/local/updateLocal.html',
-			controller: function (localsService, $state, $stateParams) {
+			controller: function (localsService, $state, $stateParams, $mdToast) {
                 var vm = this;
 
                 vm.localId = $stateParams.id;

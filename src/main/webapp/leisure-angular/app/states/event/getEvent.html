@@ -67,26 +67,34 @@
 			</div>	
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Comentarios</h1>
-				<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.comments" ng-click=null>
+				<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.eventComments" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{comment.text}}</h3>
-						<p>{{comment.user.name}}</p>
+						<p>{{comment.user.name}} - {{comment.date}} </p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
+			<div layout ="row">
+				<md-button ng-if="$ctrl.showPreviousButtonEventComment" class="md-raised md-primary" ng-click="$ctrl.getPreviousEventComment()">Comentarios más recientes</md-button>
+				<md-button ng-if="$ctrl.showNextButtonEventComment" class="md-raised md-primary" ng-click="$ctrl.getNextEventComment()">Comentarios más antiguos</md-button>
+			</div>
 			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.commentEventDialog()">Comentar</md-button>
 
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Valoraciones</h1>
-				<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.ratings" ng-click=null>
+				<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.eventRatings" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{rating.rating}}</h3>
-						<p>{{rating.user.name}}</p>
+						<p>{{rating.user.name}} - {{rating.date}}</p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
+			<div layout ="row">
+				<md-button ng-if="$ctrl.showPreviousButtonEventRating" class="md-raised md-primary" ng-click="$ctrl.getPreviousEventRating()">Valoraciones más recientes</md-button>
+				<md-button ng-if="$ctrl.showNextButtonEventRating" class="md-raised md-primary" ng-click="$ctrl.getNextEventRating()">Valoraciones más antiguas</md-button>
+			</div>
 			<md-button class="md-raised md-primary" ng-if="$ctrl.loginInfo.length > 0" ng-click="$ctrl.rateEventDialog()">Valorar</md-button>
 			</br>
 			</br>

@@ -73,7 +73,7 @@ public class EventDAO {
         }
         List<Event> events =  query.list();
         
-        session.close();
+        //session.close();
         return events;
     }
     
@@ -86,7 +86,7 @@ public class EventDAO {
             query.setMaxResults(max);
         }
         List<Event> events =  query.list();
-        session.close();
+        //session.close();
         return events;
     }
     
@@ -95,7 +95,7 @@ public class EventDAO {
         Query query = session.createQuery("from Event where id = :id");
         query.setInteger("id",id);
         Event event = (Event) query.uniqueResult();
-        session.close();
+        //session.close();
         return event;
     }
     
@@ -245,7 +245,7 @@ public class EventDAO {
 		SQLQuery sqlQuery = session.createSQLQuery("select event_id from event_artist where artist_id = ?");
 		sqlQuery.setParameter(0, artistId);
 		List<Integer> result = sqlQuery.list();
-		session.close();
+		//session.close();
 		
 		return result;
     }
@@ -256,7 +256,7 @@ public class EventDAO {
         query.setInteger("localId", localId);
         //session.setCacheMode(CacheMode.IGNORE);
         List<Event> events =  query.list();
-        session.close();
+        //session.close();
         
         return events;
     }
@@ -270,7 +270,7 @@ public class EventDAO {
             sqlQuery.setMaxResults(max);
         }
         List<Integer> result = sqlQuery.list();
-		session.close();
+		//session.close();
 		
 		return result;
     }
@@ -333,7 +333,7 @@ public class EventDAO {
 		sqlQuery.setParameter(0, userId);
 		sqlQuery.setParameter(1, eventId);
 		Integer count = ((BigInteger) sqlQuery.uniqueResult()).intValue();
-		session.close();
+		//session.close();
 		
 		return count;
     }
