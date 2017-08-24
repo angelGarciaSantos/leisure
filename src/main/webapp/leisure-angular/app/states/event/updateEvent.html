@@ -3,12 +3,12 @@
         <form layout="column" layout-align="center center" name="updateEventForm" ng-submit="$ctrl.updateEvent()" novalidate>
             <h3>Información básica</h4>
             <div layout="row" layout-align="center center">
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Nombre</label>
                     <input type="text" name="name" class="form-control" ng-model="$ctrl.editEvent.name" required>
                     <p class="error" ng-show="updateEventForm.name.$invalid && !updateEventForm.name.$pristine">Escribe un nombre</p>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Descripción</label>
                     <input type="text" name="description" class="form-control" ng-model="$ctrl.editEvent.description" required>
                     <p class="error" ng-show="updateEventForm.description.$invalid && !updateEventForm.description.$pristine">Escribe una descripción</p>

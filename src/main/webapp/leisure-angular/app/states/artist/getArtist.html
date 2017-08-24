@@ -21,6 +21,9 @@
 		<div layout="column" layout-align="center center">
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Tags</h1>
+				<div flex ="100" layout = "column" layout-align="center center">
+					<h3 layout="column" layout-align="center stretch" ng-if="$ctrl.tags.length == 0">No hay tags relacionados</h3>
+				</div>
 				<md-list-item class="md-2-line contact-item" ng-repeat="tag in $ctrl.tags" 
 					ng-click="$ctrl.tagDetails(tag.id)">
 					<div layout="column" layout-align="center center" class="md-list-item-text compact">
@@ -47,10 +50,11 @@
 					<div layout="column" layout-align="center center" class="md-list-item-text compact">
 						<!--<p>{{event.id}}</p>-->
 						<h3>{{event.name}}</h3>
-						<p>{{event.description}}</p>
-						<p>{{event.beginDate}}</p>
-						<p>{{event.endDate}}</p>
-						<p>{{event.localId}}</p>
+						<!-- <p>{{event.description}}</p> -->
+						<p>Fecha: {{event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
+						<p>Local: {{event.local.name }}</p>
+						
+						<!-- <p>{{event.endDate}}</p> -->
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>

@@ -138,7 +138,7 @@ public class CommentRestControllerTest {
         
         Event event = new Event(1, "aaa", "aaa", new Date(), new Date());
 
-        when(commentService.getCommentsFromEvent(1)).thenReturn(comments);
+        when(commentService.getCommentsFromEvent(1, 0, -1)).thenReturn(comments);
         when(eventService.getEvent(1)).thenReturn(event);
         
         mockMvc.perform(get("/comments/event/{id}", 1))
@@ -150,7 +150,7 @@ public class CommentRestControllerTest {
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].text", is("Comentario dos")));
 
-        verify(commentService, times(1)).getCommentsFromEvent(1);
+        verify(commentService, times(1)).getCommentsFromEvent(1, 0, -1);
         verifyNoMoreInteractions(commentService);
         verify(eventService, times(1)).getEvent(1);
         verifyNoMoreInteractions(eventService);

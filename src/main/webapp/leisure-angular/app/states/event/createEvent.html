@@ -4,12 +4,12 @@
             <div layout="column" layout-align="center center" >
                 <h3>Información básica</h4>
                 <div layout="row" layout-align="center center">    
-                    <md-input-container>
+                    <md-input-container class="smallinput">
                         <label>Nombre</label>
                         <input type="text" name="name" class="form-control" ng-model="$ctrl.newEvent.name" required>
                         <p class="error" ng-show="createEventForm.name.$invalid && !createEventForm.name.$pristine">Escribe un nombre</p>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container class="smallinput">
                         <label>Descripción</label>
                         <input type="text" name="description" class="form-control" ng-model="$ctrl.newEvent.description" required>
                         <p class="error" ng-show="createEventForm.description.$invalid && !createEventForm.description.$pristine">Escribe una descripción</p>                

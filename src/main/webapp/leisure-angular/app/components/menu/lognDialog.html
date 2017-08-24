@@ -1,17 +1,17 @@
 <section name="LoginDialog">
-     <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-        <div>
-            <md-input-container>
+     <md-content md-theme="docs-dark" layout="column" layout-align="center center" layout-padding>
+        <div layout="row" layout-align="center center">
+            <md-input-container class="smallinput">
                 <label>Email</label>
                 <input ng-model="ctrl.parent.userLogin.email">
             </md-input-container>
 
-            <md-input-container>
+            <md-input-container class="smallinput">
                 <label>Contraseña</label>
                 <input type="password" ng-model="ctrl.parent.userLogin.password">
             </md-input-container>
         </div>
-        <div>
+        <div layout="row" layout-align="center center">
             <md-button class="md-raised md-primary" ng-click="ctrl.parent.login();ctrl.parent.dialogOpen=false;ctrl.parent.hideDialog()">Entrar</md-button>
         </div>
     </md-content>

@@ -26,6 +26,9 @@
 					vm.local = data;
 					eventsService.eventsByLocal.query({ id: vm.localId }).$promise.then(function(data2) {
 						vm.eventsLocal = data2;	
+						for (i=0;i<vm.eventsLocal.length;i++){
+							vm.eventsLocal[i].beginDate = new Date(vm.eventsLocal[i].beginDate);
+						}	
 					});
 				});
 

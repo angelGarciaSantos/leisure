@@ -73,7 +73,7 @@
 								this.parent = vm; 
 							},
 							controllerAs: 'ctrl',
-							templateUrl: './components/menu/editLoginDialog.html'
+							templateUrl: './components/menu/editLognDialog.html'
 						});
 
 
@@ -109,7 +109,7 @@
 							this.parent = vm; 
 						},
 						controllerAs: 'ctrl',
-						templateUrl: './components/menu/loginDialog.html'
+						templateUrl: './components/menu/lognDialog.html'
 					});
 				};
 
@@ -121,7 +121,7 @@
 							this.parent = vm; 
 						},
 						controllerAs: 'ctrl',
-						templateUrl: './components/menu/registerUserDialog.html'
+						templateUrl: './components/menu/registerUsrDialog.html'
 					});
 				};
 

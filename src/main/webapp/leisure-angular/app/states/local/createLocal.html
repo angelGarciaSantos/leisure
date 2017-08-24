@@ -2,36 +2,36 @@
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
         <form layout="column" layout-align="center center" name="createLocalForm" ng-submit="$ctrl.createLocal()" novalidate>
             <div layout ="row">
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Nombre</label>
                     <input type="text" name="name" class="form-control" ng-model="$ctrl.newLocal.name" required>
                     <p class="error" ng-show="createLocalForm.name.$invalid && !createLocalForm.name.$pristine">Escribe un nombre</p>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Descripción</label>
                     <input type="text" name="description" class="form-control" ng-model="$ctrl.newLocal.description" required>
                     <p class="error" ng-show="createLocalForm.description.$invalid && !createLocalForm.description.$pristine">Escribe una descripción</p>
                 </md-input-container>
-                <md-input-container class="md-icon-float md-icon-right md-block">
+            </div>
+            <div layout = "row">
+                <md-input-container class="verysmallinput">
                     <label>Capacidad</label>
                     <input name="capacity" class="form-control" ng-model="$ctrl.newLocal.capacity" type="number" step="1" min="0" required>
                     <p class="error" ng-show="createLocalForm.capacity.$invalid && !createLocalForm.capacity.$pristine">Escribe una capacidad</p>
                 </md-input-container>
-            </div>
-            <div layout = "row">
-                <md-input-container class="md-icon-float md-icon-right md-block">
+                <md-input-container class="verysmallinput">
                     <label>Latitud</label>
                     <input name="lat" class="form-control" ng-model="$ctrl.newLocal.lat" type="number" required>
                     <p class="error" ng-show="createLocalForm.lat.$invalid && !createLocalForm.lat.$pristine">Escribe una latitud</p>
                 </md-input-container>
-                <md-input-container class="md-icon-float md-icon-right md-block">
+                <md-input-container class="verysmallinput">
                     <label>Longitud</label>
                     <input name="lng" class="form-control" ng-model="$ctrl.newLocal.lng" type="number" required>
                     <p class="error" ng-show="createLocalForm.lng.$invalid && !createLocalForm.lng.$pristine">Escribe una longitud</p>
                 </md-input-container>
             </div>
             <div layout = "row">
-                <md-input-container class="md-icon-float md-icon-right md-block">
+                <md-input-container class="biginput">
                     <label>Imagen</label>
                     <input ng-model="$ctrl.newLocal.image" type="text">
                 </md-input-container>

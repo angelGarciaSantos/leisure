@@ -10,7 +10,7 @@
 		})
 		.component('createEvent', {
 			templateUrl: './states/event/createEvent.html',
-			controller: function (eventsService, localsService, $mdDialog, $state) {
+			controller: function (eventsService, localsService, $mdDialog, $state, $mdToast) {
                 var vm = this;
 				vm.keywords = "";
 				vm.first = 0;

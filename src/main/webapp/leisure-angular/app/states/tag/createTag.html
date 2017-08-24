@@ -2,7 +2,7 @@
     <md-content md-theme="docs-dark" layout="row" layout-align="center center">
         <form layout="column" layout-align="center center" name="createTagForm" ng-submit="$ctrl.createTag()" novalidate>
             <div>
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Nombre</label>
                     <input type="text" name="name" class="form-control" ng-model="$ctrl.newTag.name" required>
                     <p class="error" ng-show="createTagForm.name.$invalid && !createTagForm.name.$pristine">Escribe un nombre</p>

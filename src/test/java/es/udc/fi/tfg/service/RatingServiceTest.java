@@ -39,7 +39,7 @@ public class RatingServiceTest {
 	
 	@Test
     public void getRatingsFromEventTest() {
-        List<Rating> ratings = ratingService.getRatingsFromEvent(1);
+        List<Rating> ratings = ratingService.getRatingsFromEvent(1, 0, -1);
         assertEquals(1, ratings.size());
     }
 	

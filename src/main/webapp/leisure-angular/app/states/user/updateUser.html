@@ -2,33 +2,33 @@
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
         <form name="updateUserForm" ng-submit="$ctrl.updateUser()" novalidate>
             <div>
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Nombre</label>
                     <input type="text" name="name" class="form-control" ng-model="$ctrl.editUser.name" required>
                     <p class="error" ng-show="updateUserForm.name.$invalid && !updateUserForm.name.$pristine">Escribe un nombre</p>   
                 </md-input-container>
 
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Email</label>
                     <input type="text" name="email" class="form-control" ng-model="$ctrl.editUser.email" required>
                     <p class="error" ng-show="updateUserForm.email.$invalid && !updateUserForm.email.$pristine">Escribe un email</p>   
                 </md-input-container>
             </div>
             <div>
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Contraseña</label>
                     <input name="password" class="form-control" type="password" ng-model="$ctrl.editUser.password" required>
                     <p class="error" ng-show="updateUserForm.password.$invalid && !updateUserForm.password.$pristine">Escribe una contraseña</p>   
                 </md-input-container>
 
-                <md-input-container>
+                <md-input-container class="smallinput">
                     <label>Repita su contraseña</label>
                     <input name="passwordCheck" class="form-control" type="password" ng-model="$ctrl.passwordCheck" required>
                     <p class="error" ng-show="updateUserForm.passwordCheck.$invalid && !updateUserForm.passwordCheck.$pristine">Repite la contraseña</p>   
                 </md-input-container>
             </div>
             <div>
-                <md-input-container class="md-icon-float md-icon-right md-block">
+                <md-input-container class="biginput">
                     <label>Tipo</label>
                     <input name="type" class="form-control" ng-model="$ctrl.editUser.type" type="number" step="1" min="0" max="2" required> 
                     <p class="error" ng-show="updateUserForm.type.$invalid && !updateUserForm.type.$pristine">Escribe el tipo</p>   

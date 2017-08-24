@@ -42,7 +42,7 @@ public class TagServiceTest {
 	
 	@Test
     public void getTagsFromArtistTest() {
-        List<Tag> tags = tagService.getTagsFromArtist(1);
+        List<Tag> tags = tagService.getTagsFromArtist(1, 0, -1);
         assertEquals(1, tags.size());
     }
 	

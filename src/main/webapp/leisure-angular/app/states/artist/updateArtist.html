@@ -1,22 +1,26 @@
 <section name="UpdateArtist">
     <md-content md-theme="docs-dark" layout="column" layout-align="center center">
-        <form name="updateArtistForm" ng-submit="$ctrl.updateArtist()" novalidate>
-            <div>
-                <md-input-container>
+        <form name="updateArtistForm" ng-submit="$ctrl.updateArtist()" novalidate layout="column" layout-align="center center">
+            <h3>Información básica</h3>
+            <div layout="row" layout-align="center center">
+                <md-input-container class="smallinput">
                     <label>Nombre</label>
                     <input type="text" name="name" class="form-control" ng-model="$ctrl.editArtist.name" required>
                     <p class="error" ng-show="updateArtistForm.name.$invalid && !updateArtistForm.name.$pristine">Escribe un nombre</p>
                 </md-input-container>
-                <md-input-container>
+        
+                <md-input-container class="smallinput">
                     <label>Descripción</label>
                     <input type="text" name="description" class="form-control" ng-model="$ctrl.editArtist.description" required>
                     <p class="error" ng-show="updateArtistForm.description.$invalid && !updateArtistForm.description.$pristine">Escribe una descripción</p>                
                 </md-input-container>
-                <md-input-container>
+            </div>    
+            <div layout="row" layout-align="center center">
+                <md-input-container class="biginput">
                     <label>Imagen</label>
                     <input ng-model="$ctrl.editArtist.image">
                 </md-input-container>
-            </div>
+            </div>    
             <div layout="column" layout-align="center center">
                 <md-button type="button" class="md-primary md-raised" ng-click="$ctrl.updateArtist()">Actualizar</md-button>
             </div>
@@ -62,7 +66,7 @@
 				</div>
             </div>
             <div>
-                <md-button class="md-raised" ng-click="$ctrl.showDialog($event)">
+                <md-button class="md-primary md-raised" ng-click="$ctrl.showDialog($event)">
                     Gestionar Tags
                 </md-button>
             </div>

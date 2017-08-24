@@ -31,6 +31,7 @@
 				vm.loginInfo = [];
 				vm.local;
 
+				vm.prueba = new Date();
 
 				usersService.loginInfo.query().$promise.then(function(data) {
 					vm.loginInfo = data;
@@ -53,6 +54,8 @@
 
 				eventsService.events.get({ id: vm.eventId }).$promise.then(function(data) {
 					vm.event = data;
+					vm.event.beginDate = new Date(vm.event.beginDate);
+					vm.event.endDate = new Date(vm.event.endDate);
 					localsService.locals.get({ id: vm.event.local.id }).$promise.then(function(data2) {
 						vm.local = data2;
 						vm.locals = [];
@@ -312,6 +315,9 @@
 							vm.showNextButtonEventComment = false;
 						}
 							
+						for (i=0;i<vm.eventComments.length;i++){
+							vm.eventComments[i].date = new Date(vm.eventComments[i].date);
+						}
 						
 					});
 				};
@@ -351,7 +357,9 @@
 							vm.globalRating = data2;
 						});
 							
-						
+						for (i=0;i<vm.eventRatings.length;i++){
+							vm.eventRatings[i].date = new Date(vm.eventRatings[i].date);
+						}
 					});
 				};
 

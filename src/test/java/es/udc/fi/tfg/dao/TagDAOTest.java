@@ -41,7 +41,7 @@ public class TagDAOTest {
 	
 	@Test
     public void getTagsFromArtistTest() {
-        List<Integer> tags = tagDAO.getTagsFromArtist(1);
+        List<Integer> tags = tagDAO.getTagsFromArtist(1, 0, -1);
         assertEquals(1, tags.size());
     }
 	

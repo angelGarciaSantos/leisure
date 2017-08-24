@@ -38,7 +38,7 @@ public class RatingDAOTest {
 	
 	@Test
     public void getRatingsFromEventTest() {
-        List<Rating> ratings = ratingDAO.getRatingsFromEvent(1);
+        List<Rating> ratings = ratingDAO.getRatingsFromEvent(1, 0, -1);
         assertEquals(1, ratings.size());
     }
 }

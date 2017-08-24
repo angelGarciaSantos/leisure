@@ -45,7 +45,7 @@
 							vm.showNextButton = false;
 						}
 					});
-				}
+				};
 
 				vm.loadTagsKeywords = function () {
 					tagsService.tagsByKeywords.query({ keywords: vm.keywords, first:vm.firstSearch, max:vm.maxSearch+1}).$promise.then(function(data) {
@@ -66,7 +66,7 @@
 							vm.showNextButton = false;
 						}
 					});
-				}	
+				};	
 
 				vm.getNext = function() {				
 					if (vm.keywords && !(vm.keywords === "")){
@@ -77,7 +77,7 @@
 						vm.first += 5;
 						vm.loadTags();
 					}
-				}
+				};
 
 				vm.getPrevious = function() {
 					if (vm.keywords && !(vm.keywords === "")){
@@ -94,7 +94,7 @@
 						}
 						vm.loadTags();
 					}
-				}
+				};
 
 				vm.searchTags = function () {
 					if (vm.keywords && !(vm.keywords === "")) {
@@ -108,10 +108,10 @@
 				vm.tagDetails = function (id) {
 					var params = { id: id };
 					$state.go('getTag', params);
-				}
+				};
 
 				vm.loadTags();
 			}
-		})
+		});
 
 }());

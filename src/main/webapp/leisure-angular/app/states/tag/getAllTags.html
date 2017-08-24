@@ -2,7 +2,7 @@
   	<div layout-align="begin center">
 		<md-content layout="column" layout-align="center center">
 			<form flex ng-submit="$ctrl.searchTags()" >
-				<md-input-container>
+				<md-input-container class="searchBox">
 					<input placeholder="Introduce el texto a buscar" ng-model="$ctrl.keywords" />
 				</md-input-container>
 				<md-button class="md-raised md-primary" ng-click="$ctrl.searchTags()">Buscar</md-button>

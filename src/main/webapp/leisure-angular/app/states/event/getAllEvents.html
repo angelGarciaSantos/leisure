@@ -2,7 +2,7 @@
   	<div layout-align="begin center">
 		<md-content layout="column" layout-align="center center">
 			<form flex ng-submit="$ctrl.searchEvents()" >
-				<md-input-container>
+				<md-input-container class="searchBox">
 					<input placeholder="Introduce el texto a buscar" ng-model="$ctrl.keywords" />
 				</md-input-container>
 				<md-button class="md-raised md-primary" ng-click="$ctrl.searchEvents()">Buscar</md-button>
@@ -16,7 +16,8 @@
 							<!--<p>{{artist.id}}</p>-->
 							<h3>{{event.name}}</h3>
 							<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
-							<p>{{event.beginDate}}</p>
+							<p>Fecha: {{event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
+							<p>Local: {{event.local.name}}</p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">
 							<img class = "imagelist"ng-src="{{event.artists[0].image}}">

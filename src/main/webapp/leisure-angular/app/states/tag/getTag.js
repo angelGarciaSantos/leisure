@@ -10,7 +10,7 @@
 		})
 		.component('getTag', {
 			templateUrl: './states/tag/getTag.html',
-			controller: function (tagsService, usersService, eventsService, $state, $stateParams) {
+			controller: function (tagsService, usersService, eventsService, $state, $stateParams, $mdToast) {
                 var vm = this;
                	vm.loginInfo = [];
 
@@ -23,6 +23,9 @@
                 vm.tag = tagsService.tags.get({ id: tagId });
 				eventsService.eventsByTag.query({ id: tagId }).$promise.then(function(data) {
 					vm.events = data;
+					for (i=0;i<vm.events.length;i++){
+						vm.events[i].beginDate = new Date(vm.events[i].beginDate);
+					}	
 				});
 
 				vm.deleteTag = function(){
@@ -43,12 +46,12 @@
 									.hideDelay(4000)
 								);
 						});
-				}
+				};
       
 	  			vm.eventDetails = function (id) {
 					var params = { id: id };
 					$state.go('getEvent', params);
-				}
+				};
 			}
-		})
+		});
 }());

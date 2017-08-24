@@ -43,7 +43,7 @@ public class CommentServiceTest {
 	
 	@Test
     public void getCommentsFromEventTest() {
-        List<Comment> comments = commentService.getCommentsFromEvent(1);
+        List<Comment> comments = commentService.getCommentsFromEvent(1, 0, -1);
         assertEquals(2, comments.size());
     }
 	

@@ -14,7 +14,8 @@
 				<br>
 				<br>
 				<p>{{$ctrl.event.description}}</p>
-				<p>Fecha y hora: {{$ctrl.event.beginDate}}</p>
+				<p>Fecha y hora de inicio: {{$ctrl.event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
+				<p>Fecha y hora de fin: {{$ctrl.event.endDate | date:'dd-MM-yyyy HH:mm'}}</p>				
 				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del evento: {{$ctrl.globalRating[0]}}</h3>
 				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>
 			</div>
@@ -70,7 +71,7 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.eventComments" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{comment.text}}</h3>
-						<p>{{comment.user.name}} - {{comment.date}} </p>
+						<p>{{comment.user.name}} - {{comment.date | date:'dd-MM-yyyy HH:mm'}} </p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
@@ -86,7 +87,7 @@
 				<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.eventRatings" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{rating.rating}}</h3>
-						<p>{{rating.user.name}} - {{rating.date}}</p>
+						<p>{{rating.user.name}} - {{rating.date  | date:'dd-MM-yyyy HH:mm'}}</p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>

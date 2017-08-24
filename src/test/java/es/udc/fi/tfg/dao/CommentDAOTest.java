@@ -41,7 +41,7 @@ public class CommentDAOTest {
 	
 	@Test
     public void getCommentsFromEventTest() {
-        List<Comment> comments = commentDAO.getCommentsFromEvent(1);
+        List<Comment> comments = commentDAO.getCommentsFromEvent(1, 0, -1);
         assertEquals(2, comments.size());
     }
 	

@@ -44,6 +44,10 @@
 						else{
 							vm.showNextButton = false;
 						}
+
+						for (i=0;i<vm.events.length;i++){
+							vm.events[i].beginDate = new Date(vm.events[i].beginDate);
+						}
 					});
 				}	
 

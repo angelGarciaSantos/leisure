@@ -131,7 +131,7 @@ public class TagRestControllerTest {
                 new Tag(1, "Tag uno"),
                 new Tag(2, "Tag dos"));
 
-        when(tagService.getTagsFromArtist(1)).thenReturn(tags);
+        when(tagService.getTagsFromArtist(1, 0, -1)).thenReturn(tags);
 
         mockMvc.perform(get("/tags/artist/1"))
                 .andExpect(status().isOk())
@@ -142,7 +142,7 @@ public class TagRestControllerTest {
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Tag dos")));
 
-        verify(tagService, times(1)).getTagsFromArtist(1);
+        verify(tagService, times(1)).getTagsFromArtist(1, 0, -1);
         verifyNoMoreInteractions(tagService);
         verify(artistService, times(1)).getArtist(1);
         verifyNoMoreInteractions(artistService);

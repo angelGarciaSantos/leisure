@@ -107,10 +107,31 @@ main {
 
   .footer {
   
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
-}
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
+  }
+
+
+  .searchbox {
+    min-width: 500px;
+  }
+
+  .verysmallinput {
+    min-width: 200px;
+  }
+
+  .smallinput {
+    min-width: 300px;
+  }
+
+  .mediuminput {
+    min-width: 200px;
+  }
+
+  .biginput {
+    min-width: 600px;
+  }

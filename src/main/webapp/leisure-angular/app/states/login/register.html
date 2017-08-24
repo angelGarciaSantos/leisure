@@ -1,22 +1,23 @@
 <section name="Register">
-    <md-content layout="row" layout-align="center center" md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-        <div>
-            <md-input-container>
+    <md-content layout="column" layout-align="center center" md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+        <div layout="row" layout-align="center center">
+            <md-input-container class="smallinput">
                 <label>Nombre</label>
                 <input ng-model="$ctrl.user.name">
             </md-input-container>
             
-            <md-input-container>
+            <md-input-container class="smallinput">
                 <label>Email</label>
                 <input ng-model="$ctrl.user.email">
             </md-input-container>
-
-            <md-input-container>
+        </div>
+        <div layout="row" layout-align="center center">
+            <md-input-container class="smallinput">
                 <label>Contraseña</label>
                 <input ng-model="$ctrl.user.password">
             </md-input-container>
 
-             <md-input-container>
+             <md-input-container class="smallinput">
                 <label>Repita su contraseña</label>
                 <input ng-model="$ctrl.passwordCheck">
             </md-input-container>

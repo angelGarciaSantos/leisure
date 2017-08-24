@@ -142,7 +142,7 @@ public class RatingRestControllerTest {
                 new Rating(1, 5.0),
                 new Rating(2, 6.0));
 
-        when(ratingService.getRatingsFromEvent(1)).thenReturn(ratings);
+        when(ratingService.getRatingsFromEvent(1, 0, -1)).thenReturn(ratings);
 
         mockMvc.perform(get("/ratings/event/{eventId}", 1))
                 .andExpect(status().isOk())
@@ -153,7 +153,7 @@ public class RatingRestControllerTest {
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].rating", is(6.0)));
 
-        verify(ratingService, times(1)).getRatingsFromEvent(1);
+        verify(ratingService, times(1)).getRatingsFromEvent(1, 0, -1);
         verifyNoMoreInteractions(ratingService);
         verify(eventService, times(1)).getEvent(1);
         verifyNoMoreInteractions(eventService);

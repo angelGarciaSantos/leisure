@@ -4,7 +4,7 @@
 
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (1, "Playa Club", "Sonidos eclécticos de vanguardia y musica en directo en una discoteca y sala de conciertos abierta en 1957.", 500, 43.36853944004338, -8.413666470552245, "https://alvaropardoinfo4.files.wordpress.com/2012/05/playaclub.jpg");
+VALUES (1, "Playa Club", "Sonidos eclécticos de vanguardia y música en directo en una discoteca y sala de conciertos abierta en 1957.", 500, 43.36853944004338, -8.413666470552245, "https://alvaropardoinfo4.files.wordpress.com/2012/05/playaclub.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
 VALUES (2, "Sala Mardigras", "Sala de conciertos.", 300, 43.37464111624276, -8.398218548479454, "http://empuje.net/wp-content/uploads/2017/03/mardi17.jpg");
@@ -28,23 +28,23 @@ INSERT INTO Local (id, name, description, capacity, lat, lng, image)
 VALUES (8, "Baba Bar", "Sala de conciertos.", 250, 43.3653743, -8.415454, "http://static.guiaocio.com/var/guiadelocio.com/storage/images/tarde-y-noche/a-coruna/a-coruna/baba-bar/galeria/baba-bar-a-coruna/15060888-1-esl-ES/baba-bar-a-coruna.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (9, "Coliseum", "Sala de conciertos y espectaculos.", 11000 , 43.33855, -8.4116757, "http://www.coruna.gal/IMG/P_Entidad_1442849361293_800_800_U_a94467447b65d6aecd25b7a6771bbf8.jpg");
+VALUES (9, "Coliseum", "Sala de conciertos y espectáculos.", 11000 , 43.33855, -8.4116757, "http://www.coruna.gal/IMG/P_Entidad_1442849361293_800_800_U_a94467447b65d6aecd25b7a6771bbf8.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (10, "Teatro Colon", "Moderno teatro con ornamentada sala que organiza obras de teatro, conciertos y espectaculos de comedia.", 1000 , 43.3689539, -8.4026657, "http://www.coruna.gal/IMG/P_Entidad_1442851270170_800_800_U_d6c02452cd1744f662379f46492c9c.jpg");
+VALUES (10, "Teatro Colón", "Moderno teatro con ornamentada sala que organiza obras de teatro, conciertos y espectáculos de comedia.", 1000 , 43.3689539, -8.4026657, "http://www.coruna.gal/IMG/P_Entidad_1442851270170_800_800_U_d6c02452cd1744f662379f46492c9c.jpg");
 
 INSERT INTO Local (id, name, description, capacity, lat, lng, image)
-VALUES (11, "Teatro Rosalia de Castro", "Proyecciones cinematograficas, teatro y espectaculos de musica en clasica sala de teatro de 1841.", 1000 , 43.3702446, -8.4006854, "http://www.coruna.gal/IMG/P_Entidad_1442850510163_800_800_U_c3e6f2464c17e4035943e2734cf061.jpg");
+VALUES (11, "Teatro Rosalía de Castro", "Proyecciones cinematográficas, teatro y espectáculos de música en clásica sala de teatro de 1841.", 1000 , 43.3702446, -8.4006854, "http://www.coruna.gal/IMG/P_Entidad_1442850510163_800_800_U_c3e6f2464c17e4035943e2734cf061.jpg");
 
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
-VALUES (1,"Concierto de Metallica", "Concierto de un grupo de trash metal...", now(), now(), 1);
+VALUES (1,"Metallica en concierto", "Concierto del conocido grupo de trash metal.", TIMESTAMP '2017-10-12 22:15:31.123456789', TIMESTAMP '2017-10-12 00:15:31.123456789', 9);
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (2,"Concierto", "Concierto varios grupos...", now(), now(), 2);
 
 INSERT INTO Artist (artist_id, name, description, image)
-VALUES (1,"Metallica", "Metallica es una banda de heavy metal estadounidense originaria de Los Angeles, pero con base en San Francisco desde febrero de 1983. Fue fundada en 1981 en Los Angeles por Lars Ulrich y James Hetfield, a los que se les unirian Dave Mustaine y Cliff Burton. Estos dos musicos fueron despues sustituidos por el guitarrista Kirk Hammett y el bajista Jason Newsted, Dave Mustaine fue despedido un ano despues de ingresar en la banda debido a su excesiva adiccion al alcohol y su actitud violenta, y fundo la banda Megadeth, siendo sustituido por Kirk Hammett ex guitarrista de Exodus. Por otra parte, el 27 de septiembre de 1986, la muerte de Cliff Burton en un accidente de autobus en Suecia, durante una de sus giras, provoco la entrada al grupo de Jason Newsted, quien, tras su abandono quince anos mas tarde, seria sustituido por el bajista actual, Robert Trujillo.", "https://pbs.twimg.com/profile_images/766360293953802240/kt0hiSmv.jpg");
+VALUES (1,"Metallica", "Metallica es una banda de heavy metal estadounidense originaria de Los Angeles, pero con base en San Francisco desde febrero de 1983. Fue fundada en 1981 en Los Angeles por Lars Ulrich y James Hetfield, a los que se les unirían Dave Mustaine y Cliff Burton. Estos dos músicos fueron después sustituidos por el guitarrista Kirk Hammett y el bajista Jason Newsted, Dave Mustaine fue despedido un ano después de ingresar en la banda debido a su excesiva adicción al alcohol y su actitud violenta, y fundó la banda Megadeth, siendo sustituido por Kirk Hammett ex guitarrista de Exodus. Por otra parte, el 27 de septiembre de 1986, la muerte de Cliff Burton en un accidente de autobús en Suecia, durante una de sus giras, provoco la entrada al grupo de Jason Newsted, quien, tras su abandono quince anos mas tarde, seria sustituido por el bajista actual, Robert Trujillo.", "https://pbs.twimg.com/profile_images/766360293953802240/kt0hiSmv.jpg");
 
 INSERT INTO Artist (artist_id, name, description, image)
 VALUES (2,"The Black Keys", "Grupo de Blues Rock", "http://i.imgur.com/1asNWI9.png");
@@ -81,6 +81,9 @@ VALUES (5,"Magia");
 
 INSERT INTO Tag (tag_id, name)
 VALUES (6,"Metal");
+
+INSERT INTO Tag (tag_id, name)
+VALUES (7,"Infantil");
 
 INSERT INTO Tag_Artist (tag_id, artist_id)
 VALUES (6,1);

@@ -48,7 +48,10 @@
 							vm.tags = data;	
 						});	
 						eventsService.eventsByArtist.query({id: vm.artistId}).$promise.then(function(data) {
-							vm.nextEvents = data;	
+							vm.nextEvents = data;
+							for (i=0;i<vm.nextEvents.length;i++){
+								vm.nextEvents[i].beginDate = new Date(vm.nextEvents[i].beginDate);
+							}	
 						});						
 					});
 				};
