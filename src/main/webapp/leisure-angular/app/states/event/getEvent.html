@@ -4,7 +4,8 @@
 			<div flex="45" layout="column">
 				<h1 class="md-no-sticky">{{$ctrl.event.name}}</h1>
 				<div class="md-media-lg card-media">
-						<img class="image" ng-src="{{$ctrl.eventArtists[0].image}}">
+					<img ng-if="$ctrl.eventArtists.length > 0" class="image" ng-src="{{$ctrl.eventArtists[0].image}}">
+					<img ng-if="$ctrl.eventArtists.length == 0" class="image" ng-src="https://i.ytimg.com/vi/Dtvw-MVGD0g/maxresdefault.jpg">					
 				</div>
 			</div>
 			
@@ -68,6 +69,7 @@
 			</div>	
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Comentarios</h1>
+				<h3 ng-if="$ctrl.eventComments.length == 0">Aún no hay comentarios.</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="comment in $ctrl.eventComments" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{comment.text}}</h3>
@@ -84,6 +86,7 @@
 
 			<md-list layout="column" layout-align="center stretch" class="list" flex>
 				<h1 class="md-no-sticky">Valoraciones</h1>
+				<h3 ng-if="$ctrl.eventRatings.length == 0">Aún no hay valoraciones.</h3>
 				<md-list-item class="md-2-line contact-item" ng-repeat="rating in $ctrl.eventRatings" ng-click=null>
 					<div class="md-list-item-text compact">
 						<h3>{{rating.rating}}</h3>

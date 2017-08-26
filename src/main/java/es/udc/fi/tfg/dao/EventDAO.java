@@ -66,7 +66,7 @@ public class EventDAO {
     
 	public List<Event> getEvents(int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Event order by id");
+        Query query = session.createQuery("from Event order by begin_date desc, id desc");
         query.setFirstResult(first);
         if (max != -1){
             query.setMaxResults(max);
@@ -79,7 +79,7 @@ public class EventDAO {
     
     public List<Event> getEventsKeywords(String keywords, int first, int max){
         Session session = SessionUtil.getSession();    
-        Query query = session.createQuery("from Event where lower(name) LIKE lower(:keywords) order by id");
+        Query query = session.createQuery("from Event where lower(name) LIKE lower(:keywords) order by begin_date desc, id desc");
         query.setString("keywords", "%"+keywords+"%");
         query.setFirstResult(first);
         if (max != -1){

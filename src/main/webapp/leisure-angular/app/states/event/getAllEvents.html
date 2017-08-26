@@ -20,7 +20,8 @@
 							<p>Local: {{event.local.name}}</p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">
-							<img class = "imagelist"ng-src="{{event.artists[0].image}}">
+							<img ng-if="event.artists.length > 0" class = "imagelist"ng-src="{{event.artists[0].image}}">
+							<img ng-if="event.artists.length == 0" class="imagelist" ng-src="https://i.ytimg.com/vi/Dtvw-MVGD0g/maxresdefault.jpg">
 						</div>					
 					</div>
 				<md-divider ng-if="!$last"></md-divider>
