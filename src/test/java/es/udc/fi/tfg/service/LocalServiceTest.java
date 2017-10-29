@@ -31,7 +31,7 @@ public class LocalServiceTest {
 	@Test
     public void getLocalsTest() {
         List<Local> locals = localService.getLocals(0, -1);
-        assertEquals(3, locals.size());
+        assertEquals(11, locals.size());
     }
 	
 	@Test

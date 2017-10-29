@@ -32,19 +32,19 @@ public class EventDAOTest {
 	@Test
     public void getEventsTest() {
         List<Event> events = eventDAO.getEvents(0, -1);
-        assertEquals(7, events.size());
+        assertEquals(11, events.size());
     }
 	
 	@Test
     public void getArtistsKeywordsTest() {
         List<Event> events = eventDAO.getEventsKeywords("Concierto", 0, -1);
-        assertEquals(2, events.size());
+        assertEquals(7, events.size());
     }
 	
 	@Test
     public void getEventTest() {
         Event event = eventDAO.getEvent(1);
-        assertEquals("Concierto de Metallica", event.getName());
+        assertEquals("Metallica en concierto", event.getName());
     }
 	
 	@Test
@@ -128,6 +128,6 @@ public class EventDAOTest {
 	@Test
     public void getEventsFromLocalTest() {
         List<Event> events = eventDAO.getEventsFromLocal(1);
-        assertEquals(4, events.size());
+        assertEquals(0, events.size());
     }
 }

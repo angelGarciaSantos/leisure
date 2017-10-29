@@ -30,7 +30,7 @@ public class InterestDAOTest {
 	@Test
     public void getInterestsTest() {
         List<Interest> interests = interestDAO.getInterests();
-        assertEquals(5, interests.size());
+        assertEquals(4, interests.size());
     }
 	
 	@Test
@@ -42,7 +42,7 @@ public class InterestDAOTest {
 	@Test
     public void getInterestsFromUserTest() {
         List<Interest> interests = interestDAO.getInterestsFromUser(1);
-        assertEquals(5, interests.size());
+        assertEquals(4, interests.size());
     }
 	
 	@Test

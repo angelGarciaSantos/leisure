@@ -31,7 +31,7 @@ public class ArtistServiceTest{
 	@Test
     public void getArtistsTest() {
         List<Artist> artists = artistService.getArtists(0, -1);
-        assertEquals(7, artists.size());
+        assertEquals(12, artists.size());
     }
 	
 	@Test
@@ -60,8 +60,8 @@ public class ArtistServiceTest{
     public void getRecommendedArtistTest() {
 		List<Artist> artists = artistService.getRecommendedArtist(1); 
 		
-        assertEquals(1, artists.size());
-        assertEquals("Metallica", artists.get(0).getName());
+        assertEquals(5, artists.size());
+        assertEquals("Vintage Trouble", artists.get(0).getName());
 
     }
 	
@@ -69,7 +69,7 @@ public class ArtistServiceTest{
     public void getArtistsFromEventTest() {
 		List<Artist> artists = artistService.getArtistsFromEvent(1, 0, -1); 
 		
-        assertEquals(1, artists.size());
+        assertEquals(2, artists.size());
     }
 	
 	@Test
@@ -83,7 +83,7 @@ public class ArtistServiceTest{
     public void getArtistsFromTagTest() {
 		List<Integer> artists = artistService.getArtistsFromTag(1); 
 		
-        assertEquals(2, artists.size());
+        assertEquals(4, artists.size());
     }
 	
 	@Test

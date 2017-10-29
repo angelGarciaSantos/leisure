@@ -17,7 +17,7 @@
 				<p>{{$ctrl.event.description}}</p>
 				<p>Fecha y hora de inicio: {{$ctrl.event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
 				<p>Fecha y hora de fin: {{$ctrl.event.endDate | date:'dd-MM-yyyy HH:mm'}}</p>				
-				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del evento: {{$ctrl.globalRating[0]}}</h3>
+				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del evento: {{$ctrl.globalRating[0] | number:1}}</h3>
 				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>
 			</div>
 		</div>

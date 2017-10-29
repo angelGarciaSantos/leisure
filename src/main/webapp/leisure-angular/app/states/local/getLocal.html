@@ -14,7 +14,7 @@
 				<br>
 				<br>
 				<p>{{$ctrl.local.description}}</p>
-				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del local: {{$ctrl.globalRating[0]}}</h3>
+				<h3 ng-if="$ctrl.globalRating[0] != -1">Valoración global del local: {{$ctrl.globalRating[0] | number:1}}</h3>
 				<h3 ng-if="$ctrl.globalRating[0] == -1">Aún no hay valoraciones.</h3>
 			</div>
 		</div>

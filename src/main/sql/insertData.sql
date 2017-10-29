@@ -41,7 +41,7 @@ INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (1,"Metallica en concierto", "Concierto del conocido grupo de trash metal.", TIMESTAMP '2017-10-12 22:15:31.123456789', TIMESTAMP '2017-10-12 00:15:31.123456789', 9);
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
-VALUES (2,"Concierto", "Concierto varios grupos...", now(), now(), 2);
+VALUES (2,"Concierto benéfico", "Concierto benéfico que cuenta con la participación de grandes artistas", TIMESTAMP '2017-10-13 22:15:31.123456789', TIMESTAMP '2017-10-13 00:15:31.123456789', 2);
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (3,"Festival de verano", "Varios conocidos grupos actuarán en la primera edición de este festial.", TIMESTAMP '2017-10-14 19:00:00.000000000', TIMESTAMP '2017-10-16 15:00:00.000000000', 9);
@@ -63,6 +63,17 @@ VALUES (8,"Concierto de Queens of the Stone Age", "El famoso grupo presentará su
 
 INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
 VALUES (9,"Concierto de Rammstein", "Los alemanes se darán cita en nuestra ciudad.", TIMESTAMP '2017-10-28 21:00:00.000000000', TIMESTAMP '2017-10-28 23:55:00.000000000', 9);
+
+INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
+VALUES (10,"Concierto de Royal Blood", "Concierto del impresionante duo.", TIMESTAMP '2017-10-19 21:00:00.000000000', TIMESTAMP '2017-10-19 23:55:00.000000000', 5);
+
+INSERT INTO Event (id, name, description, begin_date, end_date, local_id)
+VALUES (11,"Magia con Jorge Blass", "Jorge nos sorprenderá con su magia.", TIMESTAMP '2017-10-19 21:00:00.000000000', TIMESTAMP '2017-10-19 23:55:00.000000000', 4);
+
+
+
+
+
 
 INSERT INTO Artist (artist_id, name, description, image)
 VALUES (1,"Metallica", "Metallica es una banda de heavy metal estadounidense originaria de Los Angeles, pero con base en San Francisco desde febrero de 1983. Fue fundada en 1981 en Los Angeles por Lars Ulrich y James Hetfield, a los que se les unirían Dave Mustaine y Cliff Burton. Estos dos músicos fueron después sustituidos por el guitarrista Kirk Hammett y el bajista Jason Newsted, Dave Mustaine fue despedido un ano después de ingresar en la banda debido a su excesiva adicción al alcohol y su actitud violenta, y fundó la banda Megadeth, siendo sustituido por Kirk Hammett ex guitarrista de Exodus. Por otra parte, el 27 de septiembre de 1986, la muerte de Cliff Burton en un accidente de autobús en Suecia, durante una de sus giras, provoco la entrada al grupo de Jason Newsted, quien, tras su abandono quince anos mas tarde, seria sustituido por el bajista actual, Robert Trujillo.", "https://pbs.twimg.com/profile_images/766360293953802240/kt0hiSmv.jpg");
@@ -174,6 +185,12 @@ INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (1,1);
 
 INSERT INTO Event_Artist (event_id, artist_id)
+VALUES (2,3);
+
+INSERT INTO Event_Artist (event_id, artist_id)
+VALUES (2,9);
+
+INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (2,1);
 
 INSERT INTO Event_Artist (event_id, artist_id)
@@ -218,11 +235,29 @@ VALUES (8,8);
 INSERT INTO Event_Artist (event_id, artist_id)
 VALUES (9,12);
 
-INSERT INTO User (id, name, email, password, type)
-VALUES (1,"Angel", "angel@angel.com","HWFw.vdjwVX0A", 1);
+INSERT INTO Event_Artist (event_id, artist_id)
+VALUES (10,9);
+
+INSERT INTO Event_Artist (event_id, artist_id)
+VALUES (11,7);
 
 INSERT INTO User (id, name, email, password, type)
-VALUES (2,"admin", "admin@admin.com","YU8rVoZ1TM.u2", 2);
+VALUES (1,"Angel", "angel@angel.com","JUK2UE2OOJ8iw", 1);
+
+INSERT INTO User (id, name, email, password, type)
+VALUES (3,"Pablo", "pablo@pablo.com","RYZXLX1.oWD/.", 1);
+
+INSERT INTO User (id, name, email, password, type)
+VALUES (4,"Raul", "raul@raul.com","PLA.QGPx5VQDE", 1);
+
+INSERT INTO User (id, name, email, password, type)
+VALUES (5,"Claudia", "claudia@claudia.com","NFfehEe8nGaJM", 1);
+
+INSERT INTO User (id, name, email, password, type)
+VALUES (6,"Sara", "sara@sara.com","IMck2JIIYZnjU", 1);
+
+INSERT INTO User (id, name, email, password, type)
+VALUES (2,"admin", "admin@admin.com","KWRpJY38LL0M.", 2);
 
 INSERT INTO Interest (id, points, tag_id, user_id)
 VALUES (1, 1, 1, 1);
@@ -239,14 +274,227 @@ VALUES (4, 1, 6, 1);
 INSERT INTO User_Artist (user_id, artist_id)
 VALUES (1,1);
 
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,2);
+
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,3);
+
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,4);
+
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,5);
+
+INSERT INTO User_Artist (user_id, artist_id)
+VALUES (1,6);
+
 INSERT INTO User_Event (user_id, event_id)
 VALUES (1,1);
 
 INSERT INTO Comment (id, text, date, event_id, user_id)
 VALUES (1,"Ha sido un conciertazo", now(), 1, 1);
 
+
+
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (2,"Impresionante", now(), 1, 1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (3,"Alguien se apunta?", now(), 1, 3);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (4,"Tiene muy buena pinta", now(), 1, 4);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (5,"Qué ganas!", now(), 1, 5);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (6,"Alguien sabe si hay más fechas?", now(), 1, 6);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (7,"Nunca defraudan", now(), 1, 4);
+
+
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (8,"Impresionante", now(), 2, 1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (9,"Alguien se apunta?", now(), 2, 3);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (10,"Tiene muy buena pinta", now(), 2, 4);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (11,"Qué ganas!", now(), 2, 5);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (12,"Alguien sabe si hay más fechas?", now(), 2, 6);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (13,"Nunca defraudan", now(), 2, 4);
+
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (14,"Impresionante", now(), 8, 1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (15,"Alguien se apunta?", now(), 8, 3);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (16,"Tiene muy buena pinta", now(), 8, 4);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (17,"Qué ganas!", now(), 8, 5);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (18,"Alguien sabe si hay más fechas?", now(), 8, 6);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (19,"Nunca defraudan", now(), 8, 4);
+
+
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (20,"Impresionante", now(), 9, 1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (21,"Alguien se apunta?", now(), 9, 3);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (22,"Tiene muy buena pinta", now(), 9, 4);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (23,"Qué ganas!", now(), 9, 5);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (24,"Alguien sabe si hay más fechas?", now(), 9, 6);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (25,"Nunca defraudan", now(), 9, 4);
+
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (26,"Impresionante", now(), 5, 1);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (27,"Alguien se apunta?", now(), 5, 3);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (28,"Tiene muy buena pinta", now(), 5, 4);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (29,"Qué ganas!", now(), 5, 5);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (30,"Alguien sabe si hay más fechas?", now(), 5, 6);
+
+INSERT INTO Comment (id, text, date, event_id, user_id)
+VALUES (31,"Nunca defraudan", now(), 5, 4);
+
+
 INSERT INTO Rating (id, rating, date, event_id, user_id)
 VALUES (1, 9, now(), 1, 1);
 
 INSERT INTO Rating (id, rating, date, event_id, user_id)
-VALUES (2, 3, now(), 2, 1);
+VALUES (2, 3, now(), 1, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (3, 7, now(), 1, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (4, 5, now(), 1, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (5, 7, now(), 1, 5);
+
+
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (6, 9, now(), 2, 1);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (7, 3, now(), 2, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (8, 7, now(), 2, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (9, 5, now(), 2, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (10, 7, now(), 2, 5);
+
+
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (11, 9, now(), 8, 1);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (12, 3, now(), 8, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (13, 7, now(), 8, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (14, 5, now(), 8, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (15, 7, now(), 8, 5);
+
+
+
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (16, 9, now(), 9, 1);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (17, 3, now(), 9, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (18, 7, now(), 9, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (19, 5, now(), 9, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (20, 7, now(), 9, 5);
+
+
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (21, 9, now(), 3, 1);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (22, 3, now(), 3, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (23, 7, now(), 3, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (24, 5, now(), 3, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (25, 7, now(), 3, 5);
+
+
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (26, 9, now(), 5, 1);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (27, 3, now(), 5, 2);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (28, 7, now(), 5, 3);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (29, 5, now(), 5, 4);
+
+INSERT INTO Rating (id, rating, date, event_id, user_id)
+VALUES (30, 7, now(), 5, 5);
+
+
+

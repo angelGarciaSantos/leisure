@@ -30,7 +30,7 @@ public class LocalDAOTest {
 	@Test
     public void getLocalsTest() {
         List<Local> locals = localDAO.getLocals(0, -1);
-        assertEquals(3, locals.size());
+        assertEquals(11, locals.size());
     }
 	
 	@Test

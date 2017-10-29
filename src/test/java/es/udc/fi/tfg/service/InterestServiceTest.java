@@ -31,7 +31,7 @@ public class InterestServiceTest {
 	@Test
     public void getInterestsTest() {
         List<Interest> interests = interestService.getInterests();
-        assertEquals(5, interests.size());
+        assertEquals(4, interests.size());
     }
 	
 	@Test
@@ -43,7 +43,7 @@ public class InterestServiceTest {
 	@Test
     public void getInterestsFromUserTest() {
         List<Interest> interests = interestService.getInterestsFromUser(1);
-        assertEquals(5, interests.size());
+        assertEquals(4, interests.size());
     }
 	
 	@Test

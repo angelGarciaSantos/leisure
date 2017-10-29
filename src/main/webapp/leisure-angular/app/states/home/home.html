@@ -31,9 +31,11 @@
 					<div layout="row" layout-align="center center" class="md-list-item-text compact">
 						<div flex ="80">
 							<!--<p>{{artist.id}}</p>-->
+							<!--<p>{{artist.id}}</p>-->
 							<h3>{{event.name}}</h3>
 							<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
-							<p>{{event.beginDate}}</p>
+							<p>Fecha: {{event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
+							<p>Local: {{event.local.name}}</p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">
 							<img class = "imagelist"ng-src="{{event.artists[0].image}}">
@@ -79,9 +81,11 @@
 					<div layout="row" layout-align="center center" class="md-list-item-text compact">
 						<div flex ="80">
 							<!--<p>{{artist.id}}</p>-->
+							<!--<p>{{artist.id}}</p>-->
 							<h3>{{event.name}}</h3>
 							<p>{{event.description.substring(0, 70)}}<span ng-if="event.description.length>70">...</span></p>
-							<p>{{event.beginDate}}</p>
+							<p>Fecha: {{event.beginDate | date:'dd-MM-yyyy HH:mm'}}</p>
+							<p>Local: {{event.local.name}}</p>
 						</div>				
 						<div flex ="20" layout-margin class="md-media-lg card-media">
 							<img class = "imagelist"ng-src="{{event.artists[0].image}}">

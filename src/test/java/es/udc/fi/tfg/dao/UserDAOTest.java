@@ -30,7 +30,7 @@ public class UserDAOTest {
 	@Test
     public void getUsersTest() {
         List<User> users = userDAO.getUsers(0, -1);
-        assertEquals(2, users.size());
+        assertEquals(6, users.size());
     }
 	
 	@Test

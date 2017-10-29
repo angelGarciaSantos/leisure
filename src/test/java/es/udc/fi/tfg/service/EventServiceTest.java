@@ -33,25 +33,25 @@ public class EventServiceTest {
 	@Test
     public void getEventsTest() {
         List<Event> events = eventService.getEvents(0, -1);
-        assertEquals(7, events.size());
+        assertEquals(11, events.size());
     }
 	
 	@Test
     public void getArtistsKeywordsTest() {
         List<Event> events = eventService.getEventsKeywords("Concierto", 0, -1);
-        assertEquals(2, events.size());
+        assertEquals(7, events.size());
     }
 	
 	@Test
     public void getEventTest() {
         Event event = eventService.getEvent(1);
-        assertEquals("Concierto de Metallica", event.getName());
+        assertEquals("Metallica en concierto", event.getName());
     }
 	
 	@Test
     public void getRecommendedEventsTest() {
         List<Event> events = eventService.getRecommendedEvents(1);
-        assertEquals(3, events.size());
+        assertEquals(5, events.size());
     }
 	
 	@Test
@@ -135,13 +135,13 @@ public class EventServiceTest {
 	@Test
     public void getEventsFromLocalTest() {
         List<Event> events = eventService.getEventsFromLocal(1);
-        assertEquals(4, events.size());
+        assertEquals(0, events.size());
     }
 	
 	@Test
     public void getNextEventsFromArtistTest() {
         List<Event> events = eventService.getNextEventsFromArtist(1);
-        assertEquals(0, events.size());
+        assertEquals(2, events.size());
     }
 	
 	
@@ -154,7 +154,7 @@ public class EventServiceTest {
 	@Test
     public void getNextEventsFromTagTest() {
         List<Event> events = eventService.getNextEventsFromTag(1);
-        assertEquals(0, events.size());
+        assertEquals(6, events.size());
     }
 	
 }

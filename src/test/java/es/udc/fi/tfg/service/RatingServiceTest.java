@@ -28,7 +28,7 @@ public class RatingServiceTest {
 	@Test
     public void getRatingsTest() {
         List<Rating> ratings = ratingService.getRatings();
-        assertEquals(2, ratings.size());
+        assertEquals(30, ratings.size());
     }
 	
 	@Test
@@ -40,7 +40,7 @@ public class RatingServiceTest {
 	@Test
     public void getRatingsFromEventTest() {
         List<Rating> ratings = ratingService.getRatingsFromEvent(1, 0, -1);
-        assertEquals(1, ratings.size());
+        assertEquals(5, ratings.size());
     }
 	
 //	@Test

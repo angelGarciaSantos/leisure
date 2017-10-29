@@ -30,7 +30,7 @@ public class CommentDAOTest {
 	@Test
     public void getCommentsTest() {
         List<Comment> comments = commentDAO.getComments();
-        assertEquals(4, comments.size());
+        assertEquals(91, comments.size());
     }
 	
 	@Test

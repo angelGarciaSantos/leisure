@@ -45,7 +45,7 @@ public class ArtistDAOTest {
     public void getArtistsTest() {
         List<Artist> artists = artistDAO.getArtists(0, -1);
 
-        assertEquals(7, artists.size());
+        assertEquals(12, artists.size());
     }
 	
 	@Test
@@ -69,7 +69,7 @@ public class ArtistDAOTest {
     public void getArtistsFromEventTest() {
 		List<Integer> artists = artistDAO.getArtistsFromEvent(1, 0, -1); 
 		
-        assertEquals(1, artists.size());
+        assertEquals(2, artists.size());
     }
 	
 	@Test
@@ -83,7 +83,7 @@ public class ArtistDAOTest {
     public void getArtistsFromTagTest() {
 		List<Integer> artists = artistDAO.getArtistsFromTag(1); 
 		
-        assertEquals(2, artists.size());
+        assertEquals(4, artists.size());
     }
 	
 	@Test

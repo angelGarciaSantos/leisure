@@ -31,7 +31,7 @@ public class UserServiceTest {
 	@Test
     public void getUsersTest() {
         List<User> users = userService.getUsers(0, -1);
-        assertEquals(2, users.size());
+        assertEquals(6, users.size());
     }
 	
 	@Test

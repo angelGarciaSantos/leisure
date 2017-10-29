@@ -79,6 +79,10 @@
 								else{
 									vm.showNextButtonEvent = false;
 								}
+
+								for (i=0;i<vm.eventsByUser.length;i++){
+									vm.eventsByUser[i].beginDate = new Date(vm.eventsByUser[i].beginDate);
+								}
 							});
 						}	
 
@@ -101,6 +105,9 @@
 
 						eventsService.recommendedEvents.query({id: vm.loginInfo[0]}).$promise.then(function(data) {
 							vm.recommendedEvents = data;
+							for (i=0;i<vm.recommendedEvents.length;i++){
+								vm.recommendedEvents[i].beginDate = new Date(vm.recommendedEvents[i].beginDate);
+							}
 						});
 
 						vm.loadArtists();
@@ -111,7 +118,7 @@
 							$mdToast.simple()
 								.textContent('¡Inicia sesión para ver recomendaciones de artistas y eventos!')
 								.position('top right')
-								.hideDelay(4000)
+								.hideDelay(1200)
 							);
 
 					}

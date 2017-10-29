@@ -31,7 +31,7 @@ public class TagServiceTest {
 	@Test
     public void getTagsTest() {
         List<Tag> tags = tagService.getTags(0, -1);
-        assertEquals(6, tags.size());
+        assertEquals(8, tags.size());
     }
 	
 	@Test
@@ -49,7 +49,7 @@ public class TagServiceTest {
 	@Test
     public void getTagsFromEventTest() {
         List<Tag> tags = tagService.getTagsFromEvent(1);
-        assertEquals(1, tags.size());
+        assertEquals(2, tags.size());
     }
 	
 	@Test

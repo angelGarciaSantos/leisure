@@ -30,7 +30,7 @@ public class TagDAOTest {
 	@Test
     public void getTagsTest() {
         List<Tag> tags = tagDAO.getTags(0, -1);
-        assertEquals(6, tags.size());
+        assertEquals(8, tags.size());
     }
 	
 	@Test
